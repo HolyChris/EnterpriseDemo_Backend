@@ -1,5 +1,19 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+  private
+    def access_denied(exception)
+      reset_session
+      redirect_to new_user_session_path, notice: "#{exception.message}"
+    end
+
+    def after_sign_in_path_for(resource)
+      if resource.has_role?(:admin)
+        admin_dashboard_path
+      elsif resource.has_role?(:sales_rep)
+        sales_rep_dashboard_path
+      else
+        new_sales_rep_session_path
+      end
+    end
 end
