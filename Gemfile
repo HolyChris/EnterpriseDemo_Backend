@@ -4,6 +4,7 @@ gem 'rails', '4.1.8'
 gem 'mysql2', '0.3.16'
 gem 'rolify'
 gem 'cancancan', '~> 1.9'
+gem "paranoia", "~> 1.0"
 gem 'devise'
 gem 'devise-async',                          '0.9.0'
 gem 'delayed_job_active_record',             '4.0.2'
@@ -11,14 +12,21 @@ gem 'therubyracer'
 gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'activeadmin', github: 'activeadmin'
 gem 'sass-rails', '~> 4.0.3'
+gem 'bootstrap-sass',                        '3.2.0.2'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
+gem 'jquery-ui-rails',                       '5.0.3'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'bcrypt', '~> 3.1.7'
+gem 'state_machine', '1.2.0'
+gem 'jquery-datetimepicker-rails'
+gem 'acts-as-taggable-on',                   '~> 3.4'
+gem "rails3-jquery-autocomplete"
+gem "paperclip", '4.2.0'
 
 group :development do
   gem 'capistrano'

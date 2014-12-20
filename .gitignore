@@ -17,3 +17,7 @@
 /config/database.yml
 /config/secrets.yml
 /.ruby-version
+/db/schema.rb
+*.DS_Store
+/public/assets
+/public/system

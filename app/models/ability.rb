@@ -14,13 +14,12 @@ class Ability
 
     def set_admin_privileges(user)
       can :manage, :all
-      # cannot :destroy, Meal
     end
 
     def set_sales_rep_privileges(user)
-      can :read, ActiveAdmin::Page, :name => "Dashboard"
-      can :read, ActiveAdmin::Page, :name => "Settings"
-      can :read, ActiveAdmin::Page, :name => "Profile"
-      # can :manage, Provider, user: user
+      can :read, ActiveAdmin::Page, name: "Dashboard"
+      can :read, ActiveAdmin::Page, name: "Settings"
+      can :read, ActiveAdmin::Page, name: "Customer"
+      can :manage, Customer
     end
 end

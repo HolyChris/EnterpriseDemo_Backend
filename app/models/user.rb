@@ -3,6 +3,13 @@ class User < ActiveRecord::Base
   # include Notifier
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :async
 
+  has_many :site_managers
+  has_many :sites, through: :site_managers
+
+  # def fullname
+  #   [firstname, lastname].join(' ')
+  # end
+
   private
 
     def add_role_sales_rep
