@@ -1,5 +1,5 @@
 ## Creating Roles
-%w(admin sales_rep).each do |type|
+%w(admin office_staff sales_rep production_rep billing_rep).each do |type|
   Role.find_or_create_by(name: type)
 end
 

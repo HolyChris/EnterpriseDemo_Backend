@@ -2,6 +2,9 @@ ActiveAdmin.setup do |config|
   # == Site Title
 
   config.load_paths << File.join(Rails.root, 'app', 'sales_rep')
+  config.load_paths << File.join(Rails.root, 'app', 'office_staff')
+  # config.load_paths << File.join(Rails.root, 'app', 'production_rep')
+  # config.load_paths << File.join(Rails.root, 'app', 'billing_rep')
 
   #
   # Set the title that is displayed on the main layout

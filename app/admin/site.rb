@@ -28,6 +28,17 @@ ActiveAdmin.register Site do
     actions
   end
 
+  filter :name
+  filter :customer_email, as: :string
+  filter :managers_id, as: :select, collection: User.all.collect { |u| [u.email, u.id] }, label: 'Manager'
+  filter :source, as: :select, collection: Site::SOURCE.collect {|k,v| [v,k]}
+  filter :status, as: :select, collection: Site::STATUS.collect {|k,v| [v,k]}
+  filter :address_address1, as: :string, label: 'Address1'
+  filter :address_address2, as: :string, label: 'Address2'
+  filter :address_city, as: :string, label: 'City'
+  filter :address_state_id, as: :select, collection: Country.default.states.collect, label: 'State'
+  filter :address_zipcode, as: :string, label: 'Zipcode'
+
   show do
     attributes_table do
       row :name

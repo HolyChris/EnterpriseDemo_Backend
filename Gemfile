@@ -26,6 +26,7 @@ gem 'state_machine', '1.2.0'
 gem 'jquery-datetimepicker-rails'
 gem 'acts-as-taggable-on',                   '~> 3.4'
 gem "rails3-jquery-autocomplete"
+gem 'rabl-rails'
 gem "paperclip", '4.2.0'
 
 group :development do

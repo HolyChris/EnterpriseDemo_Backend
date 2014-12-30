@@ -12,6 +12,12 @@ class ApplicationController < ActionController::Base
         admin_dashboard_path
       elsif resource.has_role?(:sales_rep)
         sales_rep_dashboard_path
+      elsif resource.has_role?(:office_staff)
+        office_staff_dashboard_path
+      elsif resource.has_role?(:production_rep)
+        production_rep_dashboard_path
+      elsif resource.has_role?(:billing_rep)
+        billing_rep_dashboard_path
       else
         new_sales_rep_session_path
       end

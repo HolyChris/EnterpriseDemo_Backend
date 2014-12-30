@@ -26,6 +26,10 @@ ActiveAdmin.register Customer do
     end
   end
 
+  filter :firstname
+  filter :lastname
+  filter :email
+
   show do
     attributes_table do
       row :firstname
@@ -62,16 +66,6 @@ ActiveAdmin.register Customer do
           baf.input :zipcode, required: true
         end
       end
-
-      # f.inputs 'Addresses' do
-      #   f.has_many :addresses, allow_destroy: true, heading: false do |af|
-      #     af.input :address1, required: true
-      #     af.input :address2
-      #     af.input :city, required: true
-      #     af.input :state_id, as: :select, collection: State.all.collect {|state| [state.name, state.id]  }, required: true
-      #     af.input :zipcode, required: true
-      #   end
-      # end
     end
 
     f.submit

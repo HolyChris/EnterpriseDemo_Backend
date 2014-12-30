@@ -14,13 +14,13 @@ class SessionsController < Devise::SessionsController
   end
 
   def create
-    # Done
-    # TODO : Clean this action
     self.resource = warden.authenticate!(auth_options)
     if unauthorized_admin?
       invalid_admin
     elsif unauthorized_sales_rep?
       invalid_sales_rep
+    elsif unauthorized_office_staff?
+      invalid_office_staff
     else
       set_flash_message(:notice, :signed_in) if is_flashing_format?
       sign_in(resource_name, resource)
@@ -31,10 +31,15 @@ class SessionsController < Devise::SessionsController
 
   private
 
-    [:admin, :sales_rep].each do |method_name|
+    [:admin, :office_staff, :sales_rep, :production_rep, :billing_rep].each do |method_name|
       define_method "#{ method_name }?" do
         params[:type] == "#{ method_name }"
       end
+    end
+
+    def invalid_office_staff
+      reset_session
+      redirect_to new_office_staff_session_url, alert: 'Cannot access office staff login'
     end
 
     def invalid_sales_rep
@@ -53,6 +58,10 @@ class SessionsController < Devise::SessionsController
 
     def unauthorized_sales_rep?
       sales_rep? && !resource.is_sales_rep?
+    end
+
+    def unauthorized_office_staff?
+      office_staff? && !resource.is_office_staff?
     end
 
 
