@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      devise_for :users
-      resources :sites, only: :index
+      put :sign_in, to: 'sessions#create'
+      delete :sign_out, to: 'sessions#destroy'
+      resources :sites, only: [:index, :create, :update]
+      resources :customers, only: [:index, :create, :update]
     end
   end
 
@@ -14,7 +16,8 @@ Rails.application.routes.draw do
     end
 
     unauthenticated do
-      Role.pluck(:name).each do |role|
+      # Role.pluck(:name).each do |role|
+      [:admin].each do |role|
         get "/#{role}", to: 'sessions#new', type: "#{role}"
         get "/#{role}/sign_in", to: 'sessions#new', type: "#{role}", as: "new_#{role}_session"
         post "/#{role}/sign_in", to: "sessions#create", type: "#{role}", as: "#{role}_session"

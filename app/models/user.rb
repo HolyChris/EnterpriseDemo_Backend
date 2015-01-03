@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
   private
 
+    # TODO : Change auth token after password change (discuss)
     def ensure_authentication_token
       self.auth_token ||= generate_auth_token
     end

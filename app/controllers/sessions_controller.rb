@@ -17,10 +17,10 @@ class SessionsController < Devise::SessionsController
     self.resource = warden.authenticate!(auth_options)
     if unauthorized_admin?
       invalid_admin
-    elsif unauthorized_sales_rep?
-      invalid_sales_rep
-    elsif unauthorized_office_staff?
-      invalid_office_staff
+    # elsif unauthorized_sales_rep?
+      # invalid_sales_rep
+    # elsif unauthorized_office_staff?
+      # invalid_office_staff
     else
       set_flash_message(:notice, :signed_in) if is_flashing_format?
       sign_in(resource_name, resource)
@@ -31,21 +31,22 @@ class SessionsController < Devise::SessionsController
 
   private
 
-    [:admin, :office_staff, :sales_rep, :production_rep, :billing_rep].each do |method_name|
+    # [:admin, :office_staff, :sales_rep, :production_rep, :billing_rep].each do |method_name|
+    [:admin].each do |method_name|
       define_method "#{ method_name }?" do
         params[:type] == "#{ method_name }"
       end
     end
 
-    def invalid_office_staff
-      reset_session
-      redirect_to new_office_staff_session_url, alert: 'Cannot access office staff login'
-    end
+    # def invalid_office_staff
+    #   reset_session
+    #   redirect_to new_office_staff_session_url, alert: 'Cannot access office staff login'
+    # end
 
-    def invalid_sales_rep
-      reset_session
-      redirect_to new_sales_rep_session_url, alert: 'Cannot access sales rep login'
-    end
+    # def invalid_sales_rep
+    #   reset_session
+    #   redirect_to new_sales_rep_session_url, alert: 'Cannot access sales rep login'
+    # end
 
     def invalid_admin
       reset_session
@@ -56,13 +57,11 @@ class SessionsController < Devise::SessionsController
       admin? && !resource.is_admin?
     end
 
-    def unauthorized_sales_rep?
-      sales_rep? && !resource.is_sales_rep?
-    end
+    # def unauthorized_sales_rep?
+    #   sales_rep? && !resource.is_sales_rep?
+    # end
 
-    def unauthorized_office_staff?
-      office_staff? && !resource.is_office_staff?
-    end
-
-
+    # def unauthorized_office_staff?
+    #   office_staff? && !resource.is_office_staff?
+    # end
 end

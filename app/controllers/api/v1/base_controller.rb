@@ -5,14 +5,17 @@ class Api::V1::BaseController < ActionController::Base
    
   private
 
-  def authenticate_user_from_token!
-    unless current_user
-      render json: { message: 'User not authorized to perform the operation' }, status: 404
+    def authenticate_user_from_token!
+      unless current_user
+        render json: { message: 'User not authorized to perform the operation' }, status: 404
+      end
     end
-  end
 
-  def current_user
-    @current_user ||= User.find_by_auth_token(params[:auth_token]) if params[:auth_token]
-  end
+    def current_user
+      @current_user ||= User.find_by_auth_token(params[:auth_token]) if params[:auth_token]
+    end
 
+    def render_with_failure(response={})
+      render json: { success: false, message: response[:msg] }, status: response[:status]
+    end
 end

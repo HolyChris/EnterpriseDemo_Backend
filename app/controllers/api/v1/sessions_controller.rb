@@ -15,7 +15,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def destroy
-    sign_out(resource_name)
+    # sign_out(current_user)
   end
 
   protected
