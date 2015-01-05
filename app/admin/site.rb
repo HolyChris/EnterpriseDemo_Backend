@@ -19,8 +19,14 @@ ActiveAdmin.register Site do
     column 'Managers' do |site|
       site.managers.pluck(:email).join(', ')
     end
-    column :source
-    column :status
+
+    column 'Source' do |site|
+      Site::SOURCE[site.status]
+    end
+
+    column 'Status' do |site|
+      Site::STATUS[site.status]
+    end
     column 'Address' do |site|
       site.address.full_address
     end
@@ -53,9 +59,14 @@ ActiveAdmin.register Site do
         site.address.full_address
       end
 
-      row :source
+      row 'Source' do |site|
+        Site::SOURCE[site.status]
+      end
+
       row :damage
-      row :status
+      row 'Status' do |site|
+        Site::STATUS[site.status]
+      end
       row :roof_built_at
       row :insurance_company
       row :claim_number, label: 'Claim #'

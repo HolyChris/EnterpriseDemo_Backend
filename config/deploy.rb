@@ -2,7 +2,7 @@
 lock '3.3.5'
 
 set :application, 'ers'
-set :repo_url, 'git@github.com:priyank-gupta/ERS.git'
+set :repo_url, 'git@github.com:HolyChris/ERS_MVP_Backend.git'
 set :use_sudo, false
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
