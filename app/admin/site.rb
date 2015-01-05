@@ -36,7 +36,7 @@ ActiveAdmin.register Site do
   filter :address_address1, as: :string, label: 'Address1'
   filter :address_address2, as: :string, label: 'Address2'
   filter :address_city, as: :string, label: 'City'
-  filter :address_state_id, as: :select, collection: Country.default.states.collect, label: 'State'
+  filter :address_state_id, as: :select, collection: Country.default.states.collect {|s| [s.name,s.id]}, label: 'State'
   filter :address_zipcode, as: :string, label: 'Zipcode'
 
   show do

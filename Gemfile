@@ -31,8 +31,7 @@ gem "paperclip", '4.2.0'
 
 group :development do
   gem 'capistrano'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
+  gem 'capistrano-unicorn-nginx'
   gem 'quiet_assets'
 end
 

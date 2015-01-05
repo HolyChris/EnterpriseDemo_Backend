@@ -1,9 +1,9 @@
 # config valid only for current version of Capistrano
-lock '3.3.3'
+lock '3.3.5'
 
 set :application, 'ers'
-set :repo_url, 'git@github.com:HolyChris/ERS_MVP_Backend.git'
-
+set :repo_url, 'git@github.com:priyank-gupta/ERS.git'
+set :use_sudo, false
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
@@ -33,6 +33,8 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+set :assets_roles, [:web, :app]            # Defaults to [:web]
 
 namespace :deploy do
 
