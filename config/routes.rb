@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
     unauthenticated do
       # Role.pluck(:name).each do |role|
-      [:admin].each do |role|
+      [:admin, :office_staff].each do |role|
         get "/#{role}", to: 'sessions#new', type: "#{role}"
         get "/#{role}/sign_in", to: 'sessions#new', type: "#{role}", as: "new_#{role}_session"
         post "/#{role}/sign_in", to: "sessions#create", type: "#{role}", as: "#{role}_session"

@@ -7,6 +7,8 @@ class RolesController < ApplicationController
       redirect_to admin_dashboard_path
     # elsif user.has_role? :sales_rep
       # redirect_to sales_rep_dashboard_path
+    elsif user.has_role? :office_staff
+      redirect_to office_staff_dashboard_path
     else
       reset_session
     end

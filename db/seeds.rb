@@ -16,6 +16,13 @@ user2 = User.create_with(
 ).find_or_create_by(email: 'priyank@test.com')
 user2.add_role :sales_rep
 
+user3 = User.create_with(
+  password: 'officestaff123',
+  password_confirmation: 'officestaff123'
+).find_or_create_by(email: 'office_staff@test.com')
+user3.add_role :office_staff
+
+
 [{ name: "United States", iso3: "USA", iso: "US", iso_name: "UNITED STATES", numcode: "840" }
 ].each do |country_details|
   Country.find_or_create_by!(country_details)
