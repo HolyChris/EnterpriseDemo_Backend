@@ -12,14 +12,19 @@ class Api::V1::BaseController < ActionController::Base
     end
 
     def current_user
-      if params[:auth_token] && !@current_user
-        @current_user = User.find_by_auth_token(params[:auth_token])
-        @current_user = nil if @current_user.auth_token_expired?
+      if auth_token && !@current_user
+        if @current_user = User.find_by_auth_token(auth_token)
+          @current_user = nil if @current_user.auth_token_expired?
+        end
       end
       @current_user
     end
 
     def render_with_failure(response={})
       render json: { success: false, message: response[:msg] }, status: response[:status]
+    end
+
+    def auth_token
+      @auth_token ||= request.headers["X-Auth-Token"]
     end
 end
