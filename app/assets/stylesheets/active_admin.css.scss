@@ -10,10 +10,10 @@
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
-@import "jquery.tagsinput.css";
-@import "jquery-ui.css";
-@import "chosen.min.css";
-@import "jquery.datetimepicker.css";
+@import "jquery.tagsinput";
+@import "jquery-ui";
+@import "chosen.min";
+@import "jquery.datetimepicker";
 
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
