@@ -69,9 +69,9 @@ ActiveAdmin.register Site do
     f.inputs 'Details' do
       f.input :name
       f.input :manager_ids, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, multiple: true, input_html: { class: "chosen-select" }, label: 'Managers'
-      f.input :source
+      f.input :source, as: :select, collection: Site::SOURCE.collect{|k,v| [v, k]}
       f.input :damage
-      f.input :status
+      f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}
       f.input :roof_built_at
       f.input :insurance_company
       f.input :claim_number

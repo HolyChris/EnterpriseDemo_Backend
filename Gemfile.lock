@@ -192,7 +192,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.1.8)
       sprockets-rails (~> 2.0)
-    rails3-jquery-autocomplete (1.0.14)
+    rails4-autocomplete (1.1.1)
       rails (>= 3.0)
     railties (4.1.8)
       actionpack (= 4.1.8)
@@ -311,7 +311,7 @@ DEPENDENCIES
   quiet_assets
   rabl-rails
   rails (= 4.1.8)
-  rails3-jquery-autocomplete
+  rails4-autocomplete
   rolify
   rspec
   rspec-rails (~> 2.14.0.rc1)
