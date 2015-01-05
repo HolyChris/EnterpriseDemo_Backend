@@ -6,19 +6,21 @@ class User < ActiveRecord::Base
   has_many :site_managers
   has_many :sites, through: :site_managers
 
-  before_save :ensure_authentication_token
+  after_save :touch_auth_token, if: "encrypted_password_changed? || sign_in_count_changed?"
 
   # def fullname
   #   [firstname, lastname].join(' ')
   # end
 
+  def auth_token_expired?
+    auth_token_created_at? && (auth_token_created_at + AUTH_TOKEN_EXPIRATION) < Time.current
+  end
+
+  def touch_auth_token
+    update_columns(auth_token: generate_auth_token, auth_token_created_at: Time.current)
+  end
+
   private
-
-    # TODO : Change auth token after password change (discuss)
-    def ensure_authentication_token
-      self.auth_token ||= generate_auth_token
-    end
-
     def generate_auth_token
       loop do
         token = Devise.friendly_token

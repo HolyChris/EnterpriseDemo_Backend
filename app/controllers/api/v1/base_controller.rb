@@ -12,7 +12,11 @@ class Api::V1::BaseController < ActionController::Base
     end
 
     def current_user
-      @current_user ||= User.find_by_auth_token(params[:auth_token]) if params[:auth_token]
+      if params[:auth_token] && !@current_user
+        @current_user = User.find_by_auth_token(params[:auth_token])
+        @current_user = nil if @current_user.auth_token_expired?
+      end
+      @current_user
     end
 
     def render_with_failure(response={})
