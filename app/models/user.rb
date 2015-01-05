@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
     update_columns(auth_token: generate_auth_token, auth_token_created_at: Time.current)
   end
 
+  def password_required?
+    password.present? || password_confirmation.present?
+  end
+
   private
     def generate_auth_token
       loop do
