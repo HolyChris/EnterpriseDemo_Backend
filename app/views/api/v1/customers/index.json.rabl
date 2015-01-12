@@ -8,3 +8,14 @@ child(:bill_address) do
     attributes :id, :name
   end
 end
+
+child(:sites) do
+  attributes :id, :name
+
+  child(:address) do
+    attributes :id, :address1, :address2, :city, :zipcode
+    child(:state) do
+      attributes :id, :name
+    end
+  end
+end
