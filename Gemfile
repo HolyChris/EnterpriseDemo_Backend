@@ -28,6 +28,7 @@ gem 'acts-as-taggable-on',                   '~> 3.4'
 gem 'rails4-autocomplete'
 gem 'rabl-rails'
 gem "paperclip", '4.2.0'
+gem 'rb-readline'
 
 group :development do
   gem 'capistrano'
