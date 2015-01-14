@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
-  has_many :addresses
-  has_many :sites
+  has_many :addresses, dependent: :destroy
+  has_many :sites, dependent: :destroy
+  has_many :phone_numbers, dependent: :destroy
   belongs_to :bill_address, class_name: Address
 
   validates :firstname, :lastname, :email, presence: true
