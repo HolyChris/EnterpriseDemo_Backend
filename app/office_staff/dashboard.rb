@@ -28,7 +28,7 @@ ActiveAdmin.register_page "Dashboard", namespace: 'office_staff' do
               site.managers.pluck(:email).join(', ')
             end
             column 'Source' do |site|
-              Site::SOURCE[site.status]
+              Site::SOURCE[site.source]
             end
             column 'Status' do |site|
               Site::STATUS[site.status]

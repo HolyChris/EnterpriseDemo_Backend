@@ -21,7 +21,7 @@ ActiveAdmin.register Site do
     end
 
     column 'Source' do |site|
-      Site::SOURCE[site.status]
+      Site::SOURCE[site.source]
     end
 
     column 'Status' do |site|
@@ -60,7 +60,7 @@ ActiveAdmin.register Site do
       end
 
       row 'Source' do |site|
-        Site::SOURCE[site.status]
+        Site::SOURCE[site.source]
       end
 
       row :damage
