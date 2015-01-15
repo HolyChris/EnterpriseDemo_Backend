@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'users/sign_out', to: 'sessions#destroy'
     authenticated :user do
-      ActiveAdmin.routes(self)
+      ActiveAdmin.routes(self) unless ARGV.grep(/assets:precompile/).any?
     end
 
     unauthenticated do
