@@ -1,12 +1,13 @@
 ActiveAdmin.register User do
-  actions :index, :show, :create, :new, :edit, :update
+  actions :index, :show, :create, :new, :edit, :update, :destroy
   scope :all, :default => true
-  permit_params :email, role_ids: []
+  permit_params :fullname, :email, :password, :password_confirmation, role_ids: []
 
   controller do
   end
 
   index do
+    column :fullname
     column :email
     column :current_sign_in_at
     column :last_sign_in_at
@@ -21,6 +22,7 @@ ActiveAdmin.register User do
 
   show do
     attributes_table do
+      row :fullname
       row :email
       row :sign_in_count
       row :current_sign_in_at
@@ -33,7 +35,10 @@ ActiveAdmin.register User do
     user = f.object
     f.semantic_errors *f.object.errors.keys
     f.inputs 'Details' do
+      f.input :fullname
       f.input :email, input_html: { disabled: user.persisted? }
+      f.input :password
+      f.input :password_confirmation
       f.inputs 'Roles' do
         html = []
         Role.all.each do |role|

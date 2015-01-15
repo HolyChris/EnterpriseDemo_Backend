@@ -24,14 +24,18 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel 'Top 10 Sites' do
           table_for Site.order(updated_at: :desc, status: :asc).limit(10) do
-            column :name
+            column 'Site Name' do |site|
+              site.name
+            end
+
             column 'Managers' do |site|
               site.managers.pluck(:email).join(', ')
             end
+
             column 'Source' do |site|
               Site::SOURCE[site.source]
             end
-            column 'Status' do |site|
+            column 'Opportunity Status' do |site|
               Site::STATUS[site.status]
             end
             column 'Address' do |site|

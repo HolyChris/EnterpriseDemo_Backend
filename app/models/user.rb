@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
   rolify
+  acts_as_paranoid
+  auto_strip_attributes :firstname, :lastname
+
   # include Notifier
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :async
 
@@ -7,15 +10,18 @@ class User < ActiveRecord::Base
   has_many :sites, through: :site_managers
 
   after_save :touch_auth_token, if: "encrypted_password_changed? || sign_in_count_changed?"
-  before_create :assign_temp_password
 
   # def fullname
   #   [firstname, lastname].join(' ')
   # end
 
-  def assign_temp_password
-    self.password ||= '12345678'
-    self.password_confirmation ||= '12345678'
+  def fullname
+    [firstname, lastname].compact.join(' ')
+  end
+
+  def fullname=(val)
+    name = val.split(' ')
+    self.firstname, self.lastname = name.shift, name.join(' ')
   end
 
   def auth_token_expired?

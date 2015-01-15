@@ -15,7 +15,10 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
   end
 
   index do
-    column :name
+    column 'Site Name' do |site|
+      site.name
+    end
+
     column 'Managers' do |site|
       site.managers.pluck(:email).join(', ')
     end
@@ -24,7 +27,7 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
       Site::SOURCE[site.source]
     end
 
-    column 'Status' do |site|
+    column 'Opportunity Status' do |site|
       Site::STATUS[site.status]
     end
     column 'Address' do |site|
@@ -34,20 +37,22 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     actions
   end
 
-  filter :name
+  filter :name, label: 'Site Name'
   filter :customer_email, as: :string
   filter :managers_id, as: :select, collection: User.all.collect { |u| [u.email, u.id] }, label: 'Manager'
   filter :source, as: :select, collection: Site::SOURCE.collect {|k,v| [v,k]}
-  filter :status, as: :select, collection: Site::STATUS.collect {|k,v| [v,k]}
+  filter :status, as: :select, collection: Site::STATUS.collect {|k,v| [v,k]}, label: 'Opportunity Status'
   filter :address_address1, as: :string, label: 'Address1'
   filter :address_address2, as: :string, label: 'Address2'
   filter :address_city, as: :string, label: 'City'
-  filter :address_state_id, as: :select, collection: Country.default.states.collect {|s| [s.name,s.id]}, label: 'State'
+  filter :address_state_id, as: :select, collection: Country.default.states.order(:name).collect {|s| [s.name,s.id]}, label: 'State'
   filter :address_zipcode, as: :string, label: 'Zipcode'
 
   show do
     attributes_table do
-      row :name
+      row 'Site Name' do |site|
+        site.name
+      end
 
       row 'Managers' do |site|
         site.managers.pluck(:email).join(', ')
@@ -64,7 +69,7 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
       end
 
       row :damage
-      row 'Status' do |site|
+      row 'Opportunity Status' do |site|
         Site::STATUS[site.status]
       end
       row :roof_built_at
@@ -77,35 +82,35 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
 
   form do |f|
     f.semantic_errors *f.object.errors.keys
+    f.object.address ||= Address.new
+
+    f.inputs 'Address' do
+      f.fields_for :address do |af|
+        if params[:customer_id]
+          af.input :customer_id, as: :hidden, input_html: { value: params[:customer_id] }
+        else
+          af.input :customer_id, as: :select, collection: Customer.all.collect { |customer| [customer.fullname, customer.id] }
+        end
+
+        af.input :address1
+        af.input :address2
+        af.input :city
+        af.input :state_id, as: :select, collection: State.order(:name).collect {|state| [state.name, state.id]  }
+        af.input :zipcode
+      end
+    end
+
     f.inputs 'Details' do
-      f.input :name
+      f.input :name, label: 'Site Name'
       f.input :manager_ids, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, multiple: true, input_html: { class: "chosen-select" }, label: 'Managers'
       f.input :source, as: :select, collection: Site::SOURCE.collect{|k,v| [v, k]}
       f.input :damage
-      f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}
+      f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}, label: 'Opportunity Status'
       f.input :roof_built_at
       f.input :insurance_company
       f.input :claim_number
       f.input :mortgage_company
       f.input :loan_tracking_number
-
-      f.object.address ||= Address.new
-
-      f.inputs 'Address' do
-        f.fields_for :address do |af|
-          if params[:customer_id]
-            af.input :customer_id, as: :hidden, input_html: { value: params[:customer_id] }
-          else
-            af.input :customer_id, as: :select, collection: Customer.all.collect { |customer| [customer.fullname, customer.id] }
-          end
-
-          af.input :address1
-          af.input :address2
-          af.input :city
-          af.input :state_id, as: :select, collection: State.all.collect {|state| [state.name, state.id]  }
-          af.input :zipcode
-        end
-      end
     end
 
     f.submit

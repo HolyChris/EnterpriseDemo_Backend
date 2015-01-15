@@ -39,8 +39,8 @@ ActiveAdmin.register Customer do
       row :business_name
       row :other_business_info
 
-      row 'Bill Address' do |site|
-        customer.bill_address.full_address
+      row 'Billing Address' do |site|
+        customer.bill_address.try(:full_address) || '-'
       end
     end
   end
@@ -57,7 +57,7 @@ ActiveAdmin.register Customer do
       f.input :other_business_info
       customer.bill_address ||= Address.new
 
-      f.inputs 'Bill Address' do
+      f.inputs 'Billing Address' do
         f.fields_for :bill_address do |baf|
           baf.input :address1, required: true
           baf.input :address2

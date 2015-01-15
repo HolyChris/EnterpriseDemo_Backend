@@ -4,7 +4,7 @@ gem 'rails', '4.1.8'
 gem 'mysql2', '0.3.16'
 gem 'rolify'
 gem 'cancancan', '~> 1.9'
-gem "paranoia", "~> 1.0"
+gem "paranoia", "~> 2.0"
 gem 'devise'
 gem 'devise-async',                          '0.9.0'
 gem 'delayed_job_active_record',             '4.0.2'
@@ -29,6 +29,7 @@ gem 'rails4-autocomplete'
 gem 'rabl-rails'
 gem "paperclip", '4.2.0'
 gem 'rb-readline'
+gem "auto_strip_attributes", "~> 2.0"
 
 group :development do
   gem 'capistrano'
