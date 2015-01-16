@@ -61,7 +61,7 @@ ActiveAdmin.register Appointment do
       f.input :start_time_string, required: true, input_html: {class: 'timepicker'}, label: 'Start Time'
       f.input :end_time_string, input_html: {class: 'timepicker'}, label: 'End Time'
       f.input :notes
-      f.input :user_id, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
+      f.input :user_id, as: :select, collection: f.object.site.managers.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
     end
 
     f.submit

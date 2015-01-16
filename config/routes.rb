@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       delete :sign_out, to: 'sessions#destroy'
       resources :sites, only: [:index, :create, :update]
       resources :customers, only: [:index, :create, :update]
+      resources :appointments, only: [:index, :create, :update]
     end
   end
 

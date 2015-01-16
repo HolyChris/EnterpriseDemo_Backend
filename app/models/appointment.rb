@@ -6,6 +6,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :user
 
   validates :date, :start_time, :site, :user, presence: true
+  validate :user_is_a_site_manager, if: :user_id_changed? && :user_id? && :site_id?
 
   before_save :ensure_start_time_less_than_end_time, if: :end_time?
   alias :assigned_to :user
@@ -55,5 +56,9 @@ class Appointment < ActiveRecord::Base
         errors.add(:start_time, 'should be less than end time')
         false
       end
+    end
+
+    def user_is_a_site_manager
+      errors.add(:user_id, 'should be one of site managers') unless site.site_managers.where(user_id: user_id).present?
     end
 end

@@ -8,7 +8,7 @@ class Api::V1::SitesController < Api::V1::BaseController
   end
 
   def index
-    @sites = Site.accessible_by(current_ability, :read)
+    @sites = Site.accessible_by(current_ability, :read).includes(:customer, :appointments, address: :state)
     respond_with(@sites)
   end
 

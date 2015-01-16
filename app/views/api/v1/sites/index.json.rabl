@@ -11,3 +11,14 @@ child(:address) do
     attributes :id, :name
   end
 end
+
+child(:appointments) do
+  attributes :id, :date, :start_time_string, :end_time_string, :notes
+  child(:assigned_to) do
+    attributes :id, :fullname, :email
+  end
+
+  child(:created_by) do
+    attributes :id, :fullname, :email
+  end
+end
