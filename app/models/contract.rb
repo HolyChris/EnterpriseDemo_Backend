@@ -1,4 +1,5 @@
 class Contract < ActiveRecord::Base
+  audited
   belongs_to :site
 
   has_attached_file :document

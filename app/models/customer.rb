@@ -1,4 +1,5 @@
 class Customer < ActiveRecord::Base
+  audited
   acts_as_paranoid
 
   has_many :addresses, dependent: :destroy

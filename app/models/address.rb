@@ -1,4 +1,5 @@
 class Address < ActiveRecord::Base
+  audited
   acts_as_paranoid
 
   auto_strip_attributes :address2

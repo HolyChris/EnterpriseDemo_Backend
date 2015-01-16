@@ -3,15 +3,12 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
   scope :all, :default => true
   permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], addresses_attributes: [:address1, :address2, :city, :state_id, :zipcode]
 
-  action_item only: [:show] do
+  action_item 'Sites', only: [:show, :edit] do
     link_to 'Sites', admin_customer_sites_url(customer)
   end
 
-  action_item only: [:edit] do
-    html = []
-    html << (link_to 'Sites', admin_customer_sites_url(customer))
-    html << (link_to 'Cancel', admin_customer_url(customer))
-    html.join(' ').html_safe
+  action_item 'Cancel', only: [:edit] do
+    link_to 'Cancel', admin_customer_url(customer)
   end
 
   controller do

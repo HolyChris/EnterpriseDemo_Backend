@@ -4,7 +4,6 @@ ActiveAdmin.register User do
   permit_params :fullname, :email, :password, :password_confirmation, role_ids: []
 
   controller do
-    before_filter :update_scopes, :only => :index
   end
 
   index do

@@ -15,6 +15,6 @@ $(document).on "ready, page:change", ->
   jQuery(".best_in_place").best_in_place();
   jQuery(".timepicker").datetimepicker({
     datepicker:false,
-    step:30,
+    step:15,
     format:'H:i'
   });

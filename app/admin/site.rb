@@ -6,6 +6,14 @@ ActiveAdmin.register Site do
   permit_params :name, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
   before_filter :ensure_manager, only: [:create, :update]
 
+  action_item 'Appointments', only: [:show, :edit] do
+    link_to 'Appointments', admin_site_appointments_url(site)
+  end
+
+  action_item 'Cancel', only: [:edit] do
+    link_to 'Cancel', admin_site_url(site)
+  end
+
   controller do
     private
       def ensure_manager
@@ -34,12 +42,15 @@ ActiveAdmin.register Site do
       site.address.full_address
     end
 
-    actions
+    actions do |site|
+      link_to 'Appointments', admin_site_appointments_url(site)
+    end
   end
 
   filter :name, label: 'Site Name'
   filter :customer_email, as: :string
-  filter :managers_id, as: :select, collection: User.all.collect { |u| [u.email, u.id] }, label: 'Manager'
+  # filter :managers_id, as: :select, collection: User.all.collect { |u| [u.email, u.id] }, label: 'Manager'
+  filter :managers_email, as: :string, placeholder: 'Email', label: 'Manager'
   filter :source, as: :select, collection: Site::SOURCE.collect {|k,v| [v,k]}
   filter :status, as: :select, collection: Site::STATUS.collect {|k,v| [v,k]}, label: 'Opportunity Status'
   filter :address_address1, as: :string, label: 'Address1'
@@ -106,7 +117,7 @@ ActiveAdmin.register Site do
       f.input :source, as: :select, collection: Site::SOURCE.collect{|k,v| [v, k]}
       f.input :damage
       f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}, label: 'Opportunity Status'
-      f.input :roof_built_at
+      f.input :roof_built_at, as: :datepicker, input_html: {class: 'date-field'}
       f.input :insurance_company
       f.input :claim_number
       f.input :mortgage_company

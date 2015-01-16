@@ -1,4 +1,5 @@
 class Site < ActiveRecord::Base
+  audited
   acts_as_paranoid
 
   STATUS = { 1 => 'Good', 2 => 'Bad', 3 => 'New', 4 => 'Dead' }
@@ -8,6 +9,7 @@ class Site < ActiveRecord::Base
 
   has_one :contract, dependent: :destroy
   has_many :inspections, dependent: :destroy
+  has_many :appointments, dependent: :destroy
   belongs_to :address
   belongs_to :customer
   has_many :site_managers, dependent: :destroy

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  audited
   rolify
   acts_as_paranoid
   auto_strip_attributes :firstname, :lastname
@@ -10,10 +11,13 @@ class User < ActiveRecord::Base
   has_many :sites, through: :site_managers
 
   after_save :touch_auth_token, if: "encrypted_password_changed? || sign_in_count_changed?"
+  after_destroy :assign_sites_to_destroyer
 
-  # def fullname
-  #   [firstname, lastname].join(' ')
-  # end
+  def assign_sites_to_destroyer
+    if destroyer = audits.find_by(action: 'destroy').user
+      site_managers.update_all(user_id: destroyer.id)
+    end
+  end
 
   def fullname
     [firstname, lastname].compact.join(' ')
