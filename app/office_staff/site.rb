@@ -10,6 +10,10 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     link_to 'Appointments', admin_site_appointments_url(site)
   end
 
+  action_item 'Assets', only: [:show, :edit] do
+    link_to 'Assets', admin_site_assets_url(site)
+  end
+
   action_item 'Cancel', only: [:edit] do
     link_to 'Cancel', admin_site_url(site)
   end
@@ -43,7 +47,9 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     end
 
     actions do |site|
-      link_to 'Appointments', admin_site_appointments_url(site)
+      html = [link_to('Appointments', admin_site_appointments_url(site))]
+      html << link_to('Assets', admin_site_assets_url(site))
+      html.join(' ').html_safe
     end
   end
 

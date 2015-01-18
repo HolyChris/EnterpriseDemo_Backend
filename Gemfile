@@ -31,6 +31,7 @@ gem "paperclip", '4.2.0'
 gem 'rb-readline'
 gem "auto_strip_attributes", "~> 2.0"
 gem "audited-activerecord", "~> 4.0"
+gem 'aws-sdk'
 
 group :development do
   gem 'capistrano'

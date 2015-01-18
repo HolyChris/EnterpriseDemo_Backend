@@ -16,8 +16,11 @@
 /tmp
 /config/database.yml
 /config/secrets.yml
+/config/aws.yml
 /.ruby-version
 /db/schema.rb
 *.DS_Store
 /public/assets
 /public/system
+/public/images
+/public/docs

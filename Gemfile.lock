@@ -65,6 +65,11 @@ GEM
       audited (= 4.0.0)
     auto_strip_attributes (2.0.6)
       activerecord (>= 3.0)
+    aws-sdk (1.60.2)
+      aws-sdk-v1 (= 1.60.2)
+    aws-sdk-v1 (1.60.2)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.9)
     bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
@@ -298,6 +303,7 @@ DEPENDENCIES
   acts-as-taggable-on (~> 3.4)
   audited-activerecord (~> 4.0)
   auto_strip_attributes (~> 2.0)
+  aws-sdk
   bcrypt (~> 3.1.7)
   best_in_place!
   bootstrap-sass (= 3.2.0.2)
