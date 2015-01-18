@@ -24,4 +24,11 @@ class Site < ActiveRecord::Base
   validates :name, :stage, :address, :customer, presence: true
 
   accepts_nested_attributes_for :address
+
+  before_validation :assign_customer, if: 'address.present?'
+
+  private
+    def assign_customer
+      self.customer_id = address.customer.try(:id)
+    end
 end
