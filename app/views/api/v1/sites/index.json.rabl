@@ -30,5 +30,5 @@ end
 child :assets do
   attributes :id, :type, :attachment_file_name, :notes, :description, :alt
   node(:url) { |asset| asset.attachment.url }
-  node(:stage) { |asset| Site::STAGE[asset.stage] }
+  node(:stage) { |asset| Site::STAGE.key(asset.stage).try(:capitalize) }
 end

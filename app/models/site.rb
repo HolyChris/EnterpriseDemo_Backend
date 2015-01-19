@@ -4,7 +4,7 @@ class Site < ActiveRecord::Base
 
   STATUS = { 1 => 'Good', 2 => 'Bad', 3 => 'New', 4 => 'Dead' }
   SOURCE = { 1 => 'Qualified Storm Leads', 2 => 'Commercial Call Leads', 3 => 'Self-Generated', 4 => 'Canvasser', 5 => 'Call in Leads', 6 => 'Mailer', 7 => 'Sign', 8 => 'Website', 9 => 'Friend', 10 => 'Neighbor', 11 => 'Truck Sign', 12 => 'Call/Knock', 13 => 'Other', 14 => 'Existing Customer' }
-  STAGE = { 1 => 'Lead', 2 => 'Contract', 3 => 'Project' }
+  STAGE = { lead: 1, contract: 2, project: 3 }
 
   include ManageStageFlow
 

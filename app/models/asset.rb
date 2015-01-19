@@ -10,6 +10,8 @@ class Asset < ActiveRecord::Base
   scope :images, -> { where(type: 'Image') }
   scope :docs, -> { where(type: 'Document') }
 
+  before_validation :set_stage, unless: :stage?
+
   def document?
     is_a?(Document)
   end
@@ -31,4 +33,11 @@ class Asset < ActiveRecord::Base
   Paperclip.interpolates('viewable_type') do |attachment, style|
     attachment.instance.viewable_type.downcase
   end
+
+  private
+    def set_stage
+      if viewable.is_a?(Site)
+        self.stage = Site::STAGE[viewable.stage.try(:to_sym) || :lead]
+      end
+    end
 end

@@ -27,7 +27,7 @@ ActiveAdmin.register Asset, namespace: 'office_staff' do
     end
 
     column 'Stage', sortable: true do |obj|
-      Site::STAGE[obj.stage] || '-'
+      Site::STAGE.key(obj.stage).try(:capitalize) || '-'
     end
 
     column 'Alt Text' do |obj|
@@ -40,7 +40,7 @@ ActiveAdmin.register Asset, namespace: 'office_staff' do
     actions
   end
 
-  filter :stage, as: :select, collection: Site::STAGE.collect{|k,v| [v, k]}
+  filter :stage, as: :select, collection: Site::STAGE.collect{|k,v| [k.to_s.capitalize, v]}
 
   show do
     attributes_table do
@@ -53,7 +53,7 @@ ActiveAdmin.register Asset, namespace: 'office_staff' do
       end
 
       row 'Stage' do |obj|
-        Site::STAGE[obj.stage] || '-'
+        Site::STAGE.key(obj.stage).try(:capitalize) || '-'
       end
 
       row 'Alt Text' do |obj|
@@ -71,7 +71,7 @@ ActiveAdmin.register Asset, namespace: 'office_staff' do
     f.inputs 'Details' do
       f.input :attachment, as: :file, required: true
       f.input :type, as: :select, collection: Asset::SUBCLASS.collect{|v| [v, v]}, include_blank: false
-      f.input :stage, as: :select, collection: Site::STAGE.collect{|k,v| [v, k]}
+      f.input :stage, as: :select, collection: Site::STAGE.collect{|k,v| [k.to_s.capitalize, v]}
       f.input :alt, label: 'Alternative Text'
       f.input :description
       f.input :notes
