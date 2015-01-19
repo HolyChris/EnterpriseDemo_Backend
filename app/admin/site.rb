@@ -10,6 +10,24 @@ ActiveAdmin.register Site do
     link_to 'Appointments', admin_site_appointments_url(site)
   end
 
+  action_item 'Contract', only: [:show, :edit] do
+    if site.contract.present?
+      link_to 'Contract', admin_site_contract_url(site, site.contract)
+    else
+      link_to 'Add Contract', new_admin_site_contract_url(site)
+    end
+  end
+
+  action_item 'Project', only: [:show, :edit] do
+    if site.contract.present?
+      if site.project.present?
+        link_to 'Project', admin_site_project_url(site, site.project)
+      else
+        link_to 'Create Project', new_admin_site_project_url(site)
+      end
+    end
+  end
+
   action_item 'Assets', only: [:show, :edit] do
     link_to 'Assets', admin_site_assets_url(site)
   end

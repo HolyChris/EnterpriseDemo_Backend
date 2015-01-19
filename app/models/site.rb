@@ -9,6 +9,7 @@ class Site < ActiveRecord::Base
   include ManageStageFlow
 
   has_one :contract, dependent: :destroy
+  has_one :project, dependent: :destroy
 
   has_many :assets, as: :viewable, dependent: :destroy, class_name: "Asset"
   has_many :images, -> { images }, as: :viewable, class_name: "Asset"
@@ -26,6 +27,10 @@ class Site < ActiveRecord::Base
   accepts_nested_attributes_for :address
 
   before_validation :assign_customer, if: 'address.present?'
+
+  def po_number
+    contract.try(:po_number)
+  end
 
   private
     def assign_customer

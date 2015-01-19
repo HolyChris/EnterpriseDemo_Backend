@@ -1,6 +1,9 @@
 object :@site
 
-attributes :id, :name
+attributes :id, :name, :damage, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number
+
+node(:source) {|site| Site::SOURCE[site.source]}
+node(:status) {|site| Site::STATUS[site.status]}
 
 child(:customer) do
   attributes :id, :email, :firstname, :lastname

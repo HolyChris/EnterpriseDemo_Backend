@@ -5,10 +5,19 @@ class Site < ActiveRecord::Base
     included do
       state_machine :stage, initial: :lead do
         event :next do
-          transition lead: :project
+          transition lead: :contract
+          transition contract: :project
         end
 
-        before_transition lead: :project, do: :verify_contract
+        event :to_contract do
+          transition lead: :contract
+        end
+
+        event :to_project do
+          transition contract: :project
+        end
+
+        before_transition contract: :project, do: :verify_contract
       end
     end
 
