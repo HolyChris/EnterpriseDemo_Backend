@@ -9,13 +9,13 @@ class Api::V1::AssetsController < Api::V1::BaseController
 
   def create
     @asset = @site.assets.build(asset_params)
-    set_attachment(@asset, params[:encoded_attachment_data], params[:attachment_format])
+    @asset.attachment = attachment_obj(params[:encoded_attachment_data], params[:attachment_format]) if params[:encoded_attachment_data]
     @asset.save
     respond_with(@asset)
   end
 
   def update
-    set_attachment(@asset, params[:encoded_attachment_data], params[:attachment_format])
+    @asset.attachment = attachment_obj(params[:encoded_attachment_data], params[:attachment_format]) if params[:encoded_attachment_data]
     @asset.update_attributes(asset_params)
     respond_with(@asset)
   end

@@ -28,12 +28,11 @@ class Ability
     end
 
     def set_sales_rep_privileges(user)
-      can :read, ActiveAdmin::Page, name: "Dashboard"
-      can :read, ActiveAdmin::Page, name: "Settings"
-      can :read, ActiveAdmin::Page, name: "Customer"
       can :manage, Customer
       can :manage, Site, id: user.site_managers.pluck(:site_id)
       can :manage, Appointment, user_id: user.id
+      can :manage, Contract, site_id: user.site_managers.pluck(:site_id)
+      can :manage, Project, site_id: user.site_managers.pluck(:site_id)
       # can :manage, Address, id: Address.joins(site: :site_managers).where(site_managers: { user_id: user.id }).pluck(:id)
       can_manage_self(user)
     end

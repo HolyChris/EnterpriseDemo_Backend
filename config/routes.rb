@@ -3,7 +3,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       put :sign_in, to: 'sessions#create'
       delete :sign_out, to: 'sessions#destroy'
-      resources :sites, only: [:index, :create, :update]
+      resources :sites, only: [:index, :create, :update] do
+        resources :contracts, only: [:show, :create, :update]
+        resources :projects, only: [:show, :create, :update]
+      end
       resources :customers, only: [:index, :create, :update]
       resources :appointments, only: [:index, :create, :update]
     end

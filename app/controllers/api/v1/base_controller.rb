@@ -28,13 +28,13 @@ class Api::V1::BaseController < ActionController::Base
       @auth_token ||= request.headers["X-Auth-Token"]
     end
 
-    def set_attachment(obj, encoded_attachment_data, attachment_format)
+    def attachment_obj(encoded_attachment_data, attachment_format)
       if encoded_attachment_data.present?
         decoded_data = Base64.decode64(encoded_attachment_data.gsub(/\\n/, "\n").gsub(' ', '+'))
         file = Tempfile.new(["temp#{DateTime.current.to_i}", ".#{attachment_format}"]) 
         file.binmode
         file.write decoded_data
-        obj.attachment = file
+        file
       end
     end
 end

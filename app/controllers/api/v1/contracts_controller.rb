@@ -1,0 +1,44 @@
+class Api::V1::ContractsController < Api::V1::BaseController
+  before_action :find_site
+  before_action :find_contract, only: [:update]
+
+  def show
+    @contract = @site.contract
+    respond_with(@contract)
+  end
+
+  def create
+    @contract = Contract.accessible_by(current_ability, :create).new(site_id: @site.id)
+    @contract.attributes = contract_params
+    @contract.document = attachment_obj(params[:encoded_document_data], params[:document_format]) if params[:encoded_document_data]
+    @contract.ers_sign_image = attachment_obj(params[:encoded_ers_sign_image_data], params[:ers_sign_image_format]) if params[:encoded_ers_sign_image_data]
+    @contract.customer_sign_image = attachment_obj(params[:encoded_customer_sign_image_data], params[:customer_sign_image_format]) if params[:encoded_customer_sign_image_data]
+    @contract.save
+    respond_with(@contract)
+  end
+
+  def update
+    @contract.document = attachment_obj(params[:encoded_document_data], params[:document_format]) if params[:encoded_document_data]
+    @contract.ers_sign_image = attachment_obj(params[:encoded_ers_sign_image_data], params[:ers_sign_image_format]) if params[:encoded_ers_sign_image_data]
+    @contract.customer_sign_image = attachment_obj(params[:encoded_customer_sign_image_data], params[:customer_sign_image_format]) if params[:encoded_customer_sign_image_data]
+    @contract.update_attributes(contract_params)
+    respond_with(@contract)
+  end
+
+  private
+    def find_site
+      unless @site = Site.accessible_by(current_ability, :read).find_by(id: params[:site_id])
+        render_with_failure(msg: 'Site Not Found', status: 404)
+      end
+    end
+
+    def find_contract
+      unless @contract = Contract.accessible_by(current_ability, :update).find_by(id: params[:id], site_id: @site.id)
+        render_with_failure(msg: 'Contract Not Found', status: 404)
+      end
+    end
+
+    def contract_params
+      params.permit(:document, :price, :paid_till_now, :notes, :special_instructions, :ers_sign_image, :customer_sign_image, :signed_at, :construction_start_at, :construction_end_at, :construction_payment_at)
+    end
+end
