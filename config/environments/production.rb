@@ -72,7 +72,16 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+  config.action_mailer.default_url_options = { host: '54.200.157.85' }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.paperclip_defaults = {
+    storage: :s3,
+    url: 's3.amazonaws.com/www.ers.com',
+    s3_credentials: {
+      bucket: 'www.ers.com'
+    }
+  }
 end

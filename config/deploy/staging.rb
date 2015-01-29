@@ -8,7 +8,7 @@ set :rails_env, 'staging'                  # If the environment differs from the
 # set :unicorn_pid, shared_path.join("tmp/pids/unicorn.pid")
 # set :unicorn_config, shared_path.join("config/unicorn.rb")
 set :unicorn_workers, 4
-# set :unicorn_service, 
+# set :unicorn_service,
 
 set :nginx_server_name, '54.68.73.69'
 set :nginx_location, "/etc/nginx"

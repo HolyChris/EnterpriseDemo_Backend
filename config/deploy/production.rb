@@ -3,11 +3,20 @@
 # Supports bulk-adding hosts to roles, the primary server in each group
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
+set :rails_env, 'production'                  # If the environment differs from the stage name
 
-role :app, %w{deploy@example.com}
-role :web, %w{deploy@example.com}
-role :db,  %w{deploy@example.com}
+# set :unicorn_pid, shared_path.join("tmp/pids/unicorn.pid")
+# set :unicorn_config, shared_path.join("config/unicorn.rb")
+set :unicorn_workers, 4
+# set :unicorn_service,
 
+set :nginx_server_name, '54.200.157.85'
+set :nginx_location, "/etc/nginx"
+set :nginx_pid, "/run/nginx.pid"
+
+role :app, %w{54.200.157.85}
+role :web, %w{54.200.157.85}
+role :db,  %w{54.200.157.85}
 
 # Extended Server Syntax
 # ======================
@@ -15,7 +24,7 @@ role :db,  %w{deploy@example.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server '54.200.157.85', user: 'ers', roles: %w{web app db}#, my_property: :my_value
 
 
 # Custom SSH Options
