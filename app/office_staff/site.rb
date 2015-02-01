@@ -84,6 +84,21 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
   filter :address_zipcode, as: :string, label: 'Zipcode'
 
   show do
+    panel 'Customer Details' do
+      attributes_table_for site.customer  do
+        row :firstname
+        row :lastname
+        row :email
+        row :spouse
+        row :business_name
+        row :other_business_info
+
+        row 'Billing Address' do |customer|
+          customer.bill_address.try(:full_address) || '-'
+        end
+      end
+    end
+
     attributes_table do
       row 'Site Name' do |site|
         site.name

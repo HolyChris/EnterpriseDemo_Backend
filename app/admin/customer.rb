@@ -36,7 +36,7 @@ ActiveAdmin.register Customer do
       row :business_name
       row :other_business_info
 
-      row 'Billing Address' do |site|
+      row 'Billing Address' do |customer|
         customer.bill_address.try(:full_address) || '-'
       end
     end
