@@ -17,4 +17,6 @@ class Customer < ActiveRecord::Base
   def fullname
     [firstname, lastname].join(' ')
   end
+
+  alias_method :name, :fullname
 end
