@@ -16,5 +16,6 @@ $(document).on "ready, page:change", ->
   jQuery(".timepicker").datetimepicker({
     datepicker:false,
     step:15,
-    format:'H:i'
+    format:'h:i a',
+    formatTime:'h:i a'
   });

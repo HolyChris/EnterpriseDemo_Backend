@@ -8,7 +8,7 @@ class Appointment < ActiveRecord::Base
   validates :date, :start_time, :site, :user, presence: true
   validate :user_is_a_site_manager, if: :user_id_changed? && :user_id? && :site_id?
 
-  before_save :ensure_start_time_less_than_end_time, if: :end_time?
+  before_save :ensure_start_time_less_than_end_time, unless: 'end_time.nil?'
   alias :assigned_to :user
 
   def created_by
@@ -20,7 +20,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def start_time_string
-    convert_to_time_format(start_time) if start_time?
+    convert_to_time_format(start_time) unless start_time.nil?
   end
 
   def start_time_string=(value)
@@ -30,7 +30,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def end_time_string
-    convert_to_time_format(end_time) if end_time?
+    convert_to_time_format(end_time) unless end_time.nil?
   end
 
   def end_time_string=(value)
@@ -41,7 +41,14 @@ class Appointment < ActiveRecord::Base
 
   def convert_to_time_format(value)
     hours, mins = value.divmod(100)
-    "#{ sprintf('%02d', hours) }:#{ sprintf('%02d', mins) }"
+    hours += 12 if hours == 0
+    if hours <= 12
+      ampm = 'am'
+    else
+      ampm = 'pm'
+      hours -= 12
+    end
+    "#{ sprintf('%02d', hours) }:#{ sprintf('%02d', mins) } #{ampm}"
   end
 
   def convert_to_integer_format(value)
