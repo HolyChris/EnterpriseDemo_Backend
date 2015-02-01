@@ -9,13 +9,15 @@ class User < ActiveRecord::Base
 
   has_many :site_managers, dependent: :destroy
   has_many :sites, through: :site_managers
+  has_many :appointments
 
   after_save :touch_auth_token, if: "encrypted_password_changed? || sign_in_count_changed?"
-  after_destroy :assign_sites_to_destroyer
+  after_destroy :assign_sites_and_appointments_to_destroyer
 
-  def assign_sites_to_destroyer
+  def assign_sites_and_appointments_to_destroyer
     if destroyer = audits.find_by(action: 'destroy').user
       site_managers.update_all(user_id: destroyer.id)
+      appointments.update_all(user_id: destroyer.id)
     end
   end
 
