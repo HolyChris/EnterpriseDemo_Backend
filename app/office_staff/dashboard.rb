@@ -33,7 +33,7 @@ ActiveAdmin.register_page "Dashboard", namespace: 'office_staff' do
             column 'Source' do |site|
               Site::SOURCE[site.source]
             end
-            column 'Opportunity Status' do |site|
+            column 'Opportunity Priority' do |site|
               Site::STATUS[site.status]
             end
             column 'Address' do |site|
