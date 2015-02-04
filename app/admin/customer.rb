@@ -52,6 +52,10 @@ ActiveAdmin.register Customer do
       f.input :spouse
       f.input :business_name
       f.input :other_business_info
+      f.has_many :phone_numbers do |pnf|
+        pnf.input :number
+      end
+
       customer.bill_address ||= Address.new
 
       f.inputs 'Billing Address' do

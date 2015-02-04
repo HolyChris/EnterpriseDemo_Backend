@@ -13,6 +13,7 @@ class Customer < ActiveRecord::Base
 
   accepts_nested_attributes_for :bill_address, reject_if: :all_blank #proc { |attributes| attributes.values.all?(&:blank?) }
   accepts_nested_attributes_for :addresses
+  accepts_nested_attributes_for :phone_numbers
 
   def fullname
     [firstname, lastname].join(' ')

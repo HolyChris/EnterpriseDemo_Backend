@@ -6,8 +6,8 @@ class Project < ActiveRecord::Base
   MATERIAL = {  }
 
   belongs_to :site
-  has_one :job_submission
-  has_one :roof_accessory_checklist
+  has_one :job_submission, dependent: :destroy
+  has_one :roof_accessory_checklist, dependent: :destroy
 
   validates :priority, :site, :cost, presence: true
   validates :cost, numericality: true
