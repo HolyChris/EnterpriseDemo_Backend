@@ -28,6 +28,8 @@ class Ability
     end
 
     def set_sales_rep_privileges(user)
+      can :read, User
+      can :manage, User, id: user.id
       can :manage, Customer
       can :manage, Site, id: user.site_managers.pluck(:site_id)
       can :manage, Appointment, user_id: user.id
