@@ -5,5 +5,5 @@ class Document < Asset
                     path: '/docs/:viewable_type/:id/:basename.:extension'
 
   validates_attachment_presence :attachment
-  validates_attachment_content_type :attachment, content_type: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+  validates_attachment_content_type :attachment, content_type: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif']
 end
