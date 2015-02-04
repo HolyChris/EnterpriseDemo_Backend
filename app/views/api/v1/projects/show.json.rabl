@@ -11,12 +11,14 @@ child(:roof_accessory_checklist) do
               :pitched_metal_jacks_collar_and_cap_diameter, :meter_mast_boot, :counter_flashing, :head_wall_4_5,
               :step_flashing, :large_step_flashing, :drip_2_4_color, :drip_2_4, :broan_bath_vent_4, :broan_vent_6,
               :slant_backs_turtle_t_vent, :solar_power_vent, :hard_wired_power_vent, :ridge_vent, :standard_ridge,
-              :mid_ridge, :high_ridge, :chimney_1_size, :chimney_2_size, :build_cricket, :access, :house_redeck_sq,
+              :mid_ridge, :high_ridge, :chimney_1_size, :chimney_2_size, :build_cricket, :house_redeck_sq,
               :garage_redeck, :flat_redeck, :layers_house_comp, :layers_garage_comp, :layers_flat_comp,
               :layers_house_shake, :layers_garage_shake, :layers_flat_shake, :squares_house, :squares_garage,
               :squares_low_slope_2_12_4_12, :squares_flat_lt_2_12, :pitch_predominate, :pitch_steep_gt_8_12,
               :pitch_4_12_8_12, :pitch_2_12_4_12, :pitch_flat_lt_2_12, :d_r_gutters, :remove_gutters, :d_r_downspouts,
               :remove_downspouts
+
+  node(:access) { |roof_accessory_checklist| RoofAccessoryChecklist::ACCESS[roof_accessory_checklist.access] }
 
   child(:skylights) do
     attributes :id, :existing, :curb_size, :od_frame_size, :new_skylight,
