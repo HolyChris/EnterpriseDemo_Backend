@@ -1,7 +1,7 @@
 ActiveAdmin.register Customer do
   actions :index, :show, :edit, :create, :update, :new
   scope :all, :default => true
-  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], addresses_attributes: [:address1, :address2, :city, :state_id, :zipcode]
+  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], addresses_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number]
 
   action_item 'Sites', only: [:show, :edit] do
     link_to 'Sites', admin_customer_sites_url(customer)
@@ -18,6 +18,11 @@ ActiveAdmin.register Customer do
     column :firstname
     column :lastname
     column :email
+
+    column 'Phone Numbers' do |customer|
+      customer.phone_numbers.pluck(:number).join(', ')
+    end
+
     actions do |customer|
       link_to 'Sites', admin_customer_sites_url(customer)
     end
@@ -35,6 +40,10 @@ ActiveAdmin.register Customer do
       row :spouse
       row :business_name
       row :other_business_info
+
+      row 'Phone Numbers' do |customer|
+        customer.phone_numbers.pluck(:number).join(', ')
+      end
 
       row 'Billing Address' do |customer|
         customer.bill_address.try(:full_address) || '-'
