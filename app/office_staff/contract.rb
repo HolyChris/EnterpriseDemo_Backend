@@ -8,19 +8,19 @@ ActiveAdmin.register Contract, namespace: 'office_staff' do
                 :construction_payment_at_date, :construction_payment_at_time_hour, :construction_payment_at_time_minute
 
   action_item 'Site', only: [:edit, :new, :show] do
-    link_to 'Site', admin_site_url(site)
+    link_to 'Site', office_staff_site_url(site)
   end
 
   action_item 'Project', only: [:edit, :show] do
     if contract.project.present?
-      link_to 'Project', admin_site_project_url(contract.site, contract.project)
+      link_to 'Project', office_staff_site_project_url(contract.site, contract.project)
     else
-      link_to 'Create Project', new_admin_site_project_url(contract.site)
+      link_to 'Create Project', new_office_staff_site_project_url(contract.site)
     end
   end
 
   action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', admin_site_contract_url(site, contract)
+    link_to 'Cancel', office_staff_site_contract_url(site, contract)
   end
 
   controller do

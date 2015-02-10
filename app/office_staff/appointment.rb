@@ -5,7 +5,7 @@ ActiveAdmin.register Appointment, namespace: 'office_staff' do
   permit_params :date, :start_time_string, :end_time_string, :notes, :user_id
 
   action_item 'Site', only: [:index] do
-    link_to 'Site', admin_site_url(site)
+    link_to 'Site', office_staff_site_url(site)
   end
 
   controller do

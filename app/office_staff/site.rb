@@ -7,33 +7,37 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
   before_filter :ensure_manager, only: [:create, :update]
 
   action_item 'Appointments', only: [:show, :edit] do
-    link_to 'Appointments', admin_site_appointments_url(site)
+    link_to 'Appointments', office_staff_site_appointments_url(site)
   end
 
   action_item 'Contract', only: [:show, :edit] do
     if site.contract.present?
-      link_to 'Contract', admin_site_contract_url(site, site.contract)
+      link_to 'Contract', office_staff_site_contract_url(site, site.contract)
     else
-      link_to 'Add Contract', new_admin_site_contract_url(site)
+      link_to 'Add Contract', new_office_staff_site_contract_url(site)
     end
   end
 
   action_item 'Project', only: [:show, :edit] do
     if site.contract.present?
       if site.project.present?
-        link_to 'Project', admin_site_project_url(site, site.project)
+        link_to 'Project', office_staff_site_project_url(site, site.project)
       else
-        link_to 'Create Project', new_admin_site_project_url(site)
+        link_to 'Create Project', new_office_staff_site_project_url(site)
       end
     end
   end
 
-  action_item 'Assets', only: [:show, :edit] do
-    link_to 'Assets', admin_site_assets_url(site)
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', office_staff_site_documents_url(site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', office_staff_site_images_url(site)
   end
 
   action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', admin_site_url(site)
+    link_to 'Cancel', office_staff_site_url(site)
   end
 
   controller do
@@ -65,9 +69,7 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     end
 
     actions do |site|
-      html = [link_to('Appointments', admin_site_appointments_url(site))]
-      html << link_to('Assets', admin_site_assets_url(site))
-      html.join(' ').html_safe
+      link_to('Appointments', office_staff_site_appointments_url(site))
     end
   end
 

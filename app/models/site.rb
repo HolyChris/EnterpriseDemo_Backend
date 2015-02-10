@@ -13,7 +13,7 @@ class Site < ActiveRecord::Base
 
   has_many :assets, as: :viewable, dependent: :destroy, class_name: "Asset"
   has_many :images, -> { images }, as: :viewable, class_name: "Asset"
-  has_many :docs, -> { docs }, as: :viewable, class_name: "Asset"
+  has_many :documents, -> { docs }, as: :viewable, class_name: "Asset"
   has_many :inspections, dependent: :destroy
   has_many :appointments, dependent: :destroy
   has_many :site_managers, dependent: :destroy
@@ -25,6 +25,7 @@ class Site < ActiveRecord::Base
   validates :name, :stage, :address, :customer, presence: true
 
   accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :images
 
   before_validation :assign_customer, if: 'address.present?'
 

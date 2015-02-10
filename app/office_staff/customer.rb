@@ -4,11 +4,11 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
   permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], addresses_attributes: [:address1, :address2, :city, :state_id, :zipcode]
 
   action_item 'Sites', only: [:show, :edit] do
-    link_to 'Sites', admin_customer_sites_url(customer)
+    link_to 'Sites', office_staff_customer_sites_url(customer)
   end
 
   action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', admin_customer_url(customer)
+    link_to 'Cancel', office_staff_customer_url(customer)
   end
 
   controller do
@@ -19,7 +19,7 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
     column :lastname
     column :email
     actions do |customer|
-      link_to 'Sites', admin_customer_sites_url(customer)
+      link_to 'Sites', office_staff_customer_sites_url(customer)
     end
   end
 

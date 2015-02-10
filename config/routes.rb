@@ -32,6 +32,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :sites do
+      get :photos
+    end
+  end
+
   root to: 'roles#home_page'
   get '*unmatched_route', to: redirect('/')
 end

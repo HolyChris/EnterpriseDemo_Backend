@@ -26,19 +26,19 @@ ActiveAdmin.register Project, namespace: 'office_staff' do
               :building_code_upgrade_confirmed, :redeck, :depreciation_recoverable ]
 
   action_item 'Site', only: [:edit, :new, :show] do
-    link_to 'Site', admin_site_url(site)
+    link_to 'Site', office_staff_site_url(site)
   end
 
   action_item 'Contract', only: [:edit, :show] do
     if project.contract.present?
-      link_to 'Contract', admin_site_contract_url(project.site, project.contract)
+      link_to 'Contract', office_staff_site_contract_url(project.site, project.contract)
     else
-      link_to 'Create Contract', new_admin_site_contract_url(project.site)
+      link_to 'Create Contract', new_office_staff_site_contract_url(project.site)
     end
   end
 
   action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', admin_site_project_url(site, project)
+    link_to 'Cancel', office_staff_site_project_url(site, project)
   end
 
   controller do

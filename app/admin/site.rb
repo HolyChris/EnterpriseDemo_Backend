@@ -28,8 +28,12 @@ ActiveAdmin.register Site do
     end
   end
 
-  action_item 'Assets', only: [:show, :edit] do
-    link_to 'Assets', admin_site_assets_url(site)
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', admin_site_documents_url(site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', admin_site_images_url(site)
   end
 
   action_item 'Cancel', only: [:edit] do
@@ -65,9 +69,7 @@ ActiveAdmin.register Site do
     end
 
     actions do |site|
-      html = [link_to('Appointments', admin_site_appointments_url(site))]
-      html << link_to('Assets', admin_site_assets_url(site))
-      html.join(' ').html_safe
+      link_to('Appointments', admin_site_appointments_url(site))
     end
   end
 
