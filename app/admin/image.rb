@@ -3,7 +3,7 @@ ActiveAdmin.register Image do
   scope :all, default: true
 
   actions :index, :show, :edit, :create, :update, :new, :destroy
-  permit_params :alt, :title, :notes, :stage, :type, attachments_attributes: [:file]
+  permit_params :alt, :title, :notes, :stage, :type, attachments_attributes: [:file, :_destroy, :id]
 
   controller do
   end
@@ -15,7 +15,7 @@ ActiveAdmin.register Image do
       obj.attachments.collect { |attachment| image_tag attachment.file.url(:small) }.join(' ').html_safe
     end
 
-    column 'Stage', sortable: true do |obj|
+    column 'Relevant Stage', sortable: true do |obj|
       Site::STAGE.key(obj.stage).try(:capitalize) || '-'
     end
 
@@ -23,7 +23,9 @@ ActiveAdmin.register Image do
       obj.alt
     end
 
-    column :notes, sortable: false
+    column 'Additional Notes', sortable: false do |obj|
+      obj.notes
+    end
 
     actions
   end
@@ -38,7 +40,7 @@ ActiveAdmin.register Image do
         obj.attachments.collect { |attachment| image_tag attachment.file.url(:small) }.join(' ').html_safe
       end
 
-      row 'Stage' do |obj|
+      row 'Relevant Stage' do |obj|
         Site::STAGE.key(obj.stage).try(:capitalize) || '-'
       end
 
@@ -46,7 +48,9 @@ ActiveAdmin.register Image do
         obj.alt
       end
 
-      row :notes
+      row 'Additional Notes' do |obj|
+        obj.notes
+      end
     end
   end
 
@@ -55,13 +59,18 @@ ActiveAdmin.register Image do
 
     f.inputs 'Details' do
       f.input :title
-      f.has_many :attachments, required: true do |af|
-        af.input :file, as: :file
+      f.has_many :attachments do |af|
+        if af.object.persisted?
+          af.input :file, required: true, as: :file, hint: "#{image_tag af.object.file.url(:small)}".html_safe
+        else
+          af.input :file, required: true, as: :file
+        end
+        af.input :_destroy, as: :boolean, label: 'Remove'
       end
       f.input :type, as: :hidden
-      f.input :stage, as: :select, collection: Site::STAGE.collect{|k,v| [k.to_s.capitalize, v]}
+      f.input :stage, as: :select, collection: Site::STAGE.collect{|k,v| [k.to_s.capitalize, v]}, label: 'Relevant Stage'
       f.input :alt, label: 'Alternative Text'
-      f.input :notes
+      f.input :notes, label: 'Additional Notes'
     end
 
     f.submit

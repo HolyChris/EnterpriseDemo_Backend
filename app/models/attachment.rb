@@ -1,19 +1,19 @@
 class Attachment < ActiveRecord::Base
   include DelegateBelongsTo
-
+  attr_accessor
   belongs_to :asset
 
   has_attached_file :file,
                     styles: { small: '100x100>', large: '600x600>' },
                     default_url: '',
-                    url: '/images:viewable_type/:id/:style/:basename.:extension',
-                    path: '/images/:viewable_type/:id/:style/:basename.:extension',
+                    url: '/attachments/:id/:style/:basename.:extension',
+                    path: '/attachments/:id/:style/:basename.:extension',
                     convert_options: { all: '-strip -auto-orient -colorspace sRGB' }, if: :image?
 
-  has_attached_file :attachment,
+  has_attached_file :file,
                     default_url: '',
-                    url: "/docs/:viewable_type/:id/:basename.:extension",
-                    path: '/docs/:viewable_type/:id/:basename.:extension', if: :document?
+                    url: "/attachments/:id/:basename.:extension",
+                    path: '/attachments/:id/:basename.:extension', if: :document?
 
   validates_attachment_presence :file
   validates_attachment_content_type :file, content_type: /\Aimage\/.*\Z/, if: :image?
@@ -24,12 +24,7 @@ class Attachment < ActiveRecord::Base
 
   # save the w,h of the original image (from which others can be calculated)
   # we need to look at the write-queue for images which have not been saved yet
-  after_post_process :find_dimensions
-  delegate_belongs_to :asset, :image?, :document?
-
-  Paperclip.interpolates('viewable_type') do |attachment, style|
-    attachment.instance.asset.viewable_type.downcase
-  end
+  after_post_process :find_dimensions, if: :image?
 
   def find_dimensions
     temporary = file.queued_for_write[:original]
@@ -38,6 +33,14 @@ class Attachment < ActiveRecord::Base
     geometry = Paperclip::Geometry.from_file(filename)
     self.file_width  = geometry.width
     self.file_height = geometry.height
+  end
+
+  def image?
+    asset.try(:image?)
+  end
+
+  def document?
+    asset.try(:document?)
   end
 
   # if there are errors from the plugin, then add a more meaningful message

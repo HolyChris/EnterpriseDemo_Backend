@@ -2,7 +2,8 @@ class Asset < ActiveRecord::Base
   audited
 
   belongs_to :viewable, polymorphic: true, touch: true
-  has_many :attachments
+  has_many :attachments, dependent: :destroy, inverse_of: :asset
+  accepts_nested_attributes_for :attachments, allow_destroy: true
 
   SUBCLASS = ['Document', 'Image']
   DOC_TYPE = { 1 => 'Billing Reference Document', 2 => 'Completion Payment Check', 3 => 'Customer Invoice',
@@ -10,7 +11,7 @@ class Asset < ActiveRecord::Base
               8 => 'Insurance scope document', 9 => 'Material List', 10 => 'Supplement Documentation',
               11 => 'Trade work Bid', 12 => 'Xactmate', 13 => 'Other' }
 
-  validates :type, :viewable, presence: true
+  validates :type, :viewable, :attachments, presence: true
 
   scope :images, -> { where(type: 'Image') }
   scope :docs, -> { where(type: 'Document') }
