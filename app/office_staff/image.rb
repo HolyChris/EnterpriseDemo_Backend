@@ -12,7 +12,7 @@ ActiveAdmin.register Image, namespace: 'office_staff' do
     column :title, sortable: false
 
     column 'Attachment' do |obj|
-      obj.attachments.collect { |attachment| image_tag attachment.file.url(:small) }.join(' ').html_safe
+      obj.attachments.collect { |attachment| image_tag attachment.file.url, size: '100x100' }.join(' ').html_safe
     end
 
     column 'Relevant Stage', sortable: true do |obj|
@@ -37,7 +37,7 @@ ActiveAdmin.register Image, namespace: 'office_staff' do
       row :title
 
       row 'Attachment' do |obj|
-        obj.attachments.collect { |attachment| image_tag attachment.file.url(:small) }.join(' ').html_safe
+        obj.attachments.collect { |attachment| image_tag attachment.file.url, size: '100x100' }.join(' ').html_safe
       end
 
       row 'Relevant Stage' do |obj|
@@ -61,7 +61,7 @@ ActiveAdmin.register Image, namespace: 'office_staff' do
       f.input :title
       f.has_many :attachments do |af|
         if af.object.persisted?
-          af.input :file, required: true, as: :file, hint: "#{image_tag af.object.file.url(:small)}".html_safe
+          af.input :file, required: true, as: :file, hint: "#{image_tag af.object.file.url, size: '100x100'}".html_safe
         else
           af.input :file, required: true, as: :file
         end

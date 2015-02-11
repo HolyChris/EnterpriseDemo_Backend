@@ -1,19 +1,13 @@
 class Attachment < ActiveRecord::Base
-  include DelegateBelongsTo
+  # include DelegateBelongsTo
   attr_accessor
   belongs_to :asset
 
   has_attached_file :file,
-                    styles: { small: '100x100>', large: '600x600>' },
                     default_url: '',
-                    url: '/attachments/:id/:style/:basename.:extension',
-                    path: '/attachments/:id/:style/:basename.:extension',
-                    convert_options: { all: '-strip -auto-orient -colorspace sRGB' }, if: :image?
-
-  has_attached_file :file,
-                    default_url: '',
-                    url: "/attachments/:id/:basename.:extension",
-                    path: '/attachments/:id/:basename.:extension', if: :document?
+                    url: "/attachments/:id/:style_:basename.:extension",
+                    path: "/attachments/:id/:style_:basename.:extension",
+                    convert_options: { all: '-strip -auto-orient -colorspace sRGB' }
 
   validates_attachment_presence :file
   validates_attachment_content_type :file, content_type: /\Aimage\/.*\Z/, if: :image?
