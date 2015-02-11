@@ -1,9 +1,14 @@
 object :@asset
 
-attributes :id. :title, :type, :attachment_file_name, :notes, :description, :alt
+attributes :id, :title, :type, :notes, :alt
 node(:doc_type) { |asset| Asset::DOC_TYPE[asset.doc_type] }
-node(:url) { |asset| asset.attachment.url }
 node(:stage) { |asset| Site::STAGE.key(asset.stage).try(:capitalize) }
+child(:attachments) do
+  attributes :id
+  node(:file_name) { |attachment| attachment.file_file_name }
+  node(:url) { |attachment| attachment.file.url }
+end
+
 
 node(:errors, :if => lambda { |asset| asset.errors.present? }) do |asset|
   asset.errors
