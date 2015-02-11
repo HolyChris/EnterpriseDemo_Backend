@@ -19,5 +19,9 @@ class Customer < ActiveRecord::Base
     [firstname, lastname].join(' ')
   end
 
+  def autocomplete_display_value
+    "#{fullname} ( #{email} )"
+  end
+
   alias_method :name, :fullname
 end

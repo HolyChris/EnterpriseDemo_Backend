@@ -14,6 +14,14 @@ Rails.application.routes.draw do
     end
   end
 
+  [:admin, :office_staff].each do |role|
+    namespace role do
+      resources :sites do
+        get :autocomplete_customer_email, :on => :collection
+      end
+    end
+  end
+
   devise_for :users, controllers: { sessions: 'sessions', registrations: "registrations" }
 
   devise_scope :user do
@@ -29,12 +37,6 @@ Rails.application.routes.draw do
         get "/#{role}/sign_in", to: 'sessions#new', type: "#{role}", as: "new_#{role}_session"
         post "/#{role}/sign_in", to: "sessions#create", type: "#{role}", as: "#{role}_session"
       end
-    end
-  end
-
-  namespace :admin do
-    resources :sites do
-      get :photos
     end
   end
 
