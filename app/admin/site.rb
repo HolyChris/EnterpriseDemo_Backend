@@ -143,7 +143,7 @@ ActiveAdmin.register Site do
         if params[:customer_id]
           af.input :customer_id, as: :hidden, input_html: { value: params[:customer_id] }
         else
-          af.input :customer, required: true, as: :autocomplete, url: autocomplete_customer_email_admin_sites_path, input_html: { id_element: '.customer_id_element', value: af.object.customer.try(:autocomplete_display_value) }
+          af.input :customer, required: true, as: :autocomplete, url: autocomplete_customer_email_admin_sites_path, input_html: { id_element: '.customer_id_element', value: af.object.customer.try(:autocomplete_display_value), placeholder: 'Search Email' }
           af.input :customer_id, as: :hidden, input_html: {class: 'customer_id_element'}
         end
 
