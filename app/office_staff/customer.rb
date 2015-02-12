@@ -18,6 +18,11 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
     column :firstname
     column :lastname
     column :email
+
+    column 'Phone Numbers' do |customer|
+      customer.phone_numbers.pluck(:number).join(', ')
+    end
+
     actions do |customer|
       link_to 'Sites', office_staff_customer_sites_url(customer)
     end
@@ -36,6 +41,10 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
       row :business_name
       row :other_business_info
 
+      row 'Phone Numbers' do |customer|
+        customer.phone_numbers.pluck(:number).join(', ')
+      end
+
       row 'Billing Address' do |customer|
         customer.bill_address.try(:full_address) || '-'
       end
@@ -52,6 +61,10 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
       f.input :spouse
       f.input :business_name
       f.input :other_business_info
+      f.has_many :phone_numbers do |pnf|
+        pnf.input :number
+      end
+
       customer.bill_address ||= Address.new
 
       f.inputs 'Billing Address' do
