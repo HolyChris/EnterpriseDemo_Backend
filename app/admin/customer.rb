@@ -1,7 +1,7 @@
 ActiveAdmin.register Customer do
   actions :index, :show, :edit, :create, :update, :new
   scope :all, :default => true
-  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], addresses_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number]
+  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :id, :_destroy]
 
   action_item 'Sites', only: [:show, :edit] do
     link_to 'Sites', admin_customer_sites_url(customer)
@@ -61,8 +61,11 @@ ActiveAdmin.register Customer do
       f.input :spouse
       f.input :business_name
       f.input :other_business_info
+
+      customer.phone_numbers.present? || customer.phone_numbers.build
       f.has_many :phone_numbers do |pnf|
         pnf.input :number
+        pnf.input :_destroy, as: :boolean, label: 'Remove'
       end
 
       customer.bill_address ||= Address.new

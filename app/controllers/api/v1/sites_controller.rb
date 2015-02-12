@@ -19,7 +19,7 @@ class Api::V1::SitesController < Api::V1::BaseController
 
   private
     def site_params
-      params.permit(:name, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], address_attributes: [:id, :customer_id, :address1, :address2, :city, :state_id, :zipcode])
+      params.permit(:name, :contact_name, :contact_phone, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id])
     end
 
     def load_site

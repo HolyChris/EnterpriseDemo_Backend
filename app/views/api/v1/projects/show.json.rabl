@@ -76,7 +76,7 @@ child(:job_submission) do
 end
 
 child(:site) do
-  attributes :id, :name, :damage, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number
+  attributes :id, :name, :damage, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, :contact_name, :contact_phone
 
   node(:source) {|site| Site::SOURCE[site.source]}
   node(:status) {|site| Site::STATUS[site.status]}

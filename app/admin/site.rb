@@ -3,7 +3,7 @@ ActiveAdmin.register Site do
 
   actions :index, :show, :edit, :create, :update, :new
   scope :all, default: true
-  permit_params :name, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
+  permit_params :name, :contact_name, :contact_phone, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
   before_filter :ensure_manager, only: [:create, :update]
 
   action_item 'Appointments', only: [:show, :edit] do
@@ -51,13 +51,16 @@ ActiveAdmin.register Site do
   end
 
   index do
-    column 'Site Name' do |site|
+    column 'Site Name', sortable: true do |site|
       site.name
     end
 
     column 'Managers' do |site|
       site.managers.pluck(:email).join(', ')
     end
+
+    column :contact_name
+    column :contact_phone, sortable: false
 
     column 'Source' do |site|
       Site::SOURCE[site.source]
@@ -79,6 +82,7 @@ ActiveAdmin.register Site do
   filter :customer_email, as: :string
   # filter :managers_id, as: :select, collection: User.all.collect { |u| [u.email, u.id] }, label: 'Manager'
   filter :managers_email, as: :string, placeholder: 'Email', label: 'Manager'
+  filter :contact_name, as: :string
   filter :source, as: :select, collection: Site::SOURCE.collect {|k,v| [v,k]}
   filter :status, as: :select, collection: Site::STATUS.collect {|k,v| [v,k]}, label: 'Opportunity Priority'
   filter :address_address1, as: :string, label: 'Address1'
@@ -96,6 +100,10 @@ ActiveAdmin.register Site do
         row :spouse
         row :business_name
         row :other_business_info
+
+        row 'Phone Numbers' do |customer|
+          customer.phone_numbers.pluck(:number).join(', ')
+        end
 
         row 'Billing Address' do |customer|
           customer.bill_address.try(:full_address) || '-'
@@ -117,6 +125,9 @@ ActiveAdmin.register Site do
       row 'Address' do |site|
         site.address.full_address
       end
+
+      row :contact_name
+      row :contact_phone
 
       row 'Source' do |site|
         Site::SOURCE[site.source]
@@ -158,6 +169,8 @@ ActiveAdmin.register Site do
     f.inputs 'Details' do
       f.input :name, label: 'Site Name'
       f.input :manager_ids, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, multiple: true, input_html: { class: "chosen-select" }, label: 'Managers'
+      f.input :contact_name
+      f.input :contact_phone
       f.input :source, as: :select, collection: Site::SOURCE.collect{|k,v| [v, k]}
       f.input :damage
       f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}, label: 'Opportunity Priority'
