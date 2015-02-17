@@ -1,6 +1,6 @@
 ActiveAdmin.register Customer do
   actions :index, :show, :edit, :create, :update, :new
-  scope :all, :default => true
+  scope :all, default: true
   permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :id, :_destroy]
 
   action_item 'Sites', only: [:show, :edit] do

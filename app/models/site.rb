@@ -29,6 +29,8 @@ class Site < ActiveRecord::Base
 
   before_validation :assign_customer, if: 'address.present?'
 
+  scope :created_by_or_assigned_to, -> (user) { joins("LEFT JOIN audits ON audits.auditable_id = sites.id AND audits.auditable_type = 'Site'").joins("LEFT JOIN site_managers ON site_managers.site_id = sites.id").where("(audits.user_type = 'User' AND audits.user_id = #{user.id} AND audits.action = 'create') OR site_managers.user_id = #{user.id}").uniq }
+
   def po_number
     contract.try(:po_number)
   end

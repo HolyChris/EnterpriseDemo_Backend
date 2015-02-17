@@ -20,10 +20,18 @@ class Ability
 
     def set_admin_privileges(user)
       can :manage, :all
+      # cannot :manage, Customer
+      # can :manage, Customer, id: (user.sites.pluck(:customer_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Customer').pluck(:auditable_id))
+      # cannot :manage, Site
+      # can :manage, Site, id: (user.site_managers.pluck(:site_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Site').pluck(:auditable_id))
     end
 
     def set_office_staff_privileges(user)
       can :manage, :all
+      # cannot :manage, Customer
+      # can :manage, Customer, id: (user.sites.pluck(:customer_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Customer').pluck(:auditable_id))
+      # cannot :manage, Site
+      # can :manage, Site, id: (user.site_managers.pluck(:site_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Site').pluck(:auditable_id))
       can_manage_self(user)
     end
 

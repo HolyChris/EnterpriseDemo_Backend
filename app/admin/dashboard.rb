@@ -4,10 +4,9 @@ ActiveAdmin.register_page "Dashboard" do
 
   content title: proc{ I18n.t("active_admin.dashboard") } do
     columns do
-
       column do
         panel 'Top 10 Customers' do
-          table_for Customer.order(updated_at: :desc).limit(10) do
+          table_for Customer.created_by_or_assigned_to(current_user).order(updated_at: :desc).limit(10) do
             column :firstname
             column :lastname
             column :email
@@ -23,7 +22,7 @@ ActiveAdmin.register_page "Dashboard" do
 
       column do
         panel 'Top 10 Sites' do
-          table_for Site.order(updated_at: :desc, status: :asc).limit(10) do
+          table_for Site.created_by_or_assigned_to(current_user).order(updated_at: :desc, status: :asc).limit(10) do
             column 'Site Name' do |site|
               site.name
             end
