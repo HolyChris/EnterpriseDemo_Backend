@@ -1,6 +1,6 @@
 class RoofAccessoryChecklist < ActiveRecord::Base
   audited
-  ACCESS = {  }
+  ACCESS = { 1 => 'Good', 2 => 'Bad', 3 => 'N/A' }
 
   belongs_to :project
   has_many :skylights, dependent: :destroy
