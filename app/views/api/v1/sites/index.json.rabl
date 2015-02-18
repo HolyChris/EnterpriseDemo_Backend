@@ -7,7 +7,10 @@ node(:status) {|site| Site::STATUS[site.status]}
 
 child(:customer) do
   attributes :id, :email, :firstname, :lastname
-  node(:phone_numbers) { |customer| customer.phone_numbers.pluck(:number).join(', ') }
+
+  child(:phone_numbers) do
+    attributes :id, :number
+  end
 end
 
 child(:address) do

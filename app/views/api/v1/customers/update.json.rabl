@@ -2,7 +2,10 @@ object :@customer
 
 attributes :id, :firstname, :lastname, :email, :spouse, :business_name, :other_business_info
 
-node(:phone_numbers) { |customer| customer.phone_numbers.pluck(:number).join(', ') }
+
+child(:phone_numbers) do
+  attributes :id, :number
+end
 
 child(:bill_address) do
   attributes :id, :address1, :address2, :city, :zipcode
