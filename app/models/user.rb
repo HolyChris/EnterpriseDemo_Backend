@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   audited
-  rolify
+  rolify if Role.table_exists?
   acts_as_paranoid
   auto_strip_attributes :firstname, :lastname
 
