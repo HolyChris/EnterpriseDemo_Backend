@@ -41,9 +41,19 @@ ActiveAdmin.register Site do
   end
 
   controller do
-    autocomplete :customer, :email, display_value: :autocomplete_display_value, extra_data: [:firstname, :lastname]
+    autocomplete :customer, :email, method_names: [:email, :firstname, :lastname], display_value: :autocomplete_display_value, extra_data: [:firstname, :lastname]
 
     private
+      def get_autocomplete_where_clause(model, term, method, options)
+        table_name = model.table_name
+        is_full_search = options[:full]
+        like_clause = (postgres?(model) ? 'ILIKE' : 'LIKE')
+        where_clause = options[:method_names].collect do |meth|
+          "LOWER(#{table_name}.#{meth}) #{like_clause} :term"
+        end.join(' OR ')
+        [where_clause, term: "#{(is_full_search ? '%' : '')}#{term.downcase}%"]
+      end
+
       def ensure_manager
         params[:site][:manager_ids] ||= []
         params[:site][:manager_ids] << current_user.id.to_s if params[:site][:manager_ids].all?(&:blank?)
