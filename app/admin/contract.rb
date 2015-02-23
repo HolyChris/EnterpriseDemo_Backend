@@ -1,4 +1,5 @@
 ActiveAdmin.register Contract do
+  menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
   permit_params :document, :price, :paid_till_now, :notes, :special_instructions,

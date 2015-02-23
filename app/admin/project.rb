@@ -1,4 +1,5 @@
 ActiveAdmin.register Project do
+  menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
   permit_params :cost, :priority, :insurance_carrier, :re_roof_material, :color, :material,
