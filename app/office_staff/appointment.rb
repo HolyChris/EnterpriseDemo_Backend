@@ -2,7 +2,7 @@ ActiveAdmin.register Appointment, namespace: 'office_staff' do
   belongs_to :site
   actions :index, :show, :edit, :create, :update, :new, :destroy
   scope :all, default: true
-  permit_params :date, :start_time_string, :end_time_string, :notes, :user_id
+  permit_params :date, :start_time_string, :end_time_string, :notes, :user_id, follow_ups_attributes: [:scheduled_at_date, :scheduled_at_time_hour, :scheduled_at_time_minute, :notes, :id, :_destroy]
 
   action_item 'Site', only: [:index] do
     link_to 'Site', office_staff_site_url(site)
@@ -52,6 +52,15 @@ ActiveAdmin.register Appointment, namespace: 'office_staff' do
         appointment.created_by.email
       end
     end
+
+    if appointment.follow_ups.present?
+      panel 'Follow Ups' do
+        attributes_table_for appointment.follow_ups do
+          row :scheduled_at
+          row :notes
+        end
+      end
+    end
   end
 
   form do |f|
@@ -62,6 +71,12 @@ ActiveAdmin.register Appointment, namespace: 'office_staff' do
       f.input :end_time_string, input_html: {class: 'timepicker'}, label: 'End Time'
       f.input :notes
       f.input :user_id, as: :select, collection: f.object.site.managers.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
+
+      f.has_many :follow_ups do |fuf|
+        fuf.input :scheduled_at, as: :just_datetime_picker
+        fuf.input :notes
+        fuf.input :_destroy, as: :boolean, label: 'Remove'
+      end
     end
 
     f.submit

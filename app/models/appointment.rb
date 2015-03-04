@@ -2,6 +2,7 @@ class Appointment < ActiveRecord::Base
   audited
   acts_as_paranoid
 
+  has_many :follow_ups
   belongs_to :site
   belongs_to :user
 
@@ -10,6 +11,8 @@ class Appointment < ActiveRecord::Base
 
   before_save :ensure_start_time_less_than_end_time, unless: 'end_time.nil?'
   alias :assigned_to :user
+
+  accepts_nested_attributes_for :follow_ups, allow_destroy: true
 
   def created_by
     audits.find_by(action: 'create').try(:user)
