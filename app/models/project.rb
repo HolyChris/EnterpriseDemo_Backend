@@ -26,6 +26,10 @@ class Project < ActiveRecord::Base
     site.contract
   end
 
+  def production
+    site.production
+  end
+
   private
     def transit_site_stage
       site.to_project!

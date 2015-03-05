@@ -28,6 +28,16 @@ ActiveAdmin.register Site do
     end
   end
 
+  action_item 'Production', only: [:show, :edit] do
+    if site.contract.present? && site.project.present?
+      if site.production.present?
+        link_to 'Production', admin_site_production_url(site, site.production)
+      else
+        link_to 'Create Production', new_admin_site_production_url(site)
+      end
+    end
+  end
+
   action_item 'Docs', only: [:show, :edit] do
     link_to 'Docs', admin_site_documents_url(site)
   end

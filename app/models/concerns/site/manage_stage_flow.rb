@@ -7,6 +7,8 @@ class Site < ActiveRecord::Base
         event :next do
           transition lead: :contract
           transition contract: :project
+          transition project: :production
+          transition production: :billing
         end
 
         event :to_contract do
@@ -17,13 +19,31 @@ class Site < ActiveRecord::Base
           transition contract: :project
         end
 
+        event :to_production do
+          transition project: :production
+        end
+
+        event :to_billing do
+          transition production: :billing
+        end
+
         before_transition contract: :project, do: :verify_contract
+        before_transition project: :production, do: :verify_project
+        before_transition production: :billing, do: :verify_production
       end
     end
 
     private
       def verify_contract
-        error.add(:base, 'Contract not present') if contract.blank?
+        errors.add(:base, 'Contract not present') if contract.blank?
+      end
+
+      def verify_project
+        errors.add(:base, 'Project not present') if project.blank?
+      end
+
+      def verify_production
+        errors.add(:base, 'Production not present') if production.blank?
       end
   end
 end

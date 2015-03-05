@@ -38,6 +38,16 @@ ActiveAdmin.register Project do
     end
   end
 
+  action_item 'Production', only: [:edit, :show] do
+    if project.contract.present?
+      if project.production.present?
+        link_to 'Production', admin_site_production_url(project.site, project.production)
+      else
+        link_to 'Create Production', new_admin_site_production_url(project.site)
+      end
+    end
+  end
+
   action_item 'Cancel', only: [:edit] do
     link_to 'Cancel', admin_site_project_url(site, project)
   end
@@ -75,7 +85,7 @@ ActiveAdmin.register Project do
 
     if project.roof_accessory_checklist
       panel 'Roof Accessory Checklist' do
-        attributes_table_for project.roof_accessory_checklist  do
+        attributes_table_for project.roof_accessory_checklist do
           row :open_soffits
           row :soffit_depth
           row '1"-3" Pipe Jacks' do |rac|

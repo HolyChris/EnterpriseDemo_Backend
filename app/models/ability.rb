@@ -32,11 +32,12 @@ class Ability
       # can :manage, Customer, id: (user.sites.pluck(:customer_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Customer').pluck(:auditable_id))
       # cannot :manage, Site
       # can :manage, Site, id: (user.site_managers.pluck(:site_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Site').pluck(:auditable_id))
-      can_manage_self(user)
+      cannot :manage, User
+      can :manage, User, id: user.id
     end
 
     def set_sales_rep_privileges(user)
-      can :read, User
+      cannot :manage, :all
       can :manage, User, id: user.id
       can :manage, Customer
       can :manage, Site, id: user.site_managers.pluck(:site_id)
@@ -44,19 +45,26 @@ class Ability
       can :manage, Contract, site_id: user.site_managers.pluck(:site_id)
       can :manage, Project, site_id: user.site_managers.pluck(:site_id)
       # can :manage, Address, id: Address.joins(site: :site_managers).where(site_managers: { user_id: user.id }).pluck(:id)
-      can_manage_self(user)
     end
 
     def set_production_rep_privileges(user)
-      can_manage_self(user)
+      cannot :manage, :all
+      can :manage, User, id: user.id
+      can :manage, Customer
+      can :manage, Site, id: user.site_managers.pluck(:site_id)
+      can :manage, Appointment, user_id: user.id
+      can :manage, Contract, site_id: user.site_managers.pluck(:site_id)
+      can :manage, Project, site_id: user.site_managers.pluck(:site_id)
+      can :manage, Production, site_id: user.site_managers.pluck(:site_id)
     end
 
     def set_billing_rep_privileges(user)
-      can_manage_self(user)
-    end
-
-    def can_manage_self(user)
-      cannot :manage, User
+      cannot :manage, :all
       can :manage, User, id: user.id
+      can :manage, Customer
+      can :manage, Site, id: user.site_managers.pluck(:site_id)
+      can :manage, Appointment, user_id: user.id
+      can :manage, Contract, site_id: user.site_managers.pluck(:site_id)
+      can :manage, Project, site_id: user.site_managers.pluck(:site_id)
     end
 end

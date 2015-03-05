@@ -38,6 +38,16 @@ ActiveAdmin.register Project, namespace: 'office_staff' do
     end
   end
 
+  action_item 'Production', only: [:edit, :show] do
+    if project.contract.present?
+      if project.production.present?
+        link_to 'Production', office_staff_site_production_url(project.site, project.production)
+      else
+        link_to 'Create Production', new_office_staff_site_production_url(project.site)
+      end
+    end
+  end
+
   action_item 'Cancel', only: [:edit] do
     link_to 'Cancel', office_staff_site_project_url(site, project)
   end

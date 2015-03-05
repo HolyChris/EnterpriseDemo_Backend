@@ -10,6 +10,7 @@ class Site < ActiveRecord::Base
 
   has_one :contract, dependent: :destroy
   has_one :project, dependent: :destroy
+  has_one :production, dependent: :destroy
 
   has_many :assets, as: :viewable, dependent: :destroy, class_name: "Asset"
   has_many :images, -> { images }, as: :viewable, class_name: "Asset"

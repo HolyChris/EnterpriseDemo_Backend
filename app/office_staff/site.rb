@@ -28,6 +28,16 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     end
   end
 
+  action_item 'Production', only: [:show, :edit] do
+    if site.contract.present? && site.project.present?
+      if site.production.present?
+        link_to 'Production', office_staff_site_production_url(site, site.production)
+      else
+        link_to 'Create Production', new_office_staff_site_production_url(site)
+      end
+    end
+  end
+
   action_item 'Docs', only: [:show, :edit] do
     link_to 'Docs', office_staff_site_documents_url(site)
   end

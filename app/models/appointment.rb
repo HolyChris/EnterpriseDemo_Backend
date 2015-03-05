@@ -2,7 +2,7 @@ class Appointment < ActiveRecord::Base
   audited
   acts_as_paranoid
 
-  has_many :follow_ups
+  has_many :follow_ups, dependent: :destroy
   belongs_to :site
   belongs_to :user
 
