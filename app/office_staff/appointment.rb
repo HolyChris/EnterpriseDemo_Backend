@@ -1,5 +1,5 @@
 ActiveAdmin.register Appointment, namespace: 'office_staff' do
-  belongs_to :site
+  belongs_to :site, optional: true
   actions :index, :show, :edit, :create, :update, :new, :destroy
   scope :all, default: true
   permit_params :scheduled_at_string, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at_string, :notes, :id, :_destroy]
