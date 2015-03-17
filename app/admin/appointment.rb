@@ -1,4 +1,5 @@
 ActiveAdmin.register Appointment do
+  menu priority: 4
   belongs_to :site, optional: true
   actions :index, :show, :edit, :create, :update, :new, :destroy
   scope :all, default: true

@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  menu priority: 5
   actions :index, :show, :create, :new, :edit, :update, :destroy
   scope :all, :default => true
   permit_params :fullname, :email, :password, :password_confirmation, role_ids: []

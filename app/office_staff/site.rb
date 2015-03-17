@@ -1,4 +1,5 @@
 ActiveAdmin.register Site, namespace: 'office_staff' do
+  menu priority: 3
   belongs_to :customer, optional: true
 
   actions :index, :show, :edit, :create, :update, :new
