@@ -10,12 +10,7 @@
 #= require jquery.datetimepicker
 #= require autocomplete-rails
 #= require managers_autocomplete
+#= require date_time_picker
 
 $(document).on "ready, page:change", ->
   jQuery(".best_in_place").best_in_place();
-  jQuery(".timepicker").datetimepicker({
-    datepicker:false,
-    step:15,
-    format:'h:i a',
-    formatTime:'h:i a'
-  });

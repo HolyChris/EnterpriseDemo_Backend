@@ -1,7 +1,9 @@
 class Appointment < ActiveRecord::Base
   audited
   acts_as_paranoid
-  just_define_datetime_picker :scheduled_at
+
+  include JqueryDatetimepickable
+  jquery_datetimepickable column: :scheduled_at
 
   OUTCOMES = { 1 => 'Vendor Packet', 2 => 'Meet and Greet', 3 => 'Demo - No Sale', 4 => 'No Demo - No Need', 5 => 'No Demo - Future Need', 6 => 'No Show', 7 => 'No Entry', 8 => 'SOLD', 9 => 'Gaco Bid', 10 => 'Rescheduled', 11 => 'Wrong Address' }
 
@@ -25,7 +27,6 @@ class Appointment < ActiveRecord::Base
   end
 
   private
-
     def user_is_a_site_manager
       errors.add(:user_id, 'should be one of site managers') unless site.site_managers.where(user_id: user_id).present?
     end

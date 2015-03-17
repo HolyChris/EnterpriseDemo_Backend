@@ -9,8 +9,7 @@ class RemoveEndTimeAndRenameStartTimeInAppointments < ActiveRecord::Migration
       date = appointment.date
       start_time = appointment.start_time
       scheduled_at = DateTime.new(date.year, date.month, date.day, start_time/100, start_time%100, 0, Time.zone.name).in_time_zone
-      appointment.scheduled_at = scheduled_at
-      appointment.save!
+      appointment.update_column(:scheduled_at, scheduled_at)
     end
 
     remove_column :appointments, :date
@@ -26,9 +25,7 @@ class RemoveEndTimeAndRenameStartTimeInAppointments < ActiveRecord::Migration
     Appointment.reset_column_information
 
     Appointment.where.not(date: nil).each do |appointment|
-      appointment.date = appointment.scheduled_at.to_date
-      appointment.start_time = appointment.scheduled_at.strftime('%H%M').to_i
-      appointment.save!
+      appointment.update_columns(date: appointment.scheduled_at.to_date, start_time: appointment.scheduled_at.strftime('%H%M').to_i)
     end
 
     remove_column :appointments, :scheduled_at
