@@ -5,6 +5,20 @@ ActiveAdmin.register Appointment do
   scope :all, default: true
   permit_params :scheduled_at_string, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at_string, :notes, :id, :_destroy]
 
+  config.remove_action_item(:new)
+
+  action_item 'Site', only: [:index, :show, :edit] do
+    if (site rescue false)
+      link_to 'Site', admin_site_url(site)
+    end
+  end
+
+  action_item 'New Appointment', only: :index do
+    if (site rescue false)
+      link_to 'New Appointment', new_admin_site_appointment_url(site)
+    end
+  end
+
   controller do
     def scoped_collection
       super.includes :follow_ups, :audits
@@ -34,7 +48,11 @@ ActiveAdmin.register Appointment do
       appointment.created_by(eager_loaded: true).email
     end
 
-    actions
+    actions do |appointment|
+      unless (site rescue false)
+        link_to 'Site', admin_site_url(appointment.site)
+      end
+    end
   end
 
   filter :scheduled_at
