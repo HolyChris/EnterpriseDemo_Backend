@@ -21,7 +21,7 @@ ActiveAdmin.register Appointment do
 
   controller do
     def scoped_collection
-      super.includes :follow_ups, :audits
+      super.includes :follow_ups
     end
   end
 
@@ -44,8 +44,8 @@ ActiveAdmin.register Appointment do
       appointment.assigned_to.email
     end
 
-    column 'Created By' do |appointment|
-      appointment.created_by(eager_loaded: true).email
+    column 'Address' do |appointment|
+      appointment.site.address.try(:full_address)
     end
 
     actions do |appointment|
