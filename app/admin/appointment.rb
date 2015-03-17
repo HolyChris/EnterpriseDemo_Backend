@@ -1,12 +1,8 @@
 ActiveAdmin.register Appointment do
-  belongs_to :site
+  belongs_to :site, optional: true
   actions :index, :show, :edit, :create, :update, :new, :destroy
   scope :all, default: true
   permit_params :scheduled_at_string, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at_string, :notes, :id, :_destroy]
-
-  action_item 'Site', only: [:index] do
-    link_to 'Site', admin_site_url(site)
-  end
 
   controller do
   end
@@ -18,6 +14,10 @@ ActiveAdmin.register Appointment do
 
     column 'Outcome' do |appointment|
       appointment.outcome_string
+    end
+
+    column '# of followups' do |appointment|
+      appointment.follow_ups.count
     end
 
     column :notes, sortable: false

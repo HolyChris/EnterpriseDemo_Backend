@@ -4,10 +4,6 @@ ActiveAdmin.register Appointment, namespace: 'office_staff' do
   scope :all, default: true
   permit_params :scheduled_at_string, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at_string, :notes, :id, :_destroy]
 
-  action_item 'Site', only: [:index] do
-    link_to 'Site', office_staff_site_url(site)
-  end
-
   controller do
   end
 
@@ -18,6 +14,10 @@ ActiveAdmin.register Appointment, namespace: 'office_staff' do
 
     column 'Outcome' do |appointment|
       appointment.outcome_string
+    end
+
+    column '# of followups' do |appointment|
+      appointment.follow_ups.count
     end
 
     column :notes, sortable: false
