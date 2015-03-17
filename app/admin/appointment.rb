@@ -73,13 +73,13 @@ ActiveAdmin.register Appointment do
   form do |f|
     f.semantic_errors *f.object.errors.keys
     f.inputs 'Details' do
-      f.input :scheduled_at_string, input_html: { class: 'datetimepicker' }
+      f.input :scheduled_at_string, required: true, input_html: { class: 'datetimepicker' }, label: 'Scheduled At'
       f.input :outcome, as: :select, collection: Appointment::OUTCOMES.collect { |k, v| [v, k] }, input_html: { class: "chosen-select" }
       f.input :notes
       f.input :user_id, as: :select, collection: f.object.site.managers.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
 
       f.has_many :follow_ups do |fuf|
-        fuf.input :scheduled_at_string, input_html: { class: 'datetimepicker' }
+        fuf.input :scheduled_at_string, required: true, input_html: { class: 'datetimepicker' }, label: 'Scheduled At'
         fuf.input :notes
         fuf.input :_destroy, as: :boolean, label: 'Remove'
       end
