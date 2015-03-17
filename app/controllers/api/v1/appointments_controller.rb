@@ -19,9 +19,9 @@ class Api::V1::AppointmentsController < Api::V1::BaseController
   private
     def appointment_params(action=:create)
       if action == :create
-        params.permit(:date, :start_time_string, :end_time_string, :notes, :site_id, :user_id, follow_ups_attributes: [:scheduled_at, :notes, :id, :_destroy])
+        params.permit(:scheduled_at, :outcome, :notes, :site_id, :user_id, follow_ups_attributes: [:scheduled_at, :notes, :id, :_destroy])
       elsif action == :update
-        params.permit(:id, :date, :start_time_string, :end_time_string, :notes, :user_id, follow_ups_attributes: [:scheduled_at, :notes, :id, :_destroy])
+        params.permit(:id, :scheduled_at, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at, :notes, :id, :_destroy])
       end
     end
 

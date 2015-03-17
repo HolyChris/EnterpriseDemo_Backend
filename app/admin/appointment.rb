@@ -2,7 +2,7 @@ ActiveAdmin.register Appointment do
   belongs_to :site
   actions :index, :show, :edit, :create, :update, :new, :destroy
   scope :all, default: true
-  permit_params :date, :start_time_string, :end_time_string, :notes, :user_id, follow_ups_attributes: [:scheduled_at_date, :scheduled_at_time_hour, :scheduled_at_time_minute, :notes, :id, :_destroy]
+  permit_params :scheduled_at_date, :scheduled_at_time_hour, :scheduled_at_time_minute, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at_date, :scheduled_at_time_hour, :scheduled_at_time_minute, :notes, :id, :_destroy]
 
   action_item 'Site', only: [:index] do
     link_to 'Site', admin_site_url(site)
@@ -12,10 +12,10 @@ ActiveAdmin.register Appointment do
   end
 
   index do
-    column :date
+    column :scheduled_at
 
-    column 'Time' do |appointment|
-      appointment.time_range_string
+    column 'Outcome' do |appointment|
+      appointment.outcome_string
     end
 
     column :notes, sortable: false
@@ -31,15 +31,16 @@ ActiveAdmin.register Appointment do
     actions
   end
 
-  filter :date
+  filter :scheduled_at
+  filter :outcome, as: :select, collection: Appointment::OUTCOMES.collect { |k,v| [v, k] }
   filter :user_email, as: :string, placeholder: 'Email', label: 'Assigned To'
 
   show do
     attributes_table do
-      row :date
+      row :scheduled_at
 
-      row 'Time' do |appointment|
-        appointment.time_range_string
+      row 'Outcome' do |appointment|
+        appointment.outcome_string
       end
 
       row :notes
@@ -66,9 +67,8 @@ ActiveAdmin.register Appointment do
   form do |f|
     f.semantic_errors *f.object.errors.keys
     f.inputs 'Details' do
-      f.input :date, as: :datepicker, input_html: {class: 'date-field'}
-      f.input :start_time_string, required: true, input_html: {class: 'timepicker'}, label: 'Start Time'
-      f.input :end_time_string, input_html: {class: 'timepicker'}, label: 'End Time'
+      f.input :scheduled_at, as: :just_datetime_picker
+      f.input :outcome, as: :select, collection: Appointment::OUTCOMES.collect { |k, v| [v, k] }, input_html: { class: "chosen-select" }
       f.input :notes
       f.input :user_id, as: :select, collection: f.object.site.managers.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
 

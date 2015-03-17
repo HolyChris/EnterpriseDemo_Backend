@@ -31,10 +31,10 @@ ActiveAdmin.register_page "Dashboard", namespace: 'office_staff' do
               site.managers.pluck(:email).join(', ')
             end
             column 'Source' do |site|
-              Site::SOURCE[site.source]
+              site.source_string
             end
             column 'Opportunity Priority' do |site|
-              Site::STATUS[site.status]
+              site.status_string
             end
             column 'Address' do |site|
               site.address.full_address

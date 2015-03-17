@@ -32,10 +32,10 @@ ActiveAdmin.register_page "Dashboard" do
             end
 
             column 'Source' do |site|
-              Site::SOURCE[site.source]
+              site.source_string
             end
             column 'Opportunity Priority' do |site|
-              Site::STATUS[site.status]
+              site.status_string
             end
             column 'Address' do |site|
               site.address.full_address

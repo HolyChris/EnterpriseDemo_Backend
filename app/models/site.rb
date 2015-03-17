@@ -36,6 +36,14 @@ class Site < ActiveRecord::Base
     contract.try(:po_number)
   end
 
+  def status_string
+    STATUS[status]
+  end
+
+  def source_string
+    SOURCE[source]
+  end
+
   private
     def assign_customer
       self.customer_id = address.customer.try(:id)

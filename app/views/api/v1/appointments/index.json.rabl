@@ -1,5 +1,7 @@
 collection :@appointments
-attributes :id, :date, :start_time_string, :end_time_string, :notes
+
+attributes :id, :scheduled_at, :notes
+node(:outcome) {|appointment| appointment.outcome_string}
 
 child(:assigned_to) do
   attributes :id, :fullname, :email

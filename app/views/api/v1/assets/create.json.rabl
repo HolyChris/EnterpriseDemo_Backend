@@ -9,7 +9,6 @@ child(:attachments) do
   node(:url) { |attachment| attachment.file.url }
 end
 
-
 node(:errors, :if => lambda { |asset| asset.errors.present? }) do |asset|
   asset.errors
 end

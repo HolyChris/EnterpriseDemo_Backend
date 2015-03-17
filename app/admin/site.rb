@@ -83,11 +83,11 @@ ActiveAdmin.register Site do
     column :contact_phone, sortable: false
 
     column 'Source' do |site|
-      Site::SOURCE[site.source]
+      site.source_string
     end
 
     column 'Opportunity Priority' do |site|
-      Site::STATUS[site.status]
+      site.status_string
     end
     column 'Address' do |site|
       site.address.full_address
@@ -150,12 +150,12 @@ ActiveAdmin.register Site do
       row :contact_phone
 
       row 'Source' do |site|
-        Site::SOURCE[site.source]
+        site.source_string
       end
 
       row :damage
       row 'Opportunity Priority' do |site|
-        Site::STATUS[site.status]
+        site.status_string
       end
       row :roof_built_at
       row :insurance_company
