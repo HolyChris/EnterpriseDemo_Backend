@@ -18,8 +18,12 @@ class Appointment < ActiveRecord::Base
 
   accepts_nested_attributes_for :follow_ups, allow_destroy: true
 
-  def created_by
-    audits.find_by(action: 'create').try(:user)
+  def created_by(options={})
+    if options[:eager_loaded]
+      audits.detect{|audit| audit.action == 'create' }
+    else
+      audits.find_by(action: 'create')
+    end.try(:user)
   end
 
   def outcome_string

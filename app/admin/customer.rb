@@ -12,6 +12,9 @@ ActiveAdmin.register Customer do
   end
 
   controller do
+    def scoped_collection
+      super.includes(:phone_numbers)
+    end
   end
 
   index do
@@ -20,7 +23,7 @@ ActiveAdmin.register Customer do
     column :email
 
     column 'Phone Numbers' do |customer|
-      customer.phone_numbers.pluck(:number).join(', ')
+      customer.phone_numbers.collect(&:number).join(', ')
     end
 
     actions do |customer|

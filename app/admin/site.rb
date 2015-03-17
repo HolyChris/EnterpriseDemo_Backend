@@ -68,6 +68,10 @@ ActiveAdmin.register Site do
         params[:site][:manager_ids] ||= []
         params[:site][:manager_ids] << current_user.id.to_s if params[:site][:manager_ids].all?(&:blank?)
       end
+
+      def scoped_collection
+        super.includes(:managers, address: :state)
+      end
   end
 
   index do
@@ -76,7 +80,7 @@ ActiveAdmin.register Site do
     end
 
     column 'Managers' do |site|
-      site.managers.pluck(:email).join(', ')
+      site.managers.collect(&:email).join(', ')
     end
 
     column :contact_name

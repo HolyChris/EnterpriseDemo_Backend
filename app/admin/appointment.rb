@@ -5,6 +5,9 @@ ActiveAdmin.register Appointment do
   permit_params :scheduled_at_string, :outcome, :notes, :user_id, follow_ups_attributes: [:scheduled_at_string, :notes, :id, :_destroy]
 
   controller do
+    def scoped_collection
+      super.includes :follow_ups, :audits
+    end
   end
 
   index do
@@ -17,7 +20,7 @@ ActiveAdmin.register Appointment do
     end
 
     column '# of followups' do |appointment|
-      appointment.follow_ups.count
+      appointment.follow_ups.length
     end
 
     column :notes, sortable: false
@@ -27,7 +30,7 @@ ActiveAdmin.register Appointment do
     end
 
     column 'Created By' do |appointment|
-      appointment.created_by.email
+      appointment.created_by(eager_loaded: true).email
     end
 
     actions
