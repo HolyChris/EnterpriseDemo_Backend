@@ -1,7 +1,7 @@
 class RemoveEndTimeAndRenameStartTimeInAppointments < ActiveRecord::Migration
   def up
-    remove_column :appointments, :end_time
-    add_column :appointments, :scheduled_at, :datetime
+    # remove_column :appointments, :end_time
+    # add_column :appointments, :scheduled_at, :datetime
 
     Appointment.reset_column_information
 
