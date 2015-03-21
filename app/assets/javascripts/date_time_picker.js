@@ -1,7 +1,7 @@
 $(document).on('ready page:change', function(){
   $(".datetimepicker").each(function(){
     $(this).datetimepicker({
-      step: 15,
+      step: 60,
       format: 'M d Y, h:i a',
       formatDate: 'M d Y',
       formatTime: 'h:i a'
