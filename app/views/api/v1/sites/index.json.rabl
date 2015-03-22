@@ -9,7 +9,7 @@ child(:customer) do
   attributes :id, :email, :firstname, :lastname
 
   child(:phone_numbers) do
-    attributes :id, :number
+    attributes :id, :number, :primary, :num_type
   end
 end
 

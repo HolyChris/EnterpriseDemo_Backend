@@ -3,7 +3,7 @@ collection :@customers
 attributes :id, :firstname, :lastname, :email, :spouse, :business_name, :other_business_info
 
 child(:phone_numbers) do
-  attributes :id, :number
+  attributes :id, :number, :primary, :num_type
 end
 
 child(:bill_address) do
