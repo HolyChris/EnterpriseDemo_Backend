@@ -5,6 +5,7 @@ class PhoneNumber < ActiveRecord::Base
   NUM_TYPE = { 1 => 'Business', 2 => 'Home', 3 => 'Mobile', 0 => 'Other' }
 
   validates :number, :num_type, :customer, presence: true
+  validates :number, uniqueness: true
   before_save :manage_primary, if: [:primary?, :primary_changed?]
 
   scope :primary, -> { where(primary: true) }
