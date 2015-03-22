@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   [:admin, :office_staff].each do |role|
     namespace role do
       resources :sites do
-        get :autocomplete_customer_email, :on => :collection
+        get :autocomplete_site_customer, on: :collection
       end
     end
   end

@@ -52,19 +52,15 @@ ActiveAdmin.register Site do
   end
 
   controller do
-    autocomplete :customer, :email, method_names: [:email, :firstname, :lastname], display_value: :autocomplete_display_value, extra_data: [:firstname, :lastname]
-
-    private
-      def get_autocomplete_where_clause(model, term, method, options)
-        table_name = model.table_name
-        is_full_search = options[:full]
-        like_clause = (postgres?(model) ? 'ILIKE' : 'LIKE')
-        where_clause = options[:method_names].collect do |meth|
-          "LOWER(#{table_name}.#{meth}) #{like_clause} :term"
-        end.join(' OR ')
-        [where_clause, term: "#{(is_full_search ? '%' : '')}#{term.downcase}%"]
+    def autocomplete_site_customer
+      @customers = Customer.includes(:primary_phone_number).joins(:phone_numbers).where('firstname like :term OR lastname like :term OR phone_numbers.number like :term', term: "%#{params[:term].downcase}%").select('customers.firstname, customers.lastname, phone_numbers.number, customers.id').order(firstname: :asc).limit(10).collect do |cust|
+        cust.attributes.merge(value: cust.autocomplete_display_value, label: cust.autocomplete_display_value)
       end
 
+      render json: @customers
+    end
+
+    private
       def ensure_manager
         params[:site][:manager_ids] ||= []
         params[:site][:manager_ids] << current_user.id.to_s if params[:site][:manager_ids].all?(&:blank?)
@@ -179,7 +175,7 @@ ActiveAdmin.register Site do
         if params[:customer_id]
           af.input :customer_id, as: :hidden, input_html: { value: params[:customer_id] }
         else
-          af.input :customer, required: true, as: :autocomplete, url: autocomplete_customer_email_admin_sites_path, input_html: { id_element: '.customer_id_element', value: af.object.customer.try(:autocomplete_display_value), placeholder: 'Search Email' }
+          af.input :customer, required: true, as: :autocomplete, url: autocomplete_site_customer_admin_sites_path, input_html: { id_element: '.customer_id_element', value: af.object.customer.try(:autocomplete_display_value), placeholder: 'Search Name or Primary Phone' }
           af.input :customer_id, as: :hidden, input_html: {class: 'customer_id_element'}
         end
 

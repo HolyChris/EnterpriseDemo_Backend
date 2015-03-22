@@ -11,6 +11,7 @@
 #= require autocomplete-rails
 #= require managers_autocomplete
 #= require date_time_picker
+#= require customer
 
 $(document).on "ready, page:change", ->
   jQuery(".best_in_place").best_in_place();

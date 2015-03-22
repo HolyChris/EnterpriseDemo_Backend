@@ -1,8 +1,8 @@
 ActiveAdmin.register Customer, namespace: 'office_staff' do
   menu priority: 2
   actions :index, :show, :edit, :create, :update, :new
-  scope :all, :default => true
-  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :id, :_destroy]
+  scope :all, default: true
+  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :primary, :num_type, :id, :_destroy]
 
   action_item 'Sites', only: [:show, :edit] do
     link_to 'Sites', office_staff_customer_sites_url(customer)
@@ -23,8 +23,8 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
     column :lastname
     column :email
 
-    column 'Phone Numbers' do |customer|
-      customer.phone_numbers.collect(&:number).join(', ')
+    column 'Phone Number' do |customer|
+      customer.primary_phone_number.try(:number_string)
     end
 
     actions do |customer|
@@ -46,7 +46,7 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
       row :other_business_info
 
       row 'Phone Numbers' do |customer|
-        customer.phone_numbers.pluck(:number).join(', ')
+        customer.phone_numbers.collect { |pn| pn.number_string }.join(', ')
       end
 
       row 'Billing Address' do |customer|
@@ -61,14 +61,16 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
     f.inputs 'Details' do
       f.input :firstname, required: true
       f.input :lastname, required: true
-      f.input :email, required: true
+      f.input :email
       f.input :spouse
       f.input :business_name
       f.input :other_business_info
 
-      customer.phone_numbers.present? || customer.phone_numbers.build
+      customer.phone_numbers.present? || customer.phone_numbers.primary.build
       f.has_many :phone_numbers do |pnf|
         pnf.input :number
+        pnf.input :num_type, as: :select, collection: PhoneNumber::NUM_TYPE.collect{|k,v| [v, k] }, label: 'Type'
+        pnf.input :primary, input_html: { class: 'behave_radio1' }
         pnf.input :_destroy, as: :boolean, label: 'Remove'
       end
 
