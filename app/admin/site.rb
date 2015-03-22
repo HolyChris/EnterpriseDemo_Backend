@@ -53,7 +53,7 @@ ActiveAdmin.register Site do
 
   controller do
     def autocomplete_site_customer
-      @customers = Customer.includes(:primary_phone_number).joins(:phone_numbers).where('firstname like :term OR lastname like :term OR phone_numbers.number like :term', term: "%#{params[:term].downcase}%").select('customers.firstname, customers.lastname, phone_numbers.number, customers.id').order(firstname: :asc).limit(10).collect do |cust|
+      @customers = Customer.includes(:primary_phone_number).joins(:phone_numbers).where('firstname like :term OR lastname like :term OR phone_numbers.number like :term', term: "%#{params[:term].downcase}%").select('customers.firstname, customers.lastname, phone_numbers.number, customers.id').order(firstname: :asc).uniq.limit(10).collect do |cust|
         cust.attributes.merge(value: cust.autocomplete_display_value, label: cust.autocomplete_display_value)
       end
 
