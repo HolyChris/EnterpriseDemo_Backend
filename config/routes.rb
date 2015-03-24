@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     end
   end
 
-  [:admin, :office_staff].each do |role|
+  [:admin, :office_staff, :sales_rep].each do |role|
     namespace role do
       resources :sites do
         get :autocomplete_site_customer, on: :collection
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
     unauthenticated do
       # Role.pluck(:name).each do |role|
-      [:admin, :office_staff].each do |role|
+      [:admin, :office_staff, :sales_rep].each do |role|
         get "/#{role}", to: 'sessions#new', type: "#{role}"
         get "/#{role}/sign_in", to: 'sessions#new', type: "#{role}", as: "new_#{role}_session"
         post "/#{role}/sign_in", to: "sessions#create", type: "#{role}", as: "#{role}_session"

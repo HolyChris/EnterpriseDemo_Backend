@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
     def after_sign_in_path_for(resource)
       if resource.has_role?(:admin)
         admin_dashboard_path
-      # elsif resource.has_role?(:sales_rep)
-      #   sales_rep_dashboard_path
+      elsif resource.has_role?(:sales_rep)
+        sales_rep_dashboard_path
       elsif resource.has_role?(:office_staff)
         office_staff_dashboard_path
       # elsif resource.has_role?(:production_rep)

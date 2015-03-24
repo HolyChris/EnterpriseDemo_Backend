@@ -14,7 +14,7 @@ ActiveAdmin.register Customer do
 
   controller do
     def scoped_collection
-      super.includes(:phone_numbers)
+      super.includes(:primary_phone_number)
     end
   end
 

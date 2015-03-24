@@ -1,15 +1,15 @@
-ActiveAdmin.register Customer, namespace: 'office_staff' do
+ActiveAdmin.register Customer, namespace: 'sales_rep' do
   menu priority: 2
   actions :index, :show, :edit, :create, :update, :new
   scope :all, default: true
   permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :primary, :num_type, :id, :_destroy]
 
   action_item 'Sites', only: [:show, :edit] do
-    link_to 'Sites', office_staff_customer_sites_url(customer)
+    link_to 'Sites', sales_rep_customer_sites_url(customer)
   end
 
   action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', office_staff_customer_url(customer)
+    link_to 'Cancel', sales_rep_customer_url(customer)
   end
 
   controller do
@@ -28,7 +28,7 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
     end
 
     actions do |customer|
-      link_to 'Sites', office_staff_customer_sites_url(customer)
+      link_to 'Sites', sales_rep_customer_sites_url(customer)
     end
   end
 
