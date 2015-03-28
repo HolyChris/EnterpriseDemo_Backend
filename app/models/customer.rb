@@ -9,7 +9,6 @@ class Customer < ActiveRecord::Base
   belongs_to :bill_address, class_name: Address
 
   validates :firstname, :lastname, presence: true
-  validates :email, uniqueness: true
   validates :email, format: { with: EMAIL_REGEXP }, allow_blank: true
 
   validate :ensure_single_primary_phone_number
