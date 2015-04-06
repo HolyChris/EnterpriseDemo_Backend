@@ -83,7 +83,7 @@ ActiveAdmin.register Contract, namespace: 'office_staff' do
         f.input :po_number, input_html: { disabled: true }, label: 'PO#'
       end
       f.input :document, as: :file, required: true
-      f.input :signed_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
+      f.input :signed_at, as: :datepicker, input_html: { class: 'date-field' }
       f.input :price
       f.input :paid_till_now
       f.input :construction_start_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
