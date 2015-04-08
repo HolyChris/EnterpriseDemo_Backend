@@ -3,8 +3,8 @@ ActiveAdmin.register Contract, namespace: 'office_staff' do
   belongs_to :site
   actions :show, :edit, :create, :update, :new
   permit_params :document, :price, :paid_till_now, :notes, :special_instructions,
-                :ers_sign_image, :customer_sign_image, :signed_at_date, :signed_at_time_hour, :signed_at_time_minute,
-                :construction_start_at_date, :construction_start_at_time_hour, :construction_start_at_time_minute,
+                :ers_sign_image, :customer_sign_image, :signed_at, :construction_start_at_date,
+                :construction_start_at_time_hour, :construction_start_at_time_minute,
                 :construction_end_at_date, :construction_end_at_time_hour, :construction_end_at_time_minute,
                 :construction_payment_at_date, :construction_payment_at_time_hour, :construction_payment_at_time_minute
 
