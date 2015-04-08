@@ -81,7 +81,7 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
           baf.input :address1, required: true
           baf.input :address2
           baf.input :city, required: true
-          baf.input :state_id, as: :select, collection: State.all.collect {|state| [state.name, state.id]  }, required: true
+          baf.input :state_id, as: :select, collection: State.order(:name).collect {|state| [state.name, state.id]  }, required: true
           baf.input :zipcode, required: true
         end
       end
