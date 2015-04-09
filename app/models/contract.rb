@@ -15,24 +15,21 @@ class Contract < ActiveRecord::Base
                     path: '/contract/:id/document/:basename.:extension'
   validates_attachment :document,
                     presence: true,
-                    content_type: { content_type: %w(image/jpeg image/jpg image/png image/gif application/pdf application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document) },
-                    size: { in: 0..1000.kilobytes }
+                    content_type: { content_type: %w(image/jpeg image/jpg image/png image/gif application/pdf application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document) }
 
   has_attached_file :ers_sign_image,
                     default_url: '',
                     url: "/contract/:id/ers_sign/:basename.:extension",
                     path: '/contract/:id/ers_sign/:basename.:extension'
   validates_attachment :ers_sign_image,
-                    content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ },
-                    size: { in: 0..500.kilobytes }
+                    content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ }
 
   has_attached_file :customer_sign_image,
                     default_url: '',
                     url: "/contract/:id/customer_sign/:basename.:extension",
                     path: '/contract/:id/customer_sign/:basename.:extension'
   validates_attachment :customer_sign_image,
-                    content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ },
-                    size: { in: 0..500.kilobytes }
+                    content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ }
 
   validates :signed_at, :price, :site, :po_number, presence: true
   validates :po_number, uniqueness: true
