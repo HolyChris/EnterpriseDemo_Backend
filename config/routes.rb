@@ -30,16 +30,8 @@ Rails.application.routes.draw do
       ActiveAdmin.routes(self) if !ARGV.grep(/assets:precompile/).any? && !ARGV.grep(/db:migrate/).any? && !ARGV.grep(/db:seed/).any?
     end
 
-    unauthenticated do
-      # Role.pluck(:name).each do |role|
-      [:admin, :office_staff, :sales_rep].each do |role|
-        get "/#{role}", to: 'sessions#new', type: "#{role}"
-        get "/#{role}/sign_in", to: 'sessions#new', type: "#{role}", as: "new_#{role}_session"
-        post "/#{role}/sign_in", to: "sessions#create", type: "#{role}", as: "#{role}_session"
-      end
-    end
+    root to: 'sessions#new'
   end
 
-  root to: 'roles#home_page'
   get '*unmatched_route', to: redirect('/')
 end
