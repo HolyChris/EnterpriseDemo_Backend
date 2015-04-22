@@ -2,7 +2,7 @@ class Production < ActiveRecord::Base
   audited
   acts_as_paranoid
 
-  has_one :order_material, dependent: :destroy
+  has_one :order_material, dependent: :destroy, inverse_of: :production
   belongs_to :site
 
   validates :site, :delivery_date, :production_date, :roof_built_date, presence: true

@@ -4,7 +4,13 @@ ActiveAdmin.register Production do
   actions :show, :edit, :create, :update, :new
   permit_params :delivery_date, :production_date, :roof_built_date, :production_inspection_date,
                 :production_inspection_passed_date, :materials_not_used, :permit_number, :permit_date, :permit_department,
-                order_material_attributes: [:id, :pitch, :stories, :shingles, :ridge, :starter, :felt, :felt_color, :polystick, :mule_hide_cap_rolls, :mule_hide_base_rolls, :mule_hide_color, :decking, :deck_nails_8d_21_strip_boxes, :roof_nails_1_1_4_coil, :roof_nails_3_hand_ridge_vent, :plastic_cap, :drip_edge, :drip_edge_color, :flashing_step, :flashing_step_color, :flashing_counter, :flashing_counter_color, :flashing_headwall, :flashing_headwall_color, :w_valley, :valley_metal, :pipe_jacks, :attic_vents, :small_broan, :large_broan, :cap_collar, :paint, :caulk, :gaf_product, :gaf_color, :gaf_text, :other_information, :delivery_instructions]
+                order_material_attributes: [:id, :pitch, :stories, :shingles, :ridge, :starter, :felt, :felt_color,
+                :polystick, :mule_hide_cap_rolls, :mule_hide_base_rolls, :mule_hide_color, :decking,
+                :deck_nails_8d_21_strip_boxes, :roof_nails_1_1_4_coil, :roof_nails_3_hand_ridge_vent,
+                :plastic_cap, :drip_edge, :drip_edge_color, :flashing_step, :flashing_step_color,
+                :flashing_counter, :flashing_counter_color, :flashing_headwall, :flashing_headwall_color,
+                :w_valley, :valley_metal, :pipe_jacks, :attic_vents, :small_broan, :large_broan, :cap_collar,
+                :paint, :caulk, :gaf_product, :gaf_color, :gaf_text, :other_information, :delivery_instructions]
 
   action_item 'Site', only: [:edit, :new, :show] do
     link_to 'Site', admin_site_url(site)
