@@ -58,21 +58,21 @@ ActiveAdmin.register Contract, namespace: 'office_staff' do
       row :notes
       row :special_instructions
 
-      row 'ERS Sign' do |contract|
-        if contract.ers_sign_image_file_name?
-          link_to contract.ers_sign_image_file_name, contract.ers_sign_image.url, target: '_blank'
-        else
-          '-'
-        end
-      end
+      # row 'ERS Sign' do |contract|
+      #   if contract.ers_sign_image_file_name?
+      #     link_to contract.ers_sign_image_file_name, contract.ers_sign_image.url, target: '_blank'
+      #   else
+      #     '-'
+      #   end
+      # end
 
-      row 'Customer Sign' do |contract|
-        if contract.customer_sign_image_file_name?
-          link_to contract.customer_sign_image_file_name, contract.customer_sign_image.url, target: '_blank'
-        else
-          '-'
-        end
-      end
+      # row 'Customer Sign' do |contract|
+      #   if contract.customer_sign_image_file_name?
+      #     link_to contract.customer_sign_image_file_name, contract.customer_sign_image.url, target: '_blank'
+      #   else
+      #     '-'
+      #   end
+      # end
     end
   end
 
@@ -93,10 +93,10 @@ ActiveAdmin.register Contract, namespace: 'office_staff' do
       f.input :special_instructions
     end
 
-    f.inputs 'Signatures' do
-      f.input :ers_sign_image, as: :file
-      f.input :customer_sign_image, as: :file
-    end
+    # f.inputs 'Signatures' do
+    #   f.input :ers_sign_image, as: :file
+    #   f.input :customer_sign_image, as: :file
+    # end
 
     f.submit
   end
