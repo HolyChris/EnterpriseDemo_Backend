@@ -2,7 +2,7 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
   menu priority: 2
   actions :index, :show, :edit, :create, :update, :new
   scope :all, default: true
-  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :primary, :num_type, :id, :_destroy]
+  permit_params :firstname, :lastname, :email, :spouse, :business_name, :other_business_info, phone_numbers_attributes: [:number, :primary, :num_type, :id, :_destroy]
 
   action_item 'Sites', only: [:show, :edit] do
     link_to 'Sites', office_staff_customer_sites_url(customer)
@@ -48,10 +48,6 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
       row 'Phone Numbers' do |customer|
         customer.phone_numbers.collect { |pn| pn.number_string }.join(', ')
       end
-
-      row 'Billing Address' do |customer|
-        customer.bill_address.try(:full_address) || '-'
-      end
     end
   end
 
@@ -72,18 +68,6 @@ ActiveAdmin.register Customer, namespace: 'office_staff' do
         pnf.input :num_type, as: :select, collection: PhoneNumber::NUM_TYPE.collect{|k,v| [v, k] }, label: 'Type'
         pnf.input :primary, input_html: { class: 'behave_radio1' }
         pnf.input :_destroy, as: :boolean, label: 'Remove'
-      end
-
-      customer.bill_address ||= Address.new
-
-      f.inputs 'Billing Address' do
-        f.fields_for :bill_address do |baf|
-          baf.input :address1, required: true
-          baf.input :address2
-          baf.input :city, required: true
-          baf.input :state_id, as: :select, collection: State.order(:name).collect {|state| [state.name, state.id]  }, required: true
-          baf.input :zipcode, required: true
-        end
       end
     end
 
