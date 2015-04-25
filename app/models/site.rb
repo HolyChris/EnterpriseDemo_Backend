@@ -20,11 +20,13 @@ class Site < ActiveRecord::Base
   has_many :site_managers, dependent: :destroy
   has_many :managers, through: :site_managers, source: :user
 
+  belongs_to :bill_address, class_name: Address
   belongs_to :address
   belongs_to :customer
 
   validates :name, :stage, :address, :customer, presence: true
 
+  accepts_nested_attributes_for :bill_address, reject_if: :all_blank #proc { |attributes| attributes.values.all?(&:blank?) }
   accepts_nested_attributes_for :address
   accepts_nested_attributes_for :images
 

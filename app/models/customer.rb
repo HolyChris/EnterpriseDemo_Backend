@@ -6,14 +6,12 @@ class Customer < ActiveRecord::Base
   has_many :sites, dependent: :destroy
   has_one :primary_phone_number, -> { primary }, inverse_of: :customer, class_name: PhoneNumber
   has_many :phone_numbers, inverse_of: :customer, dependent: :destroy
-  belongs_to :bill_address, class_name: Address
 
   validates :firstname, :lastname, presence: true
   validates :email, format: { with: EMAIL_REGEXP }, allow_blank: true
 
   validate :ensure_single_primary_phone_number
 
-  accepts_nested_attributes_for :bill_address, reject_if: :all_blank #proc { |attributes| attributes.values.all?(&:blank?) }
   accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :phone_numbers, allow_destroy: true, reject_if: proc { |attributes| attributes[:number].blank? }
 
