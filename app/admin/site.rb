@@ -4,8 +4,9 @@ ActiveAdmin.register Site do
 
   actions :index, :show, :edit, :create, :update, :new
   scope :all, default: true
-  permit_params :name, :contact_name, :contact_phone, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
+  permit_params :name, :contact_name, :contact_phone, :source, :damage, :status, :bill_addr_same_as_addr, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
   before_filter :ensure_manager, only: [:create, :update]
+  before_filter :manage_params, only: [:create, :update]
 
   action_item 'Appointments', only: [:show, :edit] do
     link_to 'Appointments', admin_site_appointments_url(site)
@@ -61,6 +62,12 @@ ActiveAdmin.register Site do
     end
 
     private
+      def manage_params
+        if params[:site][:bill_addr_same_as_addr] == '1'
+          params[:site].delete(:bill_address_attributes)
+        end
+      end
+
       def ensure_manager
         params[:site][:manager_ids] ||= []
         params[:site][:manager_ids] << current_user.id.to_s if params[:site][:manager_ids].all?(&:blank?)
@@ -188,9 +195,15 @@ ActiveAdmin.register Site do
       end
     end
 
-    f.object.bill_address ||= Address.new
-
     f.inputs 'Billing Address' do
+      f.input :bill_addr_same_as_addr, as: :boolean, input_html: { id: 'bill_addr_same_as_addr_check' }, label: 'Same as Address'
+
+      if f.object.bill_addr_same_as_addr
+        f.object.bill_address = Address.new
+      else
+        f.object.bill_address ||= Address.new
+      end
+
       f.fields_for :bill_address do |baf|
         baf.input :address1, required: true
         baf.input :address2
