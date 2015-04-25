@@ -8,6 +8,8 @@ class Site < ActiveRecord::Base
 
   include ManageStageFlow
 
+  attr_accessor :bill_addr_same_as_addr
+
   has_one :contract, dependent: :destroy
   has_one :project, dependent: :destroy
   has_one :production, dependent: :destroy
@@ -33,6 +35,16 @@ class Site < ActiveRecord::Base
   before_validation :assign_customer, if: 'address.present?'
 
   scope :created_by_or_assigned_to, -> (user) { joins("LEFT JOIN audits ON audits.auditable_id = sites.id AND audits.auditable_type = 'Site'").joins("LEFT JOIN site_managers ON site_managers.site_id = sites.id").where("(audits.user_type = 'User' AND audits.user_id = #{user.id} AND audits.action = 'create') OR site_managers.user_id = #{user.id}").uniq }
+
+  def bill_addr_same_as_addr
+    address_id? && address_id == bill_address_id
+  end
+
+  def bill_addr_same_as_addr=(value)
+    if value == true || value == '1' || value == 1
+      self.bill_address_id = self.address_id
+    end
+  end
 
   def po_number
     contract.try(:po_number)
