@@ -26,7 +26,7 @@ class Site < ActiveRecord::Base
   belongs_to :address
   belongs_to :customer
 
-  validates :name, :stage, :address, :customer, presence: true
+  validates :stage, :address, :customer, presence: true
 
   accepts_nested_attributes_for :bill_address, reject_if: :all_blank #proc { |attributes| attributes.values.all?(&:blank?) }
   accepts_nested_attributes_for :address

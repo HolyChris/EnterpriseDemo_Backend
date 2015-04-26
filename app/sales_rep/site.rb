@@ -77,8 +77,13 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
       site.managers.collect(&:email).join(', ')
     end
 
-    column :contact_name
-    column :contact_phone, sortable: false
+    column 'Site Contact Name' do |site|
+      site.contact_name
+    end
+
+    column 'Site Contact Phone' do |site|
+      site.contact_phone
+    end
 
     column 'Source' do |site|
       site.source_string
@@ -144,8 +149,13 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
         site.bill_address.try(:full_address) || '-'
       end
 
-      row :contact_name
-      row :contact_phone
+      row 'Site Contact Name' do |site|
+        site.contact_name
+      end
+
+      row 'Site Contact Phone' do |site|
+        site.contact_phone
+      end
 
       row 'Source' do |site|
         site.source_string
