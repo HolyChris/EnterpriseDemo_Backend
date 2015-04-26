@@ -20,6 +20,13 @@ child(:address) do
   end
 end
 
+child(:bill_address) do
+  attributes :id, :address1, :address2, :city, :zipcode
+  child(:state) do
+    attributes :id, :name
+  end
+end
+
 child(:appointments) do
   attributes :id, :scheduled_at, :notes
   node(:outcome) {|appointment| appointment.outcome_string}
