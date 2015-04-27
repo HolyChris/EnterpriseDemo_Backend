@@ -9,7 +9,9 @@ ActiveAdmin.register Image do
   end
 
   index do
-    column :title, sortable: false
+    column 'Image Title' do |obj|
+      obj.title
+    end
 
     column 'Attachment' do |obj|
       obj.attachments.collect { |attachment| image_tag attachment.file.url, size: '100x100' }.join(' ').html_safe
@@ -17,10 +19,6 @@ ActiveAdmin.register Image do
 
     column 'Relevant Stage', sortable: true do |obj|
       Site::STAGE.key(obj.stage).try(:capitalize) || '-'
-    end
-
-    column 'Alt Text' do |obj|
-      obj.alt
     end
 
     column 'Additional Notes', sortable: false do |obj|
@@ -34,7 +32,9 @@ ActiveAdmin.register Image do
 
   show do
     attributes_table do
-      row :title
+      row 'Image Title' do |obj|
+        obj.title
+      end
 
       row 'Attachment' do |obj|
         obj.attachments.collect { |attachment| image_tag attachment.file.url, size: '100x100' }.join(' ').html_safe
@@ -42,10 +42,6 @@ ActiveAdmin.register Image do
 
       row 'Relevant Stage' do |obj|
         Site::STAGE.key(obj.stage).try(:capitalize) || '-'
-      end
-
-      row 'Alt Text' do |obj|
-        obj.alt
       end
 
       row 'Additional Notes' do |obj|
@@ -58,7 +54,7 @@ ActiveAdmin.register Image do
     f.semantic_errors *f.object.errors.keys
 
     f.inputs 'Details' do
-      f.input :title
+      f.input :title, label: 'Image Title'
       f.has_many :attachments do |af|
         if af.object.persisted?
           af.input :file, required: true, as: :file, hint: "#{image_tag af.object.file.url, size: '100x100'}".html_safe
@@ -69,7 +65,6 @@ ActiveAdmin.register Image do
       end
       f.input :type, as: :hidden
       f.input :stage, as: :select, collection: Site::STAGE.collect{|k,v| [k.to_s.capitalize, v]}, label: 'Relevant Stage'
-      f.input :alt, label: 'Alternative Text'
       f.input :notes, label: 'Additional Notes'
     end
 

@@ -2,11 +2,8 @@ ActiveAdmin.register Contract do
   menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
-  permit_params :document, :price, :paid_till_now, :notes, :special_instructions,
-                :ers_sign_image, :customer_sign_image, :signed_at, :construction_start_at_date,
-                :construction_start_at_time_hour, :construction_start_at_time_minute,
-                :construction_end_at_date, :construction_end_at_time_hour, :construction_end_at_time_minute,
-                :construction_payment_at_date, :construction_payment_at_time_hour, :construction_payment_at_time_minute
+  permit_params :document, :price, :paid_till_now, :notes, :special_instructions, :contract_type,
+                :ers_sign_image, :customer_sign_image, :signed_at
 
   action_item 'Site', only: [:edit, :new, :show] do
     link_to 'Site', admin_site_url(site)
@@ -38,11 +35,15 @@ ActiveAdmin.register Contract do
         contract.po_number
       end
 
-      row 'Attachment' do |contract|
+      row 'Attachment' do
         link_to contract.document_file_name, contract.document.url, target: '_blank'
       end
 
       row :signed_at
+
+      row 'Contract Type' do
+        contract.type_string
+      end
 
       row 'Price' do
         number_to_currency(contract.price)
@@ -52,13 +53,10 @@ ActiveAdmin.register Contract do
         number_to_currency(contract.paid_till_now)
       end
 
-      row :construction_start_at
-      row :construction_end_at
-      row :construction_payment_at
       row :notes
       row :special_instructions
 
-      row 'ERS Sign' do |contract|
+      row 'ERS Sign' do
         if contract.ers_sign_image_file_name?
           link_to contract.ers_sign_image_file_name, contract.ers_sign_image.url, target: '_blank'
         else
@@ -84,11 +82,9 @@ ActiveAdmin.register Contract do
       end
       f.input :document, as: :file, required: true
       f.input :signed_at, as: :datepicker, input_html: { class: 'date-field' }
+      f.input :contract_type, as: :select, collection: Contract::TYPE.collect{|k,v| [v, k]}
       f.input :price
       f.input :paid_till_now
-      f.input :construction_start_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
-      f.input :construction_end_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
-      f.input :construction_payment_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
       f.input :notes
       f.input :special_instructions
     end

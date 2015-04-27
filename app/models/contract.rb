@@ -3,9 +3,8 @@ class Contract < ActiveRecord::Base
   acts_as_paranoid
 
   just_define_datetime_picker :signed_at
-  just_define_datetime_picker :construction_start_at
-  just_define_datetime_picker :construction_end_at
-  just_define_datetime_picker :construction_payment_at
+
+  TYPE = { 1 => 'Cash', 2 => 'Insurance', 3 => 'Maintenance' }
 
   belongs_to :site
 
@@ -47,6 +46,10 @@ class Contract < ActiveRecord::Base
 
   def project
     site.project
+  end
+
+  def type_string
+    TYPE[contract_type]
   end
 
   private
