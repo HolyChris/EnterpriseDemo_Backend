@@ -3,7 +3,7 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
   belongs_to :site
   actions :show, :edit, :create, :update, :new
   permit_params :document, :price, :notes, :special_instructions, :contract_type,
-                :ers_sign_image, :customer_sign_image, :signed_at
+                :ers_sign_image, :customer_sign_image, :signed_at, work_type_ids: []
 
   action_item 'Site', only: [:edit, :new, :show] do
     link_to 'Site', sales_rep_site_url(site)
@@ -45,6 +45,10 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
         contract.type_string
       end
 
+      row 'Type of work to be completed' do
+        contract.work_type_names
+      end
+
       row 'Price' do
         number_to_currency(contract.price)
       end
@@ -79,6 +83,21 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
       f.input :document, as: :file, required: true
       f.input :signed_at, as: :datepicker, input_html: { class: 'date-field' }
       f.input :contract_type, as: :select, collection: Contract::TYPE.collect{|k,v| [v, k]}, label: 'Type of Contract'
+
+      li class: 'input' do
+        f.label :type_of_work_to_be_completed, class: 'label'
+
+        WorkType.all.each do |work_type|
+          html = []
+          span do
+            html << check_box_tag("contract[work_type_ids][]", work_type.id, contract.has_work_type?(work_type))
+            html << work_type.name
+            html << '&nbsp;&nbsp;&nbsp;&nbsp;'
+            html.join(' ').html_safe
+          end
+        end
+      end
+
       f.input :price
       f.input :notes
       f.input :special_instructions

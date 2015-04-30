@@ -6,6 +6,8 @@ class Contract < ActiveRecord::Base
 
   TYPE = { 1 => 'Cash', 2 => 'Insurance', 3 => 'Maintenance' }
 
+  has_many :contract_work_types, dependent: :destroy
+  has_many :work_types, through: :contract_work_types
   belongs_to :site
 
   has_attached_file :document,
@@ -36,12 +38,22 @@ class Contract < ActiveRecord::Base
   after_create :transit_site_stage
   before_validation :generate_and_assign_po_number, unless: :po_number?
 
+  # accepts_nested_attributes_for :contract_work_types
+
   def name
     po_number? ? "Contract PO# #{po_number}" : 'Contract'
   end
 
   def generate_and_assign_po_number
     self.po_number = generate_po_number
+  end
+
+  def has_work_type?(work_type)
+    contract_work_types.where(work_type: work_type).present?
+  end
+
+  def work_type_names
+    work_types.pluck(:name).join(', ')
   end
 
   def project

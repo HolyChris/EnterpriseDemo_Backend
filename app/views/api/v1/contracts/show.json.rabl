@@ -8,6 +8,10 @@ node(:document_url) {|contract| contract.document.url}
 node(:ers_sign_image_url) {|contract| contract.ers_sign_image.url}
 node(:customer_sign_image_url) {|contract| contract.customer_sign_image.url}
 
+child(:work_types) do
+  attributes :id, :name
+end
+
 child(:site) do
   attributes :id, :name, :source_info, :damage, :contact_name, :contact_phone
 
