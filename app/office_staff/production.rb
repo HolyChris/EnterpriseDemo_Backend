@@ -2,7 +2,7 @@ ActiveAdmin.register Production, namespace: 'office_staff' do
   menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
-  permit_params :delivery_date, :production_date, :roof_built_date, :production_inspection_date,
+  permit_params :delivery_date, :production_date, :paid_till_now, :roof_built_date, :production_inspection_date,
                 :production_inspection_passed_date, :materials_not_used, :permit_number, :permit_date, :permit_department
 
   action_item 'Site', only: [:edit, :new, :show] do
@@ -36,6 +36,9 @@ ActiveAdmin.register Production, namespace: 'office_staff' do
       row :roof_built_date
       row :production_inspection_date
       row :production_inspection_passed_date
+      row 'Paid Till Now' do
+        number_to_currency(production.paid_till_now)
+      end
       row :materials_not_used
       row :permit_number
       row :permit_date
@@ -53,6 +56,7 @@ ActiveAdmin.register Production, namespace: 'office_staff' do
       f.input :roof_built_date, as: :datepicker, input_html: {class: 'date-field'}
       f.input :production_inspection_date, as: :datepicker, input_html: {class: 'date-field'}
       f.input :production_inspection_passed_date, as: :datepicker, input_html: {class: 'date-field'}
+      f.input :paid_till_now
       f.input :materials_not_used
       f.input :permit_number
       f.input :permit_date, as: :datepicker, input_html: {class: 'date-field'}
