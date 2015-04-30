@@ -22,7 +22,7 @@ class Customer < ActiveRecord::Base
   end
 
   def autocomplete_display_value
-    "#{fullname}, #{primary_phone_number.number_string}"
+    [fullname, primary_phone_number.try(:number_string)].join(', ')
   end
 
   alias_method :name, :fullname
