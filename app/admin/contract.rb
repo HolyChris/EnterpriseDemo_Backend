@@ -60,7 +60,7 @@ ActiveAdmin.register Contract do
         end
       end
 
-      row 'Customer Sign' do |contract|
+      row 'Customer Sign' do
         if contract.customer_sign_image_file_name?
           link_to contract.customer_sign_image_file_name, contract.customer_sign_image.url, target: '_blank'
         else
