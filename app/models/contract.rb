@@ -30,9 +30,9 @@ class Contract < ActiveRecord::Base
   validates_attachment :customer_sign_image,
                     content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ }
 
-  validates :signed_at, :price, :site, :po_number, presence: true
+  validates :signed_at, :site, :po_number, presence: true
   validates :po_number, uniqueness: true
-  validates :price, :paid_till_now, numericality: true
+  validates :price, numericality: true, allow_blank: true
   after_create :transit_site_stage
   before_validation :generate_and_assign_po_number, unless: :po_number?
 

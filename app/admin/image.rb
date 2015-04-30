@@ -3,7 +3,7 @@ ActiveAdmin.register Image do
   scope :all, default: true
 
   actions :index, :show, :edit, :create, :update, :new, :destroy
-  permit_params :alt, :title, :notes, :stage, :type, attachments_attributes: [:file, :_destroy, :id]
+  permit_params :title, :notes, :stage, :type, attachments_attributes: [:file, :_destroy, :id]
 
   controller do
   end

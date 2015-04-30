@@ -2,7 +2,7 @@ ActiveAdmin.register Contract do
   menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
-  permit_params :document, :price, :paid_till_now, :notes, :special_instructions, :contract_type,
+  permit_params :document, :price, :notes, :special_instructions, :contract_type,
                 :ers_sign_image, :customer_sign_image, :signed_at
 
   action_item 'Site', only: [:edit, :new, :show] do
@@ -41,16 +41,12 @@ ActiveAdmin.register Contract do
 
       row :signed_at
 
-      row 'Contract Type' do
+      row 'Type of Contract' do
         contract.type_string
       end
 
       row 'Price' do
         number_to_currency(contract.price)
-      end
-
-      row 'Paid Till Now' do
-        number_to_currency(contract.paid_till_now)
       end
 
       row :notes
@@ -82,9 +78,8 @@ ActiveAdmin.register Contract do
       end
       f.input :document, as: :file, required: true
       f.input :signed_at, as: :datepicker, input_html: { class: 'date-field' }
-      f.input :contract_type, as: :select, collection: Contract::TYPE.collect{|k,v| [v, k]}
+      f.input :contract_type, as: :select, collection: Contract::TYPE.collect{|k,v| [v, k]}, label: 'Type of Contract'
       f.input :price
-      f.input :paid_till_now
       f.input :notes
       f.input :special_instructions
     end

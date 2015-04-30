@@ -3,7 +3,7 @@ ActiveAdmin.register Document do
   scope :all, default: true
 
   actions :index, :show, :edit, :create, :update, :new, :destroy
-  permit_params :alt, :doc_type, :title, :attachment, :notes, :stage, :type, attachments_attributes: [:file, :id, :_destroy]
+  permit_params :doc_type, :title, :attachment, :notes, :stage, :type, attachments_attributes: [:file, :id, :_destroy]
 
   controller do
   end
@@ -21,10 +21,6 @@ ActiveAdmin.register Document do
 
     column 'Stage', sortable: true do |obj|
       Site::STAGE.key(obj.stage).try(:capitalize) || '-'
-    end
-
-    column 'Alt Text' do |obj|
-      obj.alt
     end
 
     column :notes, sortable: false
@@ -51,10 +47,6 @@ ActiveAdmin.register Document do
         Site::STAGE.key(obj.stage).try(:capitalize) || '-'
       end
 
-      row 'Alt Text' do |obj|
-        obj.alt
-      end
-
       row :notes
     end
   end
@@ -74,7 +66,6 @@ ActiveAdmin.register Document do
       end
       f.input :type, as: :hidden
       f.input :stage, as: :select, collection: Site::STAGE.collect{|k,v| [k.to_s.capitalize, v]}
-      f.input :alt, label: 'Alternative Text'
       f.input :notes
     end
 
