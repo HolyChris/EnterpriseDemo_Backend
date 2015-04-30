@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
   belongs_to :site
   has_one :job_submission, dependent: :destroy
 
-  validates :priority, :material, :site, :cost, presence: true
+  validates :priority, :site, :cost, presence: true
   validates :cost, numericality: true
   validate :verify_contract
 
