@@ -3,10 +3,11 @@ class Contract < ActiveRecord::Base
   acts_as_paranoid
 
   just_define_datetime_picker :signed_at
-  just_define_datetime_picker :construction_start_at
-  just_define_datetime_picker :construction_end_at
-  just_define_datetime_picker :construction_payment_at
 
+  TYPE = { 1 => 'Cash', 2 => 'Insurance', 3 => 'Maintenance' }
+
+  has_many :contract_work_types, dependent: :destroy
+  has_many :work_types, through: :contract_work_types
   belongs_to :site
 
   has_attached_file :document,
@@ -31,11 +32,13 @@ class Contract < ActiveRecord::Base
   validates_attachment :customer_sign_image,
                     content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ }
 
-  validates :signed_at, :price, :site, :po_number, presence: true
+  validates :signed_at, :site, :po_number, presence: true
   validates :po_number, uniqueness: true
-  validates :price, :paid_till_now, numericality: true
+  validates :price, numericality: true, allow_blank: true
   after_create :transit_site_stage
   before_validation :generate_and_assign_po_number, unless: :po_number?
+
+  # accepts_nested_attributes_for :contract_work_types
 
   def name
     po_number? ? "Contract PO# #{po_number}" : 'Contract'
@@ -45,8 +48,20 @@ class Contract < ActiveRecord::Base
     self.po_number = generate_po_number
   end
 
+  def has_work_type?(work_type)
+    contract_work_types.where(work_type: work_type).present?
+  end
+
+  def work_type_names
+    work_types.pluck(:name).join(', ')
+  end
+
   def project
     site.project
+  end
+
+  def type_string
+    TYPE[contract_type]
   end
 
   private

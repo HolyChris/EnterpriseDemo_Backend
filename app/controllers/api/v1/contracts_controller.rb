@@ -39,6 +39,6 @@ class Api::V1::ContractsController < Api::V1::BaseController
     end
 
     def contract_params
-      params.permit(:document, :price, :paid_till_now, :notes, :special_instructions, :ers_sign_image, :customer_sign_image, :signed_at, :construction_start_at, :construction_end_at, :construction_payment_at)
+      params.permit(:document, :price, :notes, :special_instructions, :contract_type, :ers_sign_image, :customer_sign_image, :signed_at, work_type_ids: [])
     end
 end

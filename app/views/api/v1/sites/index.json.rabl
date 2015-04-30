@@ -1,7 +1,10 @@
 collection :@sites
 
-attributes :id, :name, :damage, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, :contact_name, :contact_phone
+attributes :id, :name, :source_info, :damage, :contact_name, :contact_phone
 
+node(:bill_addr_same_as_addr) { |site| site.bill_addr_same_as_addr }
+node(:stage) {|site| site.stage_string}
+node(:po_number) {|site| site.po_number}
 node(:source) {|site| site.source_string}
 node(:status) {|site| site.status_string}
 
@@ -45,7 +48,7 @@ child(:appointments) do
 end
 
 child :assets do
-  attributes :id, :title, :type, :notes, :alt
+  attributes :id, :title, :type, :notes
   node(:doc_type) { |asset| Asset::DOC_TYPE[asset.doc_type] }
   node(:stage) { |asset| Site::STAGE.key(asset.stage).try(:capitalize) }
   child(:attachments) do

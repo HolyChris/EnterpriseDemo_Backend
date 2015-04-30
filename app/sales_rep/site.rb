@@ -4,7 +4,7 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
 
   actions :index, :show, :edit, :create, :update, :new
   scope :all, default: true
-  permit_params :name, :contact_name, :contact_phone, :source, :damage, :status, :bill_addr_same_as_addr, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
+  permit_params :name, :contact_name, :contact_phone, :source, :source_info, :damage, :status, :bill_addr_same_as_addr, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
   before_filter :ensure_manager, only: [:create, :update]
   before_filter :manage_params, only: [:create, :update]
 
@@ -92,6 +92,7 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     column 'Opportunity Priority' do |site|
       site.status_string
     end
+
     column 'Address' do |site|
       site.address.full_address
     end
@@ -131,6 +132,12 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     end
 
     attributes_table do
+      if site.po_number
+        row 'PO#' do |site|
+          site.po_number
+        end
+      end
+
       row 'Site Name' do |site|
         site.name
       end
@@ -161,15 +168,12 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
         site.source_string
       end
 
+      row :source_info
+
       row :damage
       row 'Opportunity Priority' do |site|
         site.status_string
       end
-      row :roof_built_at
-      row :insurance_company
-      row :claim_number, label: 'Claim #'
-      row :mortgage_company
-      row :loan_tracking_number, 'Loan Tracking #'
     end
   end
 
@@ -212,19 +216,19 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
       end
     end
 
-    f.inputs 'Details' do
+    f.inputs 'Site Details' do
+      if f.object.po_number
+        f.input :po_number, input_html: { disabled: true }, label: 'PO#'
+      end
+      f.input :stage_string, input_html: { disabled: true }, label: 'Stage'
       f.input :name, label: 'Site Name'
       f.input :manager_ids, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, multiple: true, input_html: { class: "chosen-select" }, label: 'Managers'
-      f.input :contact_name
-      f.input :contact_phone
+      f.input :contact_name, label: 'Site Contact Name'
+      f.input :contact_phone, label: 'Site Contact Phone'
       f.input :source, as: :select, collection: Site::SOURCE.collect{|k,v| [v, k]}
+      f.input :source_info
       f.input :damage
       f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}, label: 'Opportunity Priority'
-      f.input :roof_built_at, as: :datepicker, input_html: {class: 'date-field'}
-      f.input :insurance_company
-      f.input :claim_number
-      f.input :mortgage_company
-      f.input :loan_tracking_number
     end
 
     f.submit

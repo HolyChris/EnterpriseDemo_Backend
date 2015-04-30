@@ -4,7 +4,8 @@ class Site < ActiveRecord::Base
 
   STATUS = { 1 => 'Good', 2 => 'Bad', 3 => 'New', 4 => 'Dead' }
   SOURCE = { 1 => 'Qualified Storm Leads', 2 => 'Commercial Call Leads', 3 => 'Self-Generated', 4 => 'Canvasser', 5 => 'Call in Leads', 6 => 'Mailer', 7 => 'Sign', 8 => 'Website', 9 => 'Friend', 10 => 'Neighbor', 11 => 'Truck Sign', 12 => 'Call/Knock', 13 => 'Other', 14 => 'Existing Customer' }
-  STAGE = { lead: 1, contract: 2, project: 3 }
+  STAGE = { lead: 1, contract: 2, project: 3, production: 4, billing: 5 }
+  STAGE_MAPPING = { lead: 'Opportunity', contract: 'Under Contract', project: 'Under Contract', production: 'Production', billing: 'Billing' }
 
   include ManageStageFlow
 
@@ -56,6 +57,10 @@ class Site < ActiveRecord::Base
 
   def source_string
     SOURCE[source]
+  end
+
+  def stage_string
+    STAGE_MAPPING[stage.to_s.to_sym]
   end
 
   private
