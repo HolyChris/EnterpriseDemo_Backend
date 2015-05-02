@@ -45,24 +45,26 @@ ActiveAdmin.register Billing do
   end
 
   show do
-    attributes_table do
-      row 'Project Received in Billing' do
-        billing.ready_for_billing_at
+    panel 'Location Billing Info' do
+      attributes_table_for billing do
+        row 'Project Received in Billing' do
+          billing.ready_for_billing_at
+        end
+        row 'Initial Payment' do
+          number_to_currency(billing.initial_payment)
+        end
+        row :initial_payment_date
+        row :final_invoice_submitted_at
+        row :customer_invoice_notes
+        row 'Invoice sent to Project Manager (Date)' do
+          billing.invoice_send_to_manager_at
+        end
+        row :invoice_sent_to_customer_method
+        row 'Completion Payment' do
+          number_to_currency(billing.completion_payment)
+        end
+        row :completion_payment_date
       end
-      row 'Initial Payment' do
-        number_to_currency(billing.initial_payment)
-      end
-      row :initial_payment_date
-      row :final_invoice_submitted_at
-      row :customer_invoice_notes
-      row 'Invoice sent to Project Manager (Date)' do
-        billing.invoice_send_to_manager_at
-      end
-      row :invoice_sent_to_customer_method
-      row 'Completion Payment' do
-        number_to_currency(billing.completion_payment)
-      end
-      row :completion_payment_date
     end
 
     panel 'Insurance Info' do
@@ -91,7 +93,7 @@ ActiveAdmin.register Billing do
     f.semantic_errors *f.object.errors.keys
     billing = f.object
 
-    f.inputs 'Details' do
+    f.inputs 'Location Billing Info' do
       f.input :ready_for_billing_at, as: :datepicker, input_html: {class: 'date-field'}, label: 'Project Received in Billing'
       f.input :initial_payment
       f.input :initial_payment_date, as: :datepicker, input_html: {class: 'date-field'}
