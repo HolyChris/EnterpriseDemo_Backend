@@ -3,18 +3,18 @@ class Project < ActiveRecord::Base
   acts_as_paranoid
 
   PRIORITY = { 1 => 'High', 2 => 'Medium', 3 => 'Low' }
-  MATERIAL = {  }
 
   belongs_to :site
   has_one :job_submission, dependent: :destroy
+  has_one :insurance_and_mortgage_info, dependent: :destroy
 
-  validates :priority, :site, :cost, presence: true
-  validates :cost, numericality: true
+  validates :priority, :site, presence: true
   validate :verify_contract
 
   after_create :transit_site_stage
 
   accepts_nested_attributes_for :job_submission, reject_if: lambda {|q| q.values.all?(&:blank?)}
+  accepts_nested_attributes_for :insurance_and_mortgage_info, reject_if: lambda {|q| q.values.all?(&:blank?)}
 
   def po_number
     site.po_number

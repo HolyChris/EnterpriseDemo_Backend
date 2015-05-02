@@ -27,15 +27,24 @@ class RemoveUnusedColumns < ActiveRecord::Migration
     remove_column :contracts, :construction_end_at
     remove_column :contracts, :construction_payment_at
     remove_column :projects, :cost
+    remove_column :projects, :color
+    remove_column :projects, :material
     remove_column :job_submissions, :price_per_square
     remove_column :job_submissions, :depreciation_recoverable
     remove_column :job_submissions, :roof_rcv
     remove_column :job_submissions, :roof_acv
-    remove_column :job_submissions, :gutters_acv
-    remove_column :job_submissions, :siding_acv
-    remove_column :job_submissions, :windows_acv
-    remove_column :job_submissions, :paint_acv
-    remove_column :job_submissions, :hvac_acv
+    remove_column :job_submissions, :initial_payment
+    remove_column :job_submissions, :initial_payment_date
+    remove_column :job_submissions, :completion_payment
+    remove_column :job_submissions, :completion_payment_date
+    remove_column :job_submissions, :submitted_at
+    remove_column :job_submissions, :build_type
+    remove_column :job_submissions, :deductible_paid_date
+    remove_column :job_submissions, :mortgage_inspection_date
+    remove_column :job_submissions, :supplement_required
+    remove_column :job_submissions, :supplement_notes
+    remove_column :job_submissions, :roof_total
+    remove_column :job_submissions, :deposit_check_amount
   end
 
   def down
@@ -48,15 +57,24 @@ class RemoveUnusedColumns < ActiveRecord::Migration
     add_column :contracts, :construction_end_at, :datetime
     add_column :contracts, :construction_payment_at, :datetime
     add_column :projects, :cost, :decimal, precision: 10, scale: 2
+    add_column :projects, :color, :string
+    add_column :projects, :material, :integer
     add_column :job_submissions, :price_per_square, :decimal, precision: 10, scale: 2
     add_column :job_submissions, :depreciation_recoverable, :boolean
     add_column :job_submissions, :roof_rcv, :decimal, precision: 10, scale: 2
     add_column :job_submissions, :roof_acv, :decimal, precision: 10, scale: 2
-    add_column :job_submissions, :gutters_acv, :decimal, precision: 10, scale: 2
-    add_column :job_submissions, :siding_acv, :decimal, precision: 10, scale: 2
-    add_column :job_submissions, :windows_acv, :decimal, precision: 10, scale: 2
-    add_column :job_submissions, :paint_acv, :decimal, precision: 10, scale: 2
-    add_column :job_submissions, :hvac_acv, :decimal, precision: 10, scale: 2
+    add_column :job_submissions, :initial_payment, :decimal, precision: 10, scale: 2
+    add_column :job_submissions, :initial_payment_date, :date
+    add_column :job_submissions, :completion_payment, :decimal, precision: 10, scale: 2
+    add_column :job_submissions, :completion_payment_date, :date
+    add_column :job_submissions, :submitted_at, :date
+    add_column :job_submissions, :build_type, :string
+    add_column :job_submissions, :deductible_paid_date, :date
+    add_column :job_submissions, :mortgage_inspection_date, :date
+    add_column :job_submissions, :supplement_required, :boolean
+    add_column :job_submissions, :supplement_notes, :text
+    add_column :job_submissions, :roof_total, :decimal, precision: 10, scale: 2
+    add_column :job_submissions, :deposit_check_amount, :decimal, precision: 10, scale: 2
 
     Site.joins(:production).where.not(productions: { roof_built_date: nil }).each do |site|
       site.update_column(:roof_built_at, site.production.roof_built_date)

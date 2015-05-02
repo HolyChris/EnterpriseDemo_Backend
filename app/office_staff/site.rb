@@ -209,7 +209,7 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     end
 
     f.inputs 'Billing Address' do
-      f.input :bill_addr_same_as_addr, as: :boolean, input_html: { id: 'bill_addr_same_as_addr_check' }, label: 'Same as Address'
+      f.input :bill_addr_same_as_addr, as: :boolean, input_html: { id: 'bill_addr_same_as_addr_check' }, label: 'Same as Site Address?'
 
       if f.object.bill_addr_same_as_addr
         f.object.bill_address = Address.new
