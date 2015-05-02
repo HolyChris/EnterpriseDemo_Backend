@@ -16,16 +16,10 @@ class Project < ActiveRecord::Base
   accepts_nested_attributes_for :job_submission, reject_if: lambda {|q| q.values.all?(&:blank?)}
   accepts_nested_attributes_for :insurance_and_mortgage_info, reject_if: lambda {|q| q.values.all?(&:blank?)}
 
+  delegate :contract, :production, :billing, to: :site
+
   def po_number
     site.po_number
-  end
-
-  def contract
-    site.contract
-  end
-
-  def production
-    site.production
   end
 
   private

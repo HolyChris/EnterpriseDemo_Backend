@@ -17,6 +17,22 @@ ActiveAdmin.register Production, namespace: 'office_staff' do
     link_to 'Project', office_staff_site_project_url(site, production.project)
   end
 
+  action_item 'Billing', only: [:show, :edit] do
+    if site.billing.present?
+      link_to 'Billing', office_staff_site_billing_url(production.site, production.billing)
+    else
+      link_to 'Create Billing', new_office_staff_site_billing_url(production.site)
+    end
+  end
+
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', office_staff_site_documents_url(production.site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', office_staff_site_images_url(production.site)
+  end
+
   action_item 'Cancel', only: [:edit] do
     link_to 'Cancel', office_staff_site_production_url(site, production)
   end

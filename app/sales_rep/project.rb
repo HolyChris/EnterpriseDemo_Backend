@@ -17,11 +17,15 @@ ActiveAdmin.register Project, namespace: 'sales_rep' do
   end
 
   action_item 'Contract', only: [:edit, :show] do
-    if project.contract.present?
-      link_to 'Contract', sales_rep_site_contract_url(project.site, project.contract)
-    else
-      link_to 'Create Contract', new_sales_rep_site_contract_url(project.site)
-    end
+    link_to 'Contract', sales_rep_site_contract_url(project.site, project.contract)
+  end
+
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', sales_rep_site_documents_url(project.site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', sales_rep_site_images_url(project.site)
   end
 
   action_item 'Cancel', only: [:edit] do

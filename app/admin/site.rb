@@ -40,6 +40,16 @@ ActiveAdmin.register Site do
     end
   end
 
+  action_item 'Billing', only: [:show, :edit] do
+    if site.contract.present? && site.project.present? && site.production.present?
+      if site.billing.present?
+        link_to 'Billing', admin_site_billing_url(site, site.billing)
+      else
+        link_to 'Create Billing', new_admin_site_billing_url(site)
+      end
+    end
+  end
+
   action_item 'Docs', only: [:show, :edit] do
     link_to 'Docs', admin_site_documents_url(site)
   end

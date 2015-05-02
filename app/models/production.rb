@@ -9,13 +9,7 @@ class Production < ActiveRecord::Base
 
   after_create :transit_site_stage
 
-  def contract
-    site.contract
-  end
-
-  def project
-    site.project
-  end
+  delegate :project, :contract, :billing, to: :site
 
   private
     def transit_site_stage

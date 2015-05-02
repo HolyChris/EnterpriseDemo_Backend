@@ -17,21 +17,33 @@ ActiveAdmin.register Project, namespace: 'office_staff' do
   end
 
   action_item 'Contract', only: [:edit, :show] do
-    if project.contract.present?
-      link_to 'Contract', office_staff_site_contract_url(project.site, project.contract)
-    else
-      link_to 'Create Contract', new_office_staff_site_contract_url(project.site)
-    end
+    link_to 'Contract', office_staff_site_contract_url(project.site, project.contract)
   end
 
   action_item 'Production', only: [:edit, :show] do
-    if project.contract.present?
-      if project.production.present?
-        link_to 'Production', office_staff_site_production_url(project.site, project.production)
+    if project.production.present?
+      link_to 'Production', office_staff_site_production_url(project.site, project.production)
+    else
+      link_to 'Create Production', new_office_staff_site_production_url(project.site)
+    end
+  end
+
+  action_item 'Billing', only: [:show, :edit] do
+    if project.production.present?
+      if project.billing.present?
+        link_to 'Billing', office_staff_site_billing_url(project.site, project.billing)
       else
-        link_to 'Create Production', new_office_staff_site_production_url(project.site)
+        link_to 'Create Billing', new_office_staff_site_billing_url(project.site)
       end
     end
+  end
+
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', office_staff_site_documents_url(project.site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', office_staff_site_images_url(project.site)
   end
 
   action_item 'Cancel', only: [:edit] do
