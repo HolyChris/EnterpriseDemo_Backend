@@ -1,14 +1,14 @@
 class CreateWorkType < ActiveRecord::Migration
   def up
-    create_table :work_types do |t|
-      t.string :name
+    # create_table :work_types do |t|
+    #   t.string :name
 
-      t.timestamps
-    end
+    #   t.timestamps
+    # end
 
-    ['Roof', 'Gutters', 'Solar', 'Skylights', 'Other'].each do |name|
-      WorkType.create!(name: name)
-    end
+    # ['Roof', 'Gutters', 'Solar', 'Skylights', 'Other'].each do |name|
+    #   WorkType.create!(name: name)
+    # end
   end
 
   def down
