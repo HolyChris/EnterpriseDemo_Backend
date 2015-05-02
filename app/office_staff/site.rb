@@ -40,6 +40,16 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     end
   end
 
+  action_item 'Billing', only: [:show, :edit] do
+    if site.contract.present? && site.project.present? && site.production.present?
+      if site.billing.present?
+        link_to 'Billing', office_staff_site_billing_url(site, site.billing)
+      else
+        link_to 'Create Billing', new_office_staff_site_billing_url(site)
+      end
+    end
+  end
+
   action_item 'Docs', only: [:show, :edit] do
     link_to 'Docs', office_staff_site_documents_url(site)
   end
@@ -209,7 +219,7 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     end
 
     f.inputs 'Billing Address' do
-      f.input :bill_addr_same_as_addr, as: :boolean, input_html: { id: 'bill_addr_same_as_addr_check' }, label: 'Same as Address'
+      f.input :bill_addr_same_as_addr, as: :boolean, input_html: { id: 'bill_addr_same_as_addr_check' }, label: 'Same as Site Address?'
 
       if f.object.bill_addr_same_as_addr
         f.object.bill_address = Address.new

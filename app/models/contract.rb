@@ -37,8 +37,7 @@ class Contract < ActiveRecord::Base
   validates :price, numericality: true, allow_blank: true
   after_create :transit_site_stage
   before_validation :generate_and_assign_po_number, unless: :po_number?
-
-  # accepts_nested_attributes_for :contract_work_types
+  delegate :project, :production, :billing, to: :site
 
   def name
     po_number? ? "Contract PO# #{po_number}" : 'Contract'
@@ -54,10 +53,6 @@ class Contract < ActiveRecord::Base
 
   def work_type_names
     work_types.pluck(:name).join(', ')
-  end
-
-  def project
-    site.project
   end
 
   def type_string

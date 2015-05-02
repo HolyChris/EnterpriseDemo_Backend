@@ -17,6 +17,34 @@ ActiveAdmin.register Contract do
     end
   end
 
+  action_item 'Production', only: [:edit, :show] do
+    if contract.project.present?
+      if contract.production.present?
+        link_to 'Production', admin_site_production_url(contract.site, contract.production)
+      else
+        link_to 'Create Production', new_admin_site_production_url(contract.site)
+      end
+    end
+  end
+
+  action_item 'Billing', only: [:show, :edit] do
+    if contract.project.present? && contract.production.present?
+      if contract.billing.present?
+        link_to 'Billing', admin_site_billing_url(contract.site, contract.billing)
+      else
+        link_to 'Create Billing', new_admin_site_billing_url(contract.site)
+      end
+    end
+  end
+
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', admin_site_documents_url(contract.site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', admin_site_images_url(contract.site)
+  end
+
   action_item 'Cancel', only: [:edit] do
     link_to 'Cancel', admin_site_contract_url(site, contract)
   end

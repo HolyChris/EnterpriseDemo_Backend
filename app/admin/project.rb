@@ -2,38 +2,48 @@ ActiveAdmin.register Project do
   menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
-  permit_params :priority, :insurance_carrier, :re_roof_material, :color, :material, job_submission_attributes: [
-              :id, :po_legacy, :project_id, :shingle_color, :drip_color, :shingle_manufacturer, :shingle_type, :initial_payment,
-              :initial_payment_date, :completion_payment, :completion_payment_date, :submitted_at, :work_type, :claim_number,
-              :build_type, :deductible, :deductible_paid_date, :roof_work_rcv, :roof_work_acv,
-              :roof_type_special_instructions, :hoa_approval_date, :initial_cost_per_sq, :mortgage_company,
-              :loan_number, :mortgage_inspection_date, :supplement_required, :supplement_notes, :roof_upgrade_cost,
-              :roof_discount, :roof_total, :gutters_rcv, :gutters_upgrade_cost, :gutters_discount, :gutters_total,
-              :siding_rcv, :siding_upgrade_cost, :siding_discount, :siding_total, :windows_rcv, :windows_upgrade_cost,
-              :windows_discount, :windows_total, :paint_rcv, :paint_upgrade_cost, :paint_discount, :paint_total,
-              :hvac_rcv, :hvac_upgrade_cost, :hvac_discount, :hvac_total, :deposit_check_amount,
-              :building_code_upgrade_confirmed, :redeck ]
+  permit_params :priority, :existing_roof_material, :code_coverage_confirmed, :hoa_approval_date, :last_roof_built_date,
+              :po_legacy, insurance_and_mortgage_info_attributes: [:id, :project_id, :insurance_carrier, :claim_number, :deductible,
+              :loan_tracking_number, :mortgage_company], job_submission_attributes: [ :id, :project_id, :shingle_color,
+              :drip_color, :shingle_manufacturer, :shingle_type, :work_type, :roof_work_rcv, :roof_work_acv,
+              :roof_type_special_instructions, :initial_cost_per_sq, :roof_upgrade_cost, :roof_discount, :gutters_rcv,
+              :gutters_acv, :gutters_upgrade_cost, :gutters_discount, :gutters_total, :siding_rcv, :siding_acv,
+              :siding_upgrade_cost, :siding_discount, :siding_total, :windows_rcv, :windows_acv, :windows_upgrade_cost,
+              :windows_discount, :windows_total, :paint_rcv, :paint_acv, :paint_upgrade_cost, :paint_discount, :paint_total,
+              :hvac_rcv, :hvac_acv, :hvac_upgrade_cost, :hvac_discount, :hvac_total, :redeck ]
 
   action_item 'Site', only: [:edit, :new, :show] do
     link_to 'Site', admin_site_url(site)
   end
 
   action_item 'Contract', only: [:edit, :show] do
-    if project.contract.present?
-      link_to 'Contract', admin_site_contract_url(project.site, project.contract)
-    else
-      link_to 'Create Contract', new_admin_site_contract_url(project.site)
-    end
+    link_to 'Contract', admin_site_contract_url(project.site, project.contract)
   end
 
   action_item 'Production', only: [:edit, :show] do
-    if project.contract.present?
-      if project.production.present?
-        link_to 'Production', admin_site_production_url(project.site, project.production)
+    if project.production.present?
+      link_to 'Production', admin_site_production_url(project.site, project.production)
+    else
+      link_to 'Create Production', new_admin_site_production_url(project.site)
+    end
+  end
+
+  action_item 'Billing', only: [:show, :edit] do
+    if project.production.present?
+      if project.billing.present?
+        link_to 'Billing', admin_site_billing_url(project.site, project.billing)
       else
-        link_to 'Create Production', new_admin_site_production_url(project.site)
+        link_to 'Create Billing', new_admin_site_billing_url(project.site)
       end
     end
+  end
+
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', admin_site_documents_url(project.site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', admin_site_images_url(project.site)
   end
 
   action_item 'Cancel', only: [:edit] do
@@ -54,25 +64,38 @@ ActiveAdmin.register Project do
         project.po_number
       end
 
+      row 'PO Legacy' do
+        project.po_legacy
+      end
+
+      row :code_coverage_confirmed
+
       row 'Priority' do
         Project::PRIORITY[project.priority]
       end
 
-      row :insurance_carrier
-      row :re_roof_material
-      row :color
+      row :existing_roof_material
+      row :hoa_approval_date
+      row :last_roof_built_date
+    end
 
-      row 'Material' do
-        Project::MATERIAL[project.material]
+    if project.insurance_and_mortgage_info
+      panel 'Insurance And Mortgage Info' do
+        attributes_table_for project.insurance_and_mortgage_info  do
+          row :insurance_carrier
+          row :claim_number
+          row 'Deductible' do |iami|
+            number_to_currency(iami.deductible)
+          end
+          row :mortgage_company
+          row :loan_tracking_number
+        end
       end
     end
 
     if project.job_submission
       panel 'Job Submission' do
         attributes_table_for project.job_submission  do
-          row 'PO Legacy' do |js|
-            js.po_legacy
-          end
           row 'Shingle Color' do |js|
             JobSubmission::SHINGLE_COLOR[js.shingle_color]
           end
@@ -85,24 +108,9 @@ ActiveAdmin.register Project do
           row 'Shingle Type' do |js|
             JobSubmission::SHINGLE_TYPE[js.shingle_type]
           end
-          row 'Initial Payment' do |js|
-            number_to_currency(js.initial_payment)
-          end
-          row :initial_payment_date, as: :datepicker, input_html: {class: 'date-field'}
-          row 'Completion Payment' do |js|
-            number_to_currency(js.completion_payment)
-          end
-          row :completion_payment_date, as: :datepicker, input_html: {class: 'date-field'}
-          row :submitted_at, as: :datepicker, input_html: {class: 'date-field'}
           row 'Type of Work to be Completed' do |js|
             JobSubmission::WORK_TYPE[js.work_type]
           end
-          row :claim_number
-          row :build_type
-          row 'Deductible' do |js|
-            number_to_currency(js.deductible)
-          end
-          row :deductible_paid_date
           row 'Roof Work RCV' do |js|
             number_to_currency(js.roof_work_rcv)
           end
@@ -110,19 +118,9 @@ ActiveAdmin.register Project do
             number_to_currency(js.roof_work_acv)
           end
           row :roof_type_special_instructions
-          row :hoa_approval_date
           row 'Initial Cost per SQ' do |js|
             number_to_currency(js.initial_cost_per_sq)
           end
-          row :mortgage_company
-          row :loan_number
-          row :mortgage_inspection_date
-          row :supplement_required
-          row :supplement_notes
-          row 'Deposit Check Recieved' do |js|
-            number_to_currency(js.deposit_check_amount)
-          end
-          row :building_code_upgrade_confirmed
           row :redeck
         end
       end
@@ -135,9 +133,6 @@ ActiveAdmin.register Project do
           row 'Roof Discount' do |js|
             number_to_currency(js.roof_discount)
           end
-          row 'Roof Total' do |js|
-            number_to_currency(js.roof_total)
-          end
         end
       end
 
@@ -145,6 +140,9 @@ ActiveAdmin.register Project do
         attributes_table_for project.job_submission  do
           row 'Gutters RCV' do |js|
             number_to_currency(js.gutters_rcv)
+          end
+          row 'Gutters ACV' do |js|
+            number_to_currency(js.gutters_acv)
           end
           row 'Gutters Upgrade Cost' do |js|
             number_to_currency(js.gutters_upgrade_cost)
@@ -163,6 +161,9 @@ ActiveAdmin.register Project do
           row 'Siding RCV' do |js|
             number_to_currency(js.siding_rcv)
           end
+          row 'Siding ACV' do |js|
+            number_to_currency(js.siding_acv)
+          end
           row 'Siding Upgrade Cost' do |js|
             number_to_currency(js.siding_upgrade_cost)
           end
@@ -179,6 +180,9 @@ ActiveAdmin.register Project do
         attributes_table_for project.job_submission  do
           row 'Windows RCV' do |js|
             number_to_currency(js.windows_rcv)
+          end
+          row 'Windows ACV' do |js|
+            number_to_currency(js.windows_acv)
           end
           row 'Windows Upgrade Cost' do |js|
             number_to_currency(js.windows_upgrade_cost)
@@ -197,6 +201,9 @@ ActiveAdmin.register Project do
           row 'Paint RCV' do |js|
             number_to_currency(js.paint_rcv)
           end
+          row 'Paint ACV' do |js|
+            number_to_currency(js.paint_acv)
+          end
           row 'Paint Upgrade Cost' do |js|
             number_to_currency(js.paint_upgrade_cost)
           end
@@ -213,6 +220,9 @@ ActiveAdmin.register Project do
         attributes_table_for project.job_submission  do
           row 'HVAC RCV' do |js|
             number_to_currency(js.hvac_rcv)
+          end
+          row 'HVAC ACV' do |js|
+            number_to_currency(js.hvac_acv)
           end
           row 'HVAC Upgrade Cost' do |js|
             number_to_currency(js.hvac_upgrade_cost)
@@ -234,63 +244,61 @@ ActiveAdmin.register Project do
 
     f.inputs 'Details' do
       f.input :priority, as: :select, collection: Project::PRIORITY.collect {|k,v| [v, k]}
-      f.input :material, as: :select, collection: Project::MATERIAL.collect {|k,v| [v, k]}
-      f.input :insurance_carrier
-      f.input :re_roof_material, label: 'Re-Roof Material'
-      f.input :color, as: :string
+      f.input :code_coverage_confirmed
+      f.input :existing_roof_material
+      f.input :last_roof_built_date, as: :datepicker, input_html: {class: 'date-field'}
+      f.input :po_legacy, label: 'PO Legacy'
+      f.input :hoa_approval_date, as: :datepicker, input_html: {class: 'date-field'}
+    end
+
+    project.insurance_and_mortgage_info || project.build_insurance_and_mortgage_info
+    f.fields_for :insurance_and_mortgage_info do |iami|
+      iami.inputs 'Insurance And Mortgage Info' do
+        iami.input :insurance_carrier
+        iami.input :claim_number
+        iami.input :deductible
+        iami.input :loan_tracking_number
+        iami.input :mortgage_company
+      end
     end
 
     project.job_submission || project.build_job_submission
     f.fields_for :job_submission do |jsf|
       jsf.inputs 'Job Submission' do
-        jsf.input :po_legacy, label: 'PO Legacy'
         jsf.input :shingle_color, as: :select, collection: JobSubmission::SHINGLE_COLOR.collect {|k,v| [v, k]}
         jsf.input :drip_color, as: :select, collection: JobSubmission::DRIP_COLOR.collect {|k,v| [v, k]}
         jsf.input :shingle_manufacturer, as: :select, collection: JobSubmission::SHINGLE_MANUFACTURER.collect {|k,v| [v, k]}
         jsf.input :shingle_type, as: :select, collection: JobSubmission::SHINGLE_TYPE.collect {|k,v| [v, k]}
-        jsf.input :initial_payment
-        jsf.input :initial_payment_date, as: :datepicker, input_html: {class: 'date-field'}
-        jsf.input :completion_payment
-        jsf.input :completion_payment_date, as: :datepicker, input_html: {class: 'date-field'}
-        jsf.input :submitted_at, as: :datepicker, input_html: {class: 'date-field'}
         jsf.input :work_type, as: :select, collection: JobSubmission::WORK_TYPE.collect {|k,v| [v, k]}
-        jsf.input :claim_number
-        jsf.input :build_type
-        jsf.input :deductible
-        jsf.input :deductible_paid_date, as: :datepicker, input_html: {class: 'date-field'}
         jsf.input :roof_work_rcv
         jsf.input :roof_work_acv
         jsf.input :roof_type_special_instructions
-        jsf.input :hoa_approval_date, as: :datepicker, input_html: {class: 'date-field'}
         jsf.input :initial_cost_per_sq
-        jsf.input :mortgage_company
-        jsf.input :loan_number
-        jsf.input :mortgage_inspection_date, as: :datepicker, input_html: {class: 'date-field'}
-        jsf.input :supplement_required
-        jsf.input :supplement_notes
-        jsf.input :deposit_check_amount
-        jsf.input :building_code_upgrade_confirmed
         jsf.input :redeck
         jsf.input :roof_upgrade_cost
         jsf.input :roof_discount
-        jsf.input :roof_total
         jsf.input :gutters_rcv, label: 'Gutters RCV'
+        jsf.input :gutters_acv, label: 'Gutters ACV'
         jsf.input :gutters_upgrade_cost
         jsf.input :gutters_discount
         jsf.input :gutters_total
         jsf.input :siding_rcv, label: 'Siding RCV'
+        jsf.input :siding_acv, label: 'Siding ACV'
         jsf.input :siding_upgrade_cost
         jsf.input :siding_discount
         jsf.input :siding_total
         jsf.input :windows_rcv, label: 'Windows RCV'
+        jsf.input :windows_acv, label: 'Windows ACV'
         jsf.input :windows_upgrade_cost
         jsf.input :windows_discount
         jsf.input :windows_total
         jsf.input :paint_rcv, label: 'Paint RCV'
+        jsf.input :paint_acv, label: 'Paint ACV'
         jsf.input :paint_upgrade_cost
         jsf.input :paint_discount
         jsf.input :paint_total
         jsf.input :hvac_rcv, label: 'HVAC RCV'
+        jsf.input :hvac_acv, label: 'HVAC ACV'
         jsf.input :hvac_upgrade_cost
         jsf.input :hvac_discount
         jsf.input :hvac_total

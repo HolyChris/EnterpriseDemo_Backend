@@ -17,6 +17,14 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
     end
   end
 
+  action_item 'Docs', only: [:show, :edit] do
+    link_to 'Docs', sales_rep_site_documents_url(contract.site)
+  end
+
+  action_item 'Images', only: [:show, :edit] do
+    link_to 'Images', sales_rep_site_images_url(contract.site)
+  end
+
   action_item 'Cancel', only: [:edit] do
     link_to 'Cancel', sales_rep_site_contract_url(site, contract)
   end
