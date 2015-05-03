@@ -24,11 +24,11 @@ ActiveAdmin.register Billing, namespace: 'office_staff' do
     link_to 'Production', office_staff_site_production_url(site, billing.production)
   end
 
-  action_item 'Docs', only: [:show, :edit] do
+  action_item 'Docs', only: [:show, :edit, :new] do
     link_to 'Docs', office_staff_site_documents_url(billing.site)
   end
 
-  action_item 'Images', only: [:show, :edit] do
+  action_item 'Images', only: [:show, :edit, :new] do
     link_to 'Images', office_staff_site_images_url(billing.site)
   end
 

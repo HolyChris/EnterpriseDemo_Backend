@@ -38,8 +38,12 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     link_to 'Images', sales_rep_site_images_url(site)
   end
 
-  action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', sales_rep_site_url(site)
+  action_item 'Cancel', only: [:edit, :new] do
+    if site.persisted?
+      link_to 'Cancel', admin_site_url(site)
+    else
+      link_to 'Cancel', admin_sites_url
+    end
   end
 
   controller do

@@ -25,11 +25,11 @@ ActiveAdmin.register Production, namespace: 'office_staff' do
     end
   end
 
-  action_item 'Docs', only: [:show, :edit] do
+  action_item 'Docs', only: [:show, :edit, :new] do
     link_to 'Docs', office_staff_site_documents_url(production.site)
   end
 
-  action_item 'Images', only: [:show, :edit] do
+  action_item 'Images', only: [:show, :edit, :new] do
     link_to 'Images', office_staff_site_images_url(production.site)
   end
 
