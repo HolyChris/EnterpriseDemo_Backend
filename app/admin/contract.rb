@@ -37,11 +37,11 @@ ActiveAdmin.register Contract do
     end
   end
 
-  action_item 'Docs', only: [:show, :edit] do
+  action_item 'Docs', only: [:show, :edit, :new] do
     link_to 'Docs', admin_site_documents_url(contract.site)
   end
 
-  action_item 'Images', only: [:show, :edit] do
+  action_item 'Images', only: [:show, :edit, :new] do
     link_to 'Images', admin_site_images_url(contract.site)
   end
 

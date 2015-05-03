@@ -24,11 +24,11 @@ ActiveAdmin.register Billing do
     link_to 'Production', admin_site_production_url(site, billing.production)
   end
 
-  action_item 'Docs', only: [:show, :edit] do
+  action_item 'Docs', only: [:show, :edit, :new] do
     link_to 'Docs', admin_site_documents_url(billing.site)
   end
 
-  action_item 'Images', only: [:show, :edit] do
+  action_item 'Images', only: [:show, :edit, :new] do
     link_to 'Images', admin_site_images_url(billing.site)
   end
 

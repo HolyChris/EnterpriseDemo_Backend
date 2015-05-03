@@ -58,8 +58,12 @@ ActiveAdmin.register Site, namespace: 'office_staff' do
     link_to 'Images', office_staff_site_images_url(site)
   end
 
-  action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', office_staff_site_url(site)
+  action_item 'Cancel', only: [:edit, :new] do
+    if site.persisted?
+      link_to 'Cancel', admin_site_url(site)
+    else
+      link_to 'Cancel', admin_sites_url
+    end
   end
 
   controller do

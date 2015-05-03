@@ -16,7 +16,7 @@ ActiveAdmin.register Project do
     link_to 'Site', admin_site_url(site)
   end
 
-  action_item 'Contract', only: [:edit, :show] do
+  action_item 'Contract', only: [:edit, :show, :new] do
     link_to 'Contract', admin_site_contract_url(project.site, project.contract)
   end
 
@@ -38,11 +38,11 @@ ActiveAdmin.register Project do
     end
   end
 
-  action_item 'Docs', only: [:show, :edit] do
+  action_item 'Docs', only: [:show, :edit, :new] do
     link_to 'Docs', admin_site_documents_url(project.site)
   end
 
-  action_item 'Images', only: [:show, :edit] do
+  action_item 'Images', only: [:show, :edit, :new] do
     link_to 'Images', admin_site_images_url(project.site)
   end
 
