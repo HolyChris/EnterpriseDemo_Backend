@@ -33,6 +33,7 @@ gem "auto_strip_attributes", "~> 2.0"
 gem "audited-activerecord", "~> 4.0"
 gem 'aws-sdk'
 gem "just-datetime-picker"
+gem 'posix-spawn'
 
 group :development do
   gem 'capistrano'
