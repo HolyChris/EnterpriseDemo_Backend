@@ -11,8 +11,9 @@ class Appointment < ActiveRecord::Base
   belongs_to :site
   belongs_to :user
 
+  before_save :assign_user_to_site_manager, if: [:user_id?, :user_id_changed?, :site_id?]
+
   validates :scheduled_at, :site, :user, presence: true
-  validate :user_is_a_site_manager, if: :user_id_changed? && :user_id? && :site_id?
 
   alias :assigned_to :user
 
@@ -27,7 +28,10 @@ class Appointment < ActiveRecord::Base
   end
 
   private
-    def user_is_a_site_manager
-      errors.add(:user_id, 'should be one of site managers') unless site.site_managers.where(user_id: user_id).present?
+    def assign_user_to_site_manager
+      unless site.site_managers.where(user_id: user_id).present?
+        site_manager = site.site_managers.build(user_id: user_id)
+        site_manager.save!
+      end
     end
 end

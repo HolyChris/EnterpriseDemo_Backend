@@ -19,7 +19,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
 
   private
     def customer_params
-      params.permit(:firstname, :lastname, :email, :spouse, :business_name, :other_business_info, bill_address_attributes: [:address1, :address2, :city, :state_id, :zipcode], phone_numbers_attributes: [:number, :num_type, :primary, :id, :_destroy])
+      params.permit(:firstname, :lastname, :email, :spouse, :business_name, :other_business_info, phone_numbers_attributes: [:number, :num_type, :primary, :id, :_destroy])
     end
 
     def load_customer

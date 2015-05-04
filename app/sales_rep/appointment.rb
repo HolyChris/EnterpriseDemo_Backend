@@ -98,7 +98,7 @@ ActiveAdmin.register Appointment, namespace: 'sales_rep' do
       f.input :scheduled_at_string, required: true, input_html: { class: 'datetimepicker' }, label: 'Scheduled At'
       f.input :outcome, as: :select, collection: Appointment::OUTCOMES.collect { |k, v| [v, k] }
       f.input :notes
-      f.input :user_id, as: :select, collection: f.object.site.managers.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
+      f.input :user_id, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, input_html: { class: "chosen-select" }, label: 'Assigned To'
 
       f.has_many :follow_ups do |fuf|
         fuf.input :scheduled_at_string, required: true, input_html: { class: 'datetimepicker' }, label: 'Scheduled At'

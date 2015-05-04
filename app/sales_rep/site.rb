@@ -4,8 +4,9 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
 
   actions :index, :show, :edit, :create, :update, :new
   scope :all, default: true
-  permit_params :name, :contact_name, :contact_phone, :source, :damage, :status, :roof_built_at, :insurance_company, :claim_number, :mortgage_company, :loan_tracking_number, manager_ids: [], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
+  permit_params :name, :contact_name, :contact_phone, :source, :source_info, :damage, :status, :bill_addr_same_as_addr, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id]
   before_filter :ensure_manager, only: [:create, :update]
+  before_filter :manage_params, only: [:create, :update]
 
   action_item 'Appointments', only: [:show, :edit] do
     link_to 'Appointments', sales_rep_site_appointments_url(site)
@@ -37,8 +38,12 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     link_to 'Images', sales_rep_site_images_url(site)
   end
 
-  action_item 'Cancel', only: [:edit] do
-    link_to 'Cancel', sales_rep_site_url(site)
+  action_item 'Cancel', only: [:edit, :new] do
+    if site.persisted?
+      link_to 'Cancel', admin_site_url(site)
+    else
+      link_to 'Cancel', admin_sites_url
+    end
   end
 
   controller do
@@ -51,6 +56,12 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     end
 
     private
+      def manage_params
+        if params[:site][:bill_addr_same_as_addr] == '1'
+          params[:site].delete(:bill_address_attributes)
+        end
+      end
+
       def ensure_manager
         params[:site][:manager_ids] ||= []
         params[:site][:manager_ids] << current_user.id.to_s if params[:site][:manager_ids].all?(&:blank?)
@@ -70,8 +81,13 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
       site.managers.collect(&:email).join(', ')
     end
 
-    column :contact_name
-    column :contact_phone, sortable: false
+    column 'Site Contact Name' do |site|
+      site.contact_name
+    end
+
+    column 'Site Contact Phone' do |site|
+      site.contact_phone
+    end
 
     column 'Source' do |site|
       site.source_string
@@ -80,6 +96,7 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     column 'Opportunity Priority' do |site|
       site.status_string
     end
+
     column 'Address' do |site|
       site.address.full_address
     end
@@ -115,14 +132,16 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
         row 'Phone Numbers' do |customer|
           customer.phone_numbers.pluck(:number).join(', ')
         end
-
-        row 'Billing Address' do |customer|
-          customer.bill_address.try(:full_address) || '-'
-        end
       end
     end
 
     attributes_table do
+      if site.po_number
+        row 'PO#' do |site|
+          site.po_number
+        end
+      end
+
       row 'Site Name' do |site|
         site.name
       end
@@ -137,22 +156,28 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
         site.address.full_address
       end
 
-      row :contact_name
-      row :contact_phone
+      row 'Billing Address' do |site|
+        site.bill_address.try(:full_address) || '-'
+      end
+
+      row 'Site Contact Name' do |site|
+        site.contact_name
+      end
+
+      row 'Site Contact Phone' do |site|
+        site.contact_phone
+      end
 
       row 'Source' do |site|
         site.source_string
       end
 
+      row :source_info
+
       row :damage
       row 'Opportunity Priority' do |site|
         site.status_string
       end
-      row :roof_built_at
-      row :insurance_company
-      row :claim_number, label: 'Claim #'
-      row :mortgage_company
-      row :loan_tracking_number, 'Loan Tracking #'
     end
   end
 
@@ -177,19 +202,37 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
       end
     end
 
-    f.inputs 'Details' do
+    f.inputs 'Billing Address' do
+      f.input :bill_addr_same_as_addr, as: :boolean, input_html: { id: 'bill_addr_same_as_addr_check' }, label: 'Same as Site Address?'
+
+      if f.object.bill_addr_same_as_addr
+        f.object.bill_address = Address.new
+      else
+        f.object.bill_address ||= Address.new
+      end
+
+      f.fields_for :bill_address do |baf|
+        baf.input :address1, required: true
+        baf.input :address2
+        baf.input :city, required: true
+        baf.input :state_id, as: :select, collection: State.order(:name).collect {|state| [state.name, state.id]  }, required: true
+        baf.input :zipcode, required: true
+      end
+    end
+
+    f.inputs 'Site Details' do
+      if f.object.po_number
+        f.input :po_number, input_html: { disabled: true }, label: 'PO#'
+      end
+      f.input :stage_string, input_html: { disabled: true }, label: 'Stage'
       f.input :name, label: 'Site Name'
       f.input :manager_ids, as: :select, collection: User.all.collect {|user| [user.email, user.id]  }, multiple: true, input_html: { class: "chosen-select" }, label: 'Managers'
-      f.input :contact_name
-      f.input :contact_phone
+      f.input :contact_name, label: 'Site Contact Name'
+      f.input :contact_phone, label: 'Site Contact Phone'
       f.input :source, as: :select, collection: Site::SOURCE.collect{|k,v| [v, k]}
+      f.input :source_info
       f.input :damage
       f.input :status, as: :select, collection: Site::STATUS.collect{|k,v| [v, k]}, label: 'Opportunity Priority'
-      f.input :roof_built_at, as: :datepicker, input_html: {class: 'date-field'}
-      f.input :insurance_company
-      f.input :claim_number
-      f.input :mortgage_company
-      f.input :loan_tracking_number
     end
 
     f.submit

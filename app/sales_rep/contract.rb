@@ -2,11 +2,8 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
   menu false
   belongs_to :site
   actions :show, :edit, :create, :update, :new
-  permit_params :document, :price, :paid_till_now, :notes, :special_instructions,
-                :ers_sign_image, :customer_sign_image, :signed_at, :construction_start_at_date,
-                :construction_start_at_time_hour, :construction_start_at_time_minute,
-                :construction_end_at_date, :construction_end_at_time_hour, :construction_end_at_time_minute,
-                :construction_payment_at_date, :construction_payment_at_time_hour, :construction_payment_at_time_minute
+  permit_params :document, :price, :notes, :special_instructions, :contract_type,
+                :ers_sign_image, :customer_sign_image, :signed_at, work_type_ids: []
 
   action_item 'Site', only: [:edit, :new, :show] do
     link_to 'Site', sales_rep_site_url(site)
@@ -18,6 +15,14 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
     else
       link_to 'Create Project', new_sales_rep_site_project_url(contract.site)
     end
+  end
+
+  action_item 'Docs', only: [:show, :edit, :new] do
+    link_to 'Docs', sales_rep_site_documents_url(contract.site)
+  end
+
+  action_item 'Images', only: [:show, :edit, :new] do
+    link_to 'Images', sales_rep_site_images_url(contract.site)
   end
 
   action_item 'Cancel', only: [:edit] do
@@ -38,27 +43,28 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
         contract.po_number
       end
 
-      row 'Attachment' do |contract|
+      row 'Attachment' do
         link_to contract.document_file_name, contract.document.url, target: '_blank'
       end
 
       row :signed_at
 
+      row 'Type of Contract' do
+        contract.type_string
+      end
+
+      row 'Type of work to be completed' do
+        contract.work_type_names
+      end
+
       row 'Price' do
         number_to_currency(contract.price)
       end
 
-      row 'Paid Till Now' do
-        number_to_currency(contract.paid_till_now)
-      end
-
-      row :construction_start_at
-      row :construction_end_at
-      row :construction_payment_at
       row :notes
       row :special_instructions
 
-      # row 'ERS Sign' do |contract|
+      # row 'ERS Sign' do
       #   if contract.ers_sign_image_file_name?
       #     link_to contract.ers_sign_image_file_name, contract.ers_sign_image.url, target: '_blank'
       #   else
@@ -66,7 +72,7 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
       #   end
       # end
 
-      # row 'Customer Sign' do |contract|
+      # row 'Customer Sign' do
       #   if contract.customer_sign_image_file_name?
       #     link_to contract.customer_sign_image_file_name, contract.customer_sign_image.url, target: '_blank'
       #   else
@@ -84,11 +90,23 @@ ActiveAdmin.register Contract, namespace: 'sales_rep' do
       end
       f.input :document, as: :file, required: true
       f.input :signed_at, as: :datepicker, input_html: { class: 'date-field' }
+      f.input :contract_type, as: :select, collection: Contract::TYPE.collect{|k,v| [v, k]}, label: 'Type of Contract'
+
+      li class: 'input' do
+        f.label :type_of_work_to_be_completed, class: 'label'
+
+        WorkType.all.each do |work_type|
+          html = []
+          span do
+            html << check_box_tag("contract[work_type_ids][]", work_type.id, contract.has_work_type?(work_type))
+            html << work_type.name
+            html << '&nbsp;&nbsp;&nbsp;&nbsp;'
+            html.join(' ').html_safe
+          end
+        end
+      end
+
       f.input :price
-      f.input :paid_till_now
-      f.input :construction_start_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
-      f.input :construction_end_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
-      f.input :construction_payment_at, as: :just_datetime_picker, input_html: { class: 'date-field' }
       f.input :notes
       f.input :special_instructions
     end
