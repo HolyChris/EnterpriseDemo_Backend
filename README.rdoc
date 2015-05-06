@@ -24,5 +24,59 @@ Things you may want to cover:
 * ...
 
 
+--------------------------------------------------------------------------------
+
+API DOC
+
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+State (ID => Name) mapping
+{1=>"Michigan", 2=>"South Dakota", 3=>"Washington", 4=>"Wisconsin", 5=>"Arizona", 6=>"Illinois", 7=>"New Hampshire", 8=>"North Carolina", 9=>"Kansas", 10=>"Missouri", 11=>"Arkansas", 12=>"Nevada", 13=>"District of Columbia", 14=>"Idaho", 15=>"Nebraska", 16=>"Pennsylvania", 17=>"Hawaii", 18=>"Utah", 19=>"Vermont", 20=>"Delaware", 21=>"Rhode Island", 22=>"Oklahoma", 23=>"Louisiana", 24=>"Montana", 25=>"Tennessee", 26=>"Maryland", 27=>"Florida", 28=>"Virginia", 29=>"Minnesota", 30=>"New Jersey", 31=>"Ohio", 32=>"California", 33=>"North Dakota", 34=>"Maine", 35=>"Indiana", 36=>"Texas", 37=>"Oregon", 38=>"Wyoming", 39=>"Alabama", 40=>"Iowa", 41=>"Mississippi", 42=>"Kentucky", 43=>"New Mexico", 44=>"Georgia", 45=>"Colorado", 46=>"Massachusetts", 47=>"Connecticut", 48=>"New York", 49=>"South Carolina", 50=>"Alaska", 51=>"West Virginia", 52=>"U.S. Armed Forces - Americas", 53=>"U.S. Armed Forces - Europe", 54=>"U.S. Armed Forces - Pacific"}
+
+Site::STATUS (ID =>  Name) mapping
+{ 1 => 'Good', 2 => 'Bad', 3 => 'New', 4 => 'Dead' }
+
+Site::SOURCE (ID =>  Name) mapping
+{ 1 => 'Qualified Storm Leads', 2 => 'Commercial Call Leads', 3 => 'Self-Generated', 4 => 'Canvasser', 5 => 'Call in Leads', 6 => 'Mailer', 7 => 'Sign', 8 => 'Website', 9 => 'Friend', 10 => 'Neighbor', 11 => 'Truck Sign', 12 => 'Call/Knock', 13 => 'Other', 14 => 'Existing Customer' }
+
+Site::STAGE (Name => ID) mapping
+{ lead: 1, contract: 2, project: 3, production: 4, billing: 5 }
+
+Appointment::OUTCOMES (ID => Name) mapping
+{ 1 => 'Vendor Packet', 2 => 'Meet and Greet', 3 => 'Demo - No Sale', 4 => 'No Demo - No Need', 5 => 'No Demo - Future Need', 6 => 'No Show', 7 => 'No Entry', 8 => 'SOLD', 9 => 'Gaco Bid', 10 => 'Rescheduled', 11 => 'Wrong Address' }
+
+PhoneNumber::NUM_TYPE (ID => Name) mapping
+{ 1 => 'Business', 2 => 'Home', 3 => 'Mobile', 0 => 'Other' }
+__________________________________________________________________________
+
+Send auth token with each request in header for user.
+name: X-Auth-Token
+value: user token (for staging admin: XsNokbceRXVCf5nAqm8J)
+__________________________________________________________________________
+
+
+Sites
+Index
+Verb:		Get
+Path:		/api/v1/sites
+Params:
+per_page: default is 10 (change to number of records on a single request)
+page: default is 1 (change for pagination)
+stage: Default all (set any one value from "Opportunity", "Under Contract", "Production", "Billing")
+
+Example Request:
+GET	http://54.68.73.69/api/v1/sites?per_page=5&page=2&stage=Under Contract
+
+Requirements:
+Dashboard
+10 most recent sites, http://54.68.73.69/api/v1/sites
+10 most recent cards for stage response
+Opportunity, http://54.68.73.69/api/v1/sites?stage=Opportunity
+Under Contract, http://54.68.73.69/api/v1/sites?stage=UnderContract
+Production, http://54.68.73.69/api/v1/sites?stage=Production
+Billing, http://54.68.73.69/api/v1/sites?stage=Billing
+Collections, Not yet implemented
+Update stage in database when card is moved. (Lets discuss this on call)
+
+
