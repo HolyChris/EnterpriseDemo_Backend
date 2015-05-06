@@ -9,7 +9,8 @@ class Api::V1::SitesController < Api::V1::BaseController
   end
 
   def index
-    @sites = Site.accessible_by(current_ability, :read).includes(:customer, :appointments, address: :state)
+    @search = Site.accessible_by(current_ability, :read).ransack(search_params)
+    @sites = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:customer, :appointments, bill_address: :state, address: :state)
     respond_with(@sites)
   end
 
@@ -21,6 +22,22 @@ class Api::V1::SitesController < Api::V1::BaseController
   private
     def site_params
       params.permit(:id, :name, :contact_name, :contact_phone, :source, :source_info, :damage, :status, :bill_addr_same_as_addr, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id])
+    end
+
+    def search_params
+      params[:q] ||= {}
+      params[:q][:s] ||= 'updated_at desc'
+      if params[:stage].present?
+        stages = Site::STAGE_MAPPING.select{|k,v| v.downcase.delete(' ') == params[:stage].downcase.delete(' ')}.keys
+        if stages.present?
+          params[:q][:stage_in] = stages
+          params[:q].delete(:stage_eq)
+        else
+          params[:q][:stage_eq] = params[:stage]
+          params[:q].delete(:stage_in)
+        end
+      end
+      params[:q]
     end
 
     def load_site
