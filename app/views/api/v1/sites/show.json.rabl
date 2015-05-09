@@ -16,6 +16,20 @@ child(:customer) do
   end
 end
 
+child(:contract) do
+  attributes :id, :po_number, :signed_at, :notes, :special_instructions
+
+  node(:contract_type) {|contract| contract.type_string}
+  node(:price) { |contract| number_to_currency(contract.price) }
+  node(:document_url) {|contract| contract.document.url}
+  node(:ers_sign_image_url) {|contract| contract.ers_sign_image.url}
+  node(:customer_sign_image_url) {|contract| contract.customer_sign_image.url}
+
+  child(:work_types) do
+    attributes :id, :name
+  end
+end
+
 child(:address) do
   attributes :id, :address1, :address2, :city, :zipcode
   child(:state) do
