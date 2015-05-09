@@ -9,7 +9,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
 
   def index
     @search = Customer.accessible_by(current_ability, :read).ransack(search_params)
-    @customers = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:phone_numbers, sites: [ :appointments, bill_address: :state, address: :state ])
+    @customers = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:phone_numbers, sites: [ :appointments, :contract, bill_address: :state, address: :state ])
     respond_with(@customers)
   end
 
