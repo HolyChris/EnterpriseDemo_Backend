@@ -5,11 +5,11 @@ Rails.application.routes.draw do
       resources :users, only: :index
       put :sign_in, to: 'sessions#create'
       delete :sign_out, to: 'sessions#destroy'
-      resources :sites, only: [:index, :create, :update] do
+      resources :sites, only: [:index, :create, :update, :show] do
         resources :contracts, only: [:show, :create, :update]
         resources :projects, only: [:show, :create, :update]
       end
-      resources :customers, only: [:index, :create, :update]
+      resources :customers, only: [:index, :create, :update, :show]
       resources :appointments, only: [:index, :create, :update]
     end
   end

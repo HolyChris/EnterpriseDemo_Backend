@@ -1,9 +1,13 @@
 class Api::V1::CustomersController < Api::V1::BaseController
-  before_action :load_customer, only: [:update]
+  before_action :load_customer, only: [:update, :show]
 
   def create
     @customer = Customer.new(customer_params)
     @customer.save
+    respond_with(@customer)
+  end
+
+  def show
     respond_with(@customer)
   end
 

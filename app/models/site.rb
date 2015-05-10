@@ -66,6 +66,6 @@ class Site < ActiveRecord::Base
 
   private
     def assign_customer
-      self.customer_id = address.customer.try(:id)
+      self.customer_id ||= address.customer.try(:id)
     end
 end
