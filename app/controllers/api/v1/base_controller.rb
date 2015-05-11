@@ -6,6 +6,7 @@ class Api::V1::BaseController < ActionController::Base
   private
 
     def authenticate_user_from_token!
+      p request.headers["X-Auth-Token"]
       unless current_user
         render json: { message: 'User not authorized to perform the operation' }, status: 404
       end
