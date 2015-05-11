@@ -1,5 +1,7 @@
 class Api::V1::BaseController < ActionController::Base
   respond_to :json
+
+  before_action :verify_authenticity_token
    
   private
 
