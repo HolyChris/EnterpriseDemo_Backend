@@ -23,7 +23,10 @@ module Ers
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :delete, :put, :patch, :head, :options]
+        resource '/api/v1/*',
+            headers: :any,
+            methods: [:get, :post, :delete, :put, :patch, :head, :options],
+            max_age: 1728000
       end
     end
   end
