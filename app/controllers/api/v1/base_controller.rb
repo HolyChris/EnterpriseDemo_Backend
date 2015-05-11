@@ -1,12 +1,9 @@
 class Api::V1::BaseController < ActionController::Base
-  protect_from_forgery with: :null_session
   respond_to :json
-
-  before_action :authenticate_user_from_token!
    
   private
 
-    def authenticate_user_from_token!
+    def verify_authenticity_token
       unless current_user
         render json: { message: 'User not authorized to perform the operation' }, status: 404
       end

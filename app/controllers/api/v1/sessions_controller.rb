@@ -1,7 +1,7 @@
 class Api::V1::SessionsController < Api::V1::BaseController
 
   before_filter :ensure_params_exist, only: :create
-  skip_before_action :authenticate_user_from_token!
+  skip_before_action :verify_authenticity_token
  
   def create
     @resource = User.find_for_database_authentication(email: params[:email])
