@@ -1,11 +1,11 @@
 class Api::V1::BaseController < ActionController::Base
   respond_to :json
 
-  before_action :verify_authenticity_token
+  before_action :authenticate_user_from_token!
    
   private
 
-    def verify_authenticity_token
+    def authenticate_user_from_token!
       unless current_user
         render json: { message: 'User not authorized to perform the operation' }, status: 404
       end
