@@ -34,6 +34,7 @@ gem "audited-activerecord", "~> 4.0"
 gem 'aws-sdk'
 gem "just-datetime-picker"
 gem 'posix-spawn'
+gem 'rack-cors'
 
 group :development do
   gem 'capistrano'
