@@ -5,7 +5,10 @@ Rails.application.routes.draw do
       resources :users, only: :index
       put :sign_in, to: 'sessions#create'
       delete :sign_out, to: 'sessions#destroy'
-      resources :sites, only: [:index, :create, :update] do
+      resources :sites, only: [:index, :create, :update, :show] do
+        resources :assets, only: [:index, :create, :update, :show]
+        resources :documents, only: [:index, :create, :update, :show]
+        resources :images, only: [:index, :create, :update, :show]
         resources :contracts, only: [:show, :create, :update]
         resources :projects, only: [:show, :create, :update]
       end
