@@ -1,35 +1,35 @@
-class Api::V1::AssetsController < Api::V1::BaseController
+class Api::V1::DocumentsController < Api::V1::BaseController
   before_action :find_site
-  before_action :find_asset, only: [:update, :show]
+  before_action :find_document, only: [:update, :show]
 
   def index
-    @search = @site.assets.ransack(search_params)
-    @assets = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:attachments)
-    respond_with(@assets)
+    @search = @site.documents.ransack(search_params)
+    @documents = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:attachments)
+    respond_with(@documents)
   end
 
   def create
-    @asset = @site.assets.build(asset_params(:create))
-    @asset.save
-    respond_with(@asset)
+    @document = @site.documents.build(document_params(:create))
+    @document.save
+    respond_with(@document)
   end
 
   def update
-    @asset.update_attributes(asset_params(:update))
-    respond_with(@asset)
+    @document.update_attributes(document_params(:update))
+    respond_with(@document)
   end
 
   def show
-    respond_with(@asset)
+    respond_with(@document)
   end
 
   private
-    def asset_params(action=:create)
+    def document_params(action=:create)
       parse_encoded_attachments
       if action == :create
-        params.permit(:type, :notes, :description, :stage, :alt, attachments_attributes: [:file, :_destroy])
+        params.permit(:notes, :doc_type, :title, :stage, attachments_attributes: [:file, :_destroy])
       elsif action == :update
-        params.permit(:id, :type, :notes, :description, :stage, :alt, attachments_attributes: [:file, :_destroy, :id])
+        params.permit(:id, :notes, :doc_type, :title, :stage, attachments_attributes: [:file, :_destroy, :id])
       end
     end
 
@@ -57,9 +57,9 @@ class Api::V1::AssetsController < Api::V1::BaseController
       end
     end
 
-    def find_asset
-      unless @asset = @site.assets.includes(:attachments).find_by(id: params[:id])
-        render_with_failure(msg: 'Asset Not Found', status: 404)
+    def find_document
+      unless @document = @site.documents.includes(:attachments).find_by(id: params[:id])
+        render_with_failure(msg: 'Document Not Found', status: 404)
       end
     end
 end

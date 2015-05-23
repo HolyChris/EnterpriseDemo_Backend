@@ -1,35 +1,35 @@
-class Api::V1::AssetsController < Api::V1::BaseController
+class Api::V1::ImagesController < Api::V1::BaseController
   before_action :find_site
-  before_action :find_asset, only: [:update, :show]
+  before_action :find_image, only: [:update, :show]
 
   def index
-    @search = @site.assets.ransack(search_params)
-    @assets = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:attachments)
-    respond_with(@assets)
+    @search = @site.images.ransack(search_params)
+    @images = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:attachments)
+    respond_with(@images)
   end
 
   def create
-    @asset = @site.assets.build(asset_params(:create))
-    @asset.save
-    respond_with(@asset)
+    @image = @site.images.build(image_params(:create))
+    @image.save
+    respond_with(@image)
   end
 
   def update
-    @asset.update_attributes(asset_params(:update))
-    respond_with(@asset)
+    @image.update_attributes(image_params(:update))
+    respond_with(@image)
   end
 
   def show
-    respond_with(@asset)
+    respond_with(@image)
   end
 
   private
-    def asset_params(action=:create)
+    def image_params(action=:create)
       parse_encoded_attachments
       if action == :create
-        params.permit(:type, :notes, :description, :stage, :alt, attachments_attributes: [:file, :_destroy])
+        params.permit(:notes, :stage, :title, attachments_attributes: [:file, :_destroy])
       elsif action == :update
-        params.permit(:id, :type, :notes, :description, :stage, :alt, attachments_attributes: [:file, :_destroy, :id])
+        params.permit(:id, :notes, :stage, :title, attachments_attributes: [:file, :_destroy, :id])
       end
     end
 
@@ -57,9 +57,9 @@ class Api::V1::AssetsController < Api::V1::BaseController
       end
     end
 
-    def find_asset
-      unless @asset = @site.assets.includes(:attachments).find_by(id: params[:id])
-        render_with_failure(msg: 'Asset Not Found', status: 404)
+    def find_image
+      unless @image = @site.images.includes(:attachments).find_by(id: params[:id])
+        render_with_failure(msg: 'Image Not Found', status: 404)
       end
     end
 end
