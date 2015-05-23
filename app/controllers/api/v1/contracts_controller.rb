@@ -1,9 +1,8 @@
 class Api::V1::ContractsController < Api::V1::BaseController
   before_action :find_site
-  before_action :find_contract, only: [:update]
+  before_action :find_contract, only: [:update, :show]
 
   def show
-    @contract = @site.contract
     respond_with(@contract)
   end
 
@@ -33,7 +32,7 @@ class Api::V1::ContractsController < Api::V1::BaseController
     end
 
     def find_contract
-      unless @contract = Contract.accessible_by(current_ability, :update).find_by(id: params[:id], site_id: @site.id)
+      unless @contract = Contract.accessible_by(current_ability, :manage).find_by(site_id: @site.id)
         render_with_failure(msg: 'Contract Not Found', status: 404)
       end
     end

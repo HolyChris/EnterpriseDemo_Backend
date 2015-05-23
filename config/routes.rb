@@ -9,8 +9,8 @@ Rails.application.routes.draw do
         resources :assets, only: [:index, :create, :update, :show]
         resources :documents, only: [:index, :create, :update, :show]
         resources :images, only: [:index, :create, :update, :show]
-        resources :contracts, only: [:show, :create, :update]
-        resources :projects, only: [:show, :create, :update]
+        resource :contract, only: [:show, :create, :update]
+        resource :project, only: [:show, :create, :update]
       end
       resources :customers, only: [:index, :create, :update, :show]
       resources :appointments, only: [:index, :create, :update]
