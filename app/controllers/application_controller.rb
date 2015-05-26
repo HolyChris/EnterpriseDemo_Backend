@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  def authenticate_user!
+  def authenticate_user!(*args)
     if (admin_request? && current_user.is_admin?) || (sales_rep_request? && current_user.is_sales_rep?) || (office_staff_request? && current_user.is_office_staff?)
       super
     else
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 
     [:admin, :office_staff, :sales_rep].each do |role|
       define_method "#{ role }_request?" do
-        !!(request.path =~ Regexp.new("/#{role}"))
+        !!(request.path =~ Regexp.new("/#{role}|/users"))
       end
     end
 end
