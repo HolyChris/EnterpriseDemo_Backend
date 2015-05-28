@@ -1,15 +1,19 @@
 ERS_MVP_Backend
 ===
 **Backend code that iOS and web will interface with**
+
 **Test ERS repo**
 ## Auth Token:
 Send auth token with each request in header for user.
+
 name: *X-Auth-Token*
+
 value: user token (for staging admin: **D2EdWKgbs8cq9PHyLhrA**)
 
 Ideally, when a user's sign in request is successful then this token is sent in response to live for that session.
 
 This token will change whenever a user tries to
+
 1. sign in
 2. update/reset password
 3. after 3 weeks of last auth token change via any of the above two methods.
