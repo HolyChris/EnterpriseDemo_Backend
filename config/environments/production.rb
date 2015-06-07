@@ -77,6 +77,16 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  ActionMailer::Base.smtp_settings = {
+    :user_name => 'StartClosing',
+    :password => 'St@rtCl0s!ng',
+    :domain => '54.200.157.85',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+
   config.paperclip_defaults = {
     storage: :s3,
     url: 's3.amazonaws.com/www.ers.com',
