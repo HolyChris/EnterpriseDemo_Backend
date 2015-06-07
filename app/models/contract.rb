@@ -36,7 +36,7 @@ class Contract < ActiveRecord::Base
   validates :po_number, uniqueness: true
   validates :price, numericality: true, allow_blank: true
   after_create :transit_site_stage
-  before_validation :generate_and_assign_po_number, unless: :po_number?
+  before_validation :generate_and_assign_po_number, unless: :po_number?, on: :create
   delegate :project, :production, :billing, to: :site
 
   def name
@@ -44,7 +44,7 @@ class Contract < ActiveRecord::Base
   end
 
   def generate_and_assign_po_number
-    self.po_number = generate_po_number
+    self.po_number = self.class.generate_po_number
   end
 
   def has_work_type?(work_type)
@@ -64,10 +64,7 @@ class Contract < ActiveRecord::Base
       site.to_contract!
     end
 
-    def generate_po_number
-      loop do
-        random_token = SecureRandom.hex[0,10].upcase
-        break random_token unless Contract.exists?(po_number: random_token)
-      end
+    def self.generate_po_number
+      (maximum(:po_number) || 49999) + 1
     end
 end
