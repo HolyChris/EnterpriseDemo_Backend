@@ -4,8 +4,8 @@ class Api::V1::PasswordsController < Api::V1::BaseController
   before_filter :find_by_email, only: [:create]
 
   def create
-    if user = @resource.send_reset_password_instructions
-      respond_with(user)
+    if @resource.send_reset_password_instructions
+      respond_with(@resource)
     else
       render json: { success: false, message: "Reset token not sent" }, status: 422
     end
