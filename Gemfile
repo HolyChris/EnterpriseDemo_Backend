@@ -42,6 +42,7 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-unicorn-nginx'
   gem 'quiet_assets'
+  gem 'byebug'
 end
 
 group :test do

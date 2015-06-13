@@ -11,6 +11,10 @@ class Api::V1::BaseController < ActionController::Base
       end
     end
 
+    def set_request_format_json
+      request.format = :json
+    end
+
     def current_user
       if auth_token && !@current_user
         if @current_user = User.find_by_auth_token(auth_token)
@@ -18,6 +22,11 @@ class Api::V1::BaseController < ActionController::Base
         end
       end
       @current_user
+    end
+
+    def find_by_email
+      @resource = User.find_for_database_authentication(email: params[:email])
+      return invalid_email unless @resource
     end
 
     def render_with_failure(response={})

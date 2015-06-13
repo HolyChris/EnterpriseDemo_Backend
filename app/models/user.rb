@@ -42,6 +42,19 @@ class User < ActiveRecord::Base
     password.present? || password_confirmation.present?
   end
 
+  def self.reset_password_by_token_local(attributes={})
+    reset_password_token = attributes[:reset_password_token]
+    recoverable = find_or_initialize_with_error_by(:reset_password_token, reset_password_token)
+    if recoverable.persisted?
+      if recoverable.reset_password_period_valid?
+        recoverable.reset_password!(attributes[:password], attributes[:password_confirmation])
+      else
+        recoverable.errors.add(:reset_password_token, :expired)
+      end
+    end
+    recoverable
+  end
+
   private
     def generate_auth_token
       loop do
