@@ -1,6 +1,6 @@
 class Api::V1::PasswordsController < Api::V1::BaseController
 
-  skip_before_action :authenticate_user_from_token!, only: [:create]
+  skip_before_action :authenticate_user_from_token!, only: [:create, :update]
   before_filter :find_by_email, only: [:create]
 
   def create

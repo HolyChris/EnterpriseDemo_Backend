@@ -12,11 +12,11 @@ private
 
   def host
     if Rails.env.production?
-      # 'localhost:3000'
+      '54.200.157.85'
     elsif Rails.env.staging?
-      # 'localhost:3000'
+      '54.68.73.69'
     else
-      'http://asdasdsa.com'
+      'localhost:3000'
     end
   end
 
