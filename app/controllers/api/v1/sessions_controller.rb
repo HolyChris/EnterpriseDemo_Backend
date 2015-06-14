@@ -2,10 +2,9 @@ class Api::V1::SessionsController < Api::V1::BaseController
 
   before_filter :ensure_params_exist, only: :create
   skip_before_action :authenticate_user_from_token!
+  before_filter :find_by_email, only: [:create]
  
   def create
-    @resource = User.find_for_database_authentication(email: params[:email])
-    return invalid_email unless @resource
     if @resource.valid_password?(params[:password])
       sign_in("user", @resource)
       respond_with(@resource)
@@ -15,7 +14,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def destroy
-    # sign_out(current_user)
+    sign_out(current_user)
   end
 
   protected
@@ -26,11 +25,6 @@ class Api::V1::SessionsController < Api::V1::BaseController
       elsif params[:password].blank?
         render json: { success: false, message: "Missing password" }, status: 422
       end
-    end
-
-    def invalid_email
-      warden.custom_failure!
-      render json: { success: false, message: "Email not found" }, status: 401
     end
      
     def invalid_password
