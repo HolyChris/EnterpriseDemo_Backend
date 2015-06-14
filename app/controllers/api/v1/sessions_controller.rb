@@ -14,7 +14,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def destroy
-    #sign_out(current_user)
+    sign_out(current_user)
   end
 
   protected
@@ -25,11 +25,6 @@ class Api::V1::SessionsController < Api::V1::BaseController
       elsif params[:password].blank?
         render json: { success: false, message: "Missing password" }, status: 422
       end
-    end
-
-    def invalid_email
-      warden.custom_failure!
-      render json: { success: false, message: "Email not found" }, status: 401
     end
      
     def invalid_password
