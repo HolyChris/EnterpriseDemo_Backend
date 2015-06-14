@@ -26,11 +26,6 @@ class Api::V1::SessionsController < Api::V1::BaseController
         render json: { success: false, message: "Missing password" }, status: 422
       end
     end
-
-    def invalid_email
-      warden.custom_failure!
-      render json: { success: false, message: "Email not found" }, status: 401
-    end
      
     def invalid_password
       warden.custom_failure!

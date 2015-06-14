@@ -11,9 +11,9 @@ class Api::V1::BaseController < ActionController::Base
       end
     end
 
-    def set_request_format_json
-      request.format = :json
-    end
+    # def set_request_format_json
+    #   request.format = :json
+    # end
 
     def current_user
       if auth_token && !@current_user
@@ -27,6 +27,11 @@ class Api::V1::BaseController < ActionController::Base
     def find_by_email
       @resource = User.find_for_database_authentication(email: params[:email])
       return invalid_email unless @resource
+    end
+
+    def invalid_email
+      warden.custom_failure!
+      render json: { success: false, message: "Email not found" }, status: 401
     end
 
     def render_with_failure(response={})
