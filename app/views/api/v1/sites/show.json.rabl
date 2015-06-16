@@ -9,10 +9,10 @@ node(:source) {|site| site.source_string}
 node(:status) {|site| site.status_string}
 
 child(:customer) do
-  attributes :id, :email, :firstname, :lastname
+  attributes :id, :email, :firstname, :lastname, :spouse, :business_name, :other_business_info
 
   child(:phone_numbers) do
-    attributes :id, :number, :primary, :num_type
+    attributes :id, :number, :primary, :num_type, :num_type_string
   end
 end
 
@@ -70,4 +70,8 @@ child :assets do
     node(:file_name) { |attachment| attachment.file_file_name }
     node(:url) { |attachment| attachment.file.url }
   end
+end
+
+child :managers do
+  attributes :id, :email, :firstname, :lastname
 end
