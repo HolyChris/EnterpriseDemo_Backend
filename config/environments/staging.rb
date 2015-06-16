@@ -77,6 +77,16 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => '3691293b27b0659cf',
+    :password => '8ea51a99a0e84c',
+    :address => 'mailtrap.io',
+    :domain => 'mailtrap.io',
+    :port => '2525',
+    :authentication => :cram_md5
+  }
+
   config.paperclip_defaults = {
     storage: :s3,
     url: 's3.amazonaws.com/staging.ers.com',
