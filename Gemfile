@@ -35,6 +35,7 @@ gem 'aws-sdk'
 gem "just-datetime-picker"
 gem 'posix-spawn'
 gem 'rack-cors'
+gem 'jquery-fileupload-rails'
 
 group :development do
   gem 'capistrano'

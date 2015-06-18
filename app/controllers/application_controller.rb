@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def authenticate_user!(*args)
-    if (admin_request? && current_user.is_admin?) || (sales_rep_request? && current_user.is_sales_rep?) || (office_staff_request? && current_user.is_office_staff?)
+    if assets_request? || (admin_request? && current_user.is_admin?) || (sales_rep_request? && current_user.is_sales_rep?) || (office_staff_request? && current_user.is_office_staff?)
       super
     else
       redirect_to after_sign_in_path_for(current_user)
@@ -35,5 +35,9 @@ class ApplicationController < ActionController::Base
       define_method "#{ role }_request?" do
         !!(request.path =~ Regexp.new("/#{role}|/users"))
       end
+    end
+
+    def assets_request?
+      request.path.match(site_assets_path)
     end
 end

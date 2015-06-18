@@ -19,6 +19,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sites, only: [] do
+    resources :assets, only: [:create, :update, :index]
+  end
+
+  resources :attachments
+
   [:admin, :office_staff, :sales_rep].each do |role|
     namespace role do
       resources :sites do
