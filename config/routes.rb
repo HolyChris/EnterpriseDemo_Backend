@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   resources :sites, only: [] do
-    resources :assets, only: [:create, :update, :index]
+    resources :assets, only: [:create, :update, :index, :destroy]
   end
 
   resources :attachments

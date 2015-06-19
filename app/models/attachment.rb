@@ -1,5 +1,6 @@
 class Attachment < ActiveRecord::Base
   # include DelegateBelongsTo
+  include Rails.application.routes.url_helpers
   attr_accessor
   belongs_to :asset
 
@@ -30,12 +31,16 @@ class Attachment < ActiveRecord::Base
   end
 
   def to_jq_upload
+    asset = self.asset
+    site = asset.viewable
     {
-      "name" => read_attribute(:upload_file_name),
-      "size" => read_attribute(:upload_file_size),
-      "url" => upload.url(:original),
-      "delete_url" => upload_path(self),
-      "delete_type" => "DELETE" 
+      "name" => file_file_name,
+      "size" => file_file_size,
+      "url" => file.url,
+      "thumbnail_url" => file.url,
+      "delete_url" => site_asset_path(site_id: site.id,:id => asset.id),
+      "delete_type" => "DELETE",
+      "content_type" => file_content_type
     }
   end
 

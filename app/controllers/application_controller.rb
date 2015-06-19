@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def not_found
+    logger.info "NOT FOUND PATH: #{request.fullpath}"
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
   private
     def access_denied(exception)
       reset_session

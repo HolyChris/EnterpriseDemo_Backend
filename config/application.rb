@@ -29,7 +29,6 @@ module Ers
             max_age: 1728000
       end
     end
-    config.middleware.use JQuery::FileUpload::Rails::Middleware
   end
 
 end
