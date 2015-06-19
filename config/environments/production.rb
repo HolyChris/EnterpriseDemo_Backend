@@ -100,5 +100,5 @@ Rails.application.config.middleware.use ExceptionNotification::Rack,
   :email => {
     :email_prefix => "ERS: Exception on production ",
     :sender_address => %{"notifier" <notifier@ecoroofs.com>},
-    :exception_recipients => %w{vipin.itm@gmail.com manish.nath87@gmail.com}
+    :exception_recipients => %w{vipin.itm@gmail.com production@doublebitconsulting.com chris@doublebitconsulting.com}
   }
