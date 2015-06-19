@@ -43,6 +43,6 @@ class ApplicationController < ActionController::Base
     end
 
     def assets_request?
-      request.path.match(site_assets_path)
+      params[:site_id] && request.path.match(site_assets_path(params[:site_id]))
     end
 end
