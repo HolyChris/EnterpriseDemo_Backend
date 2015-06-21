@@ -39,8 +39,14 @@ class Attachment < ActiveRecord::Base
       "url" => file.url,
       "thumbnail_url" => file.url,
       "delete_url" => site_asset_path(site_id: site.id,:id => asset.id),
+      "update_url" => site_asset_path(site_id: site.id,:id => asset.id),
       "delete_type" => "DELETE",
-      "content_type" => file_content_type
+      "content_type" => file_content_type,
+      "title" => asset.title,
+      "notes" => asset.notes,
+      "stage" => asset.stage,
+      "doc_type" => asset.doc_type,
+      "type" => file_content_type
     }
   end
 

@@ -122,7 +122,8 @@ ActiveAdmin.register Site do
     end
 
     actions do |site|
-      link_to('Appointments', admin_site_appointments_url(site))
+      link_to('Appointments', admin_site_appointments_url(site)) + ' ' +
+      link_to('Assets', site_assets_path(site))
     end
   end
 

@@ -26,6 +26,7 @@ ActiveAdmin.register Document do
     column :notes, sortable: false
 
     actions
+
   end
 
   filter :doc_type, as: :select, collection: Asset::DOC_TYPE.collect{|k,v| [v, k]}

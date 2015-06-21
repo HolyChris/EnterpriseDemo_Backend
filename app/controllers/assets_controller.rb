@@ -18,10 +18,25 @@ class AssetsController < ApplicationController
   end
 
   def update
+    respond_to do |format|
+      if(@asset.update_attributes(asset_params))
+        format.json { render json: {:text => "ok"}, :status => 200  }
+      else
+        format.json { render json: {:error => "custom_failure"}, :status => 422  }
+      end
+      format.html { render 'index', error: 'Item could not be deleted' }
+    end
   end
 
   def destroy
-  
+    respond_to do |format|
+      if @asset.destroy()
+        format.json { render json: {:text => "ok"}, :status => 200  }
+      else
+        format.json { render json: {:error => "custom_failure"}, :status => 422  }
+      end
+      format.html { render 'index', error: 'Item could not be deleted', :status => 422 }
+    end
   end
 
   def create
@@ -36,7 +51,7 @@ class AssetsController < ApplicationController
         format.json { render json: {files: [@asset.attachments.first.to_jq_upload]}, status: :created }
       else
         format.html { render action: "index" }
-        format.json { render :json => [{:error => "custom_failure"}], :status => 304 }
+        format.json { render :json => [{:error => "custom_failure"}], :status => 422 }
       end
     end
   end
@@ -58,6 +73,7 @@ private
 
   def find_site
     @site = Site.find_by(id: params[:site_id])
+    redirect_to root_path, notice: 'Unauthorized action!' unless can?(:manage, @site)
     not_found unless @site
   end
 
