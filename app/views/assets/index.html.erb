@@ -1,3 +1,6 @@
+<% content_for(:body_attributes) do %>
+  data-no-turbolink="true"
+<% end %>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 <header class="navbar navbar-static-top navbar-default" id="top" role="banner">
   <div class="container-fluid">
@@ -51,6 +54,16 @@
                   <button type="submit" class="btn btn-primary start">
                     <span>Start upload</span>
                   </button>
+
+                  <button id='update-all-link' class="btn btn-primary start">
+                    <span>Update All</span>
+                  </button>
+
+                  <%= link_to 'All', site_assets_path(site_id: @site.id), class: 'btn btn-primary' %>
+
+                  <%= link_to 'Images', site_assets_path(site_id: @site.id, filter: 'Image'), class: 'btn btn-primary' %>
+
+                  <%= link_to 'Documents', site_assets_path(site_id: @site.id, filter: 'Document'), class: 'btn btn-primary' %>
                   <!-- <button type="reset" class="btn btn-warning cancel">
                       <i class="glyphicon glyphicon-ban-circle"></i>
                       <span>Cancel upload</span>
@@ -204,14 +217,14 @@
         
         <td>
           {% if (file.update_url) { %}
-            <button class='btn btn-primary' id='update-link' data-method="PUT" data-remote='true' data-url="{%=file.update_url%}" >
+            <button class='btn btn-primary update-link' data-method="PUT" data-remote='true' data-url="{%=file.update_url%}" >
               <i class="glyphicon glyphicon-pencil"></i>
               <span>Update</span>
             </button>
           {% } %}
 
           {% if (file.delete_url) { %}
-              <a class='btn btn-warning cancel delete-link' data-method="DELETE" data-remote='true' href="{%=file.delete_url%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+              <a onclick="return confirm('Are you sure?')" class='btn btn-warning delete-link' data-method="DELETE" data-remote='true' href="{%=file.delete_url%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                 <i class="glyphicon glyphicon-trash"></i>
                 <span>Delete</span>
               </a>
@@ -235,77 +248,83 @@
       $("#loading-filter-background").hide();
     }
   } 
-    $(function () {
-        // Initialize the jQuery File Upload widget:
-        $('#fileupload').fileupload({
-          dataType: 'json'
-        });
 
-        $('#fileupload').bind('fileuploadsubmit', function (e, data) {
-          var inputs = data.context.find(':input');
-          if (inputs.filter(function () {
-                  return !this.value && $(this).prop('required');
-              }).first().focus().length) {
-              data.context.find('button').prop('disabled', false);
-              return false;
-          }
-          data.formData = inputs.serializeArray();
-        });
-        // 
-        //Load existing files:
-        $.getJSON($('#fileupload').prop('action'), function (files) {
-          var fu = $('#fileupload').data('blueimp-fileupload'), 
-            template;
-          template = fu._renderDownload(files)
-            .appendTo($('#fileupload .files'));
-          // Force reflow:
-          fu._reflow = fu._transition && template.length &&
-            template[0].offsetWidth;
-          template.addClass('in');
-          $('#loading').remove();
-        });
+  $(document).on('ajax:success', '.delete-link', function(){
+    $(this).parents('tr').remove();
+  });
 
-        $(document).on('ajax:success', '.delete-link', function(){
-          $(this).parents('tr').remove();
-        });
+  $(document).on('ajax:beforeSend', function(){
+    showLoading(true);
+  });
 
-        $(document).on('ajax:beforeSend', function(){
-          showLoading(true);
-        });
-
-        $(document).on('click', '#update-link', function(event) {
-          event.preventDefault();
-          var $that = $(this);
-          $.ajax({
-            url: $that.data('url'),
-            type: 'PUT',
-            dataType: 'json',
-            data: $that.parents('tr').find('input, textarea, select').serializeArray(),
-            
-          })
-          .done(function() {
-            console.log("success");
-          })
-          .fail(function() {
-            console.log("error");
-          })
-          .always(function() {
-            console.log("complete");
-          });
-          
-          /* Act on the event */
-        });
-
-
-        $(document).ajaxComplete(function() {
-          showLoading(false);
-        });
-
-        $(document).ajaxError(function(event, xhr, settings, thrownError) {
-          alert('There was an error for one of the uploads!')
-        });
-
+  $(document).on('click', '.update-link', function(event) {
+    event.preventDefault();
+    var $that = $(this);
+    $.ajax({
+      url: $that.data('url'),
+      type: 'PUT',
+      dataType: 'json',
+      data: $that.parents('tr').find('input, textarea, select').serializeArray(),
+      
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
     });
+    
+    /* Act on the event */
+  });
+
+
+  $(document).ajaxComplete(function() {
+    showLoading(false);
+  });
+
+  $(document).ajaxError(function(event, xhr, settings, thrownError) {
+    alert('There was an error for one of the uploads!')
+  });
+
+  $(document).on('click', '#update-all-link', function(event) {
+    event.preventDefault();
+    $('.update-link').trigger('click');
+    /* Act on the event */
+  });
+  $(function () {
+      // Initialize the jQuery File Upload widget:
+      $('#fileupload').fileupload({
+        dataType: 'json'
+      });
+
+      $('#fileupload').bind('fileuploadsubmit', function (e, data) {
+        var inputs = data.context.find(':input');
+        if (inputs.filter(function () {
+                return !this.value && $(this).prop('required');
+            }).first().focus().length) {
+            data.context.find('button').prop('disabled', false);
+            return false;
+        }
+        data.formData = inputs.serializeArray();
+      });
+      // 
+      //Load existing files:
+      $.getJSON(document.location.href, function (files) {
+        var fu = $('#fileupload').data('blueimp-fileupload'), 
+          template;
+        template = fu._renderDownload(files)
+          .appendTo($('#fileupload .files'));
+        // Force reflow:
+        fu._reflow = fu._transition && template.length &&
+          template[0].offsetWidth;
+        template.addClass('in');
+        $('#loading').remove();
+      });
+
+  });
 </script>
 
 <style type="text/css">

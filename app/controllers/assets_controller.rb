@@ -10,7 +10,7 @@ class AssetsController < ApplicationController
     respond_to do |format|
       format.html { render 'index'}
       format.json {
-        @assets = @site.assets.includes(:attachments, :viewable)
+        @assets = get_assets
         render :json => @assets.map { |asset| asset.attachments.first.to_jq_upload }.to_json 
       }
     end
@@ -80,6 +80,14 @@ private
   def find_asset
     @asset = @site.assets.where(id: params[:id]).first
     not_found unless @asset
+  end
+
+  def get_assets
+    unless(params[:filter])
+      @assets = @site.assets.includes(:attachments, :viewable)
+    else
+      params[:filter] == 'Image' ? @site.images.includes(:attachments, :viewable) : @site.documents.includes(:attachments, :viewable)
+    end
   end
 
   
