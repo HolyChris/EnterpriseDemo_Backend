@@ -137,13 +137,13 @@
         </td>
         <td>
             {% if (!i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start" disabled>
+                <button class="btn btn-primary start btn-sm" disabled>
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>Start</span>
                 </button>
             {% } %}
             {% if (!i) { %}
-                <button class="btn btn-warning cancel">
+                <button class="btn btn-warning cancel btn-sm">
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel</span>
                 </button>
@@ -217,19 +217,19 @@
         
         <td>
           {% if (file.update_url) { %}
-            <button class='btn btn-primary update-link' data-method="PUT" data-remote='true' data-url="{%=file.update_url%}" >
+            <button class='btn btn-primary btn-sm update-link' data-method="PUT" data-remote='true' data-url="{%=file.update_url%}" >
               <i class="glyphicon glyphicon-pencil"></i>
               <span>Update</span>
             </button>
           {% } %}
 
           {% if (file.delete_url) { %}
-              <a onclick="return confirm('Are you sure?')" class='btn btn-warning delete-link' data-method="DELETE" data-remote='true' href="{%=file.delete_url%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+              <a onclick="return confirm('Are you sure?')" class='btn btn-sm btn-warning delete-link' data-method="DELETE" data-remote='true' href="{%=file.delete_url%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                 <i class="glyphicon glyphicon-trash"></i>
                 <span>Delete</span>
               </a>
           {% } else { %}
-              <button class="btn btn-warning cancel">
+              <button class="btn btn-sm btn-warning cancel">
                   <i class="glyphicon glyphicon-ban-circle"></i>
                   <span>Cancel</span>
               </button>
