@@ -63,7 +63,6 @@ private
       asset_params[:type] = 'Image'
     else
       asset_params[:type] = 'Document'
-      asset_params[:doc_type] = 1 # Lets set default doctype temp
     end
   end
 
