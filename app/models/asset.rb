@@ -27,6 +27,8 @@ class Asset < ActiveRecord::Base
     is_a?(Image)
   end
 
+  
+
   private
     def set_title
       if doc_type != DOC_TYPE.key('Other')
@@ -39,4 +41,6 @@ class Asset < ActiveRecord::Base
         self.stage = Site::STAGE[viewable.stage.try(:to_sym) || :lead]
       end
     end
+
+    
 end

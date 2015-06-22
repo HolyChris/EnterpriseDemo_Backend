@@ -1,5 +1,6 @@
 class Attachment < ActiveRecord::Base
   # include DelegateBelongsTo
+  include Rails.application.routes.url_helpers
   attr_accessor
   belongs_to :asset
 
@@ -27,6 +28,26 @@ class Attachment < ActiveRecord::Base
     geometry = Paperclip::Geometry.from_file(filename)
     self.file_width  = geometry.width
     self.file_height = geometry.height
+  end
+
+  def to_jq_upload
+    asset = self.asset
+    site = asset.viewable
+    {
+      "name" => file_file_name,
+      "size" => file_file_size,
+      "url" => file.url,
+      "thumbnail_url" => file.url,
+      "delete_url" => site_asset_path(site_id: site.id,:id => asset.id),
+      "update_url" => site_asset_path(site_id: site.id,:id => asset.id),
+      "delete_type" => "DELETE",
+      "content_type" => file_content_type,
+      "title" => asset.title,
+      "notes" => asset.notes,
+      "stage" => asset.stage,
+      "doc_type" => asset.doc_type,
+      "type" => file_content_type
+    }
   end
 
   def image?

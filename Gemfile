@@ -36,6 +36,7 @@ gem "just-datetime-picker"
 gem 'posix-spawn'
 gem 'rack-cors'
 gem 'exception_notification'
+gem 'jquery-fileupload-rails'
 
 group :development do
   gem 'capistrano'

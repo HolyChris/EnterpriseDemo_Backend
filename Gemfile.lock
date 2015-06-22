@@ -158,6 +158,10 @@ GEM
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-datetimepicker-rails (2.3.9.0)
+    jquery-fileupload-rails (0.4.5)
+      actionpack (>= 3.1)
+      railties (>= 3.1)
+      sass (>= 3.2)
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -334,6 +338,7 @@ DEPENDENCIES
   faker
   jbuilder (~> 2.0)
   jquery-datetimepicker-rails
+  jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails (= 5.0.3)
   just-datetime-picker

@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require jquery.datetimepicker
+//= require jquery-fileupload
