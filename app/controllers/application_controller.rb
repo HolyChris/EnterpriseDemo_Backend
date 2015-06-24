@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def authenticate_user!(*args)
-    if assets_request? || (admin_request? && current_user.is_admin?) || (sales_rep_request? && current_user.is_sales_rep?) || (office_staff_request? && current_user.is_office_staff?)
+    if !user_signed_in? || assets_request? || (admin_request? && current_user.is_admin?) || (sales_rep_request? && current_user.is_sales_rep?) || (office_staff_request? && current_user.is_office_staff?)
       super
     else
       redirect_to after_sign_in_path_for(current_user)

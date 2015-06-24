@@ -58,6 +58,10 @@ ActiveAdmin.register Site do
     link_to 'Images', admin_site_images_url(site)
   end
 
+  action_item 'Assets', only: [:show, :edit] do
+    link_to 'Assets', site_assets_url(site)
+  end
+
   action_item 'Cancel', only: [:edit, :new] do
     if site.persisted?
       link_to 'Cancel', admin_site_url(site)

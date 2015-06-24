@@ -47,6 +47,7 @@
           <div class="row fileupload-buttonbar">
               <div class="col-lg-7">
                   <!-- The fileinput-button span is used to style the file input field as button -->
+                  <%= link_to @site.name, admin_site_url(@site), class: 'btn btn-primary' %>
                   <span class="btn btn-success fileinput-button">
                     <span>Add files...</span>
                     <%= file_field_tag 'asset[attachments_attributes][][file]', :multiple => true %>
