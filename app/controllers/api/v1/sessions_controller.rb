@@ -1,7 +1,7 @@
 class Api::V1::SessionsController < Api::V1::BaseController
 
   before_filter :ensure_params_exist, only: :create
-  skip_before_action :authenticate_user_from_token!
+  skip_before_action :authenticate_user_from_token!, except: [:destroy]
   before_filter :find_by_email, only: [:create]
  
   def create
@@ -14,7 +14,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def destroy
-    sign_out(current_user)
+    current_user.touch_auth_token && sign_out(current_user)
+    render json: { success: true, message: "Logged out" }, status: 200
   end
 
   protected
