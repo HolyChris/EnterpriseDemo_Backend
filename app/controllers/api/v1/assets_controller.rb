@@ -9,6 +9,7 @@ class Api::V1::AssetsController < Api::V1::BaseController
   end
 
   def create
+    p params
     @asset = @site.assets.build(asset_params(:create))
     @asset.save
     respond_with(@asset)
@@ -40,15 +41,15 @@ class Api::V1::AssetsController < Api::V1::BaseController
     end
 
     def parse_encoded_attachments
-      if params[:attachments_attributes]
-        params[:attachments_attributes].each do |k, v|
-          if v[:encoded_attachment_data]
-            encoded_attachment_data = v.delete(:encoded_attachment_data)
-            attachment_format = v.delete(:attachment_format)
-            v[:file] = attachment_obj(encoded_attachment_data, attachment_format)
-          end
-        end
-      end
+      # if params[:attachments_attributes]
+      #   params[:attachments_attributes].each do |k, v|
+      #     if v[:encoded_attachment_data]
+      #       encoded_attachment_data = v.delete(:encoded_attachment_data)
+      #       attachment_format = v.delete(:attachment_format)
+      #       v[:file] = attachment_obj(encoded_attachment_data, attachment_format)
+      #     end
+      #   end
+      # end
     end
 
     def find_site
