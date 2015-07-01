@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :home, only: :index
       resources :users, only: :index
       put :sign_in, to: 'sessions#create'
+      put :users, to: 'registrations#update'
       delete :sign_out, to: 'sessions#destroy'
       post 'users/password', to: 'passwords#create'
       put 'users/password', to: 'passwords#update'
