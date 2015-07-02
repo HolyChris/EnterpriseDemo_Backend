@@ -1,6 +1,6 @@
 class Api::V1::AssetsController < Api::V1::BaseController
   before_action :find_site
-  before_action :find_asset, only: [:update, :show]
+  before_action :find_asset, only: [:update, :show, :destroy]
 
   def index
     @search = @site.assets.ransack(search_params)
@@ -22,6 +22,14 @@ class Api::V1::AssetsController < Api::V1::BaseController
 
   def show
     respond_with(@asset)
+  end
+
+  def destroy
+    if @asset.destroy
+      render json: {success: true, status: 200}
+    else
+      render json: {success: false, status: 402}
+    end
   end
 
   private

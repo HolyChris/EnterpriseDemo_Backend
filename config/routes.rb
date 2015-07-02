@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       post 'users/password', to: 'passwords#create'
       put 'users/password', to: 'passwords#update'
       resources :sites, only: [:index, :create, :update, :show] do
-        resources :assets, only: [:index, :create, :update, :show]
+        resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
         resources :images, only: [:index, :create, :update, :show]
         resource :contract, only: [:show, :create, :update]
