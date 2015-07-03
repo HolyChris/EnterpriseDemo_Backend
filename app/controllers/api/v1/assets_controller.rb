@@ -9,7 +9,6 @@ class Api::V1::AssetsController < Api::V1::BaseController
   end
 
   def create
-    p params
     @asset = @site.assets.build(asset_params(:create))
     @asset.save
     respond_with(@asset)
@@ -36,9 +35,9 @@ class Api::V1::AssetsController < Api::V1::BaseController
     def asset_params(action=:create)
       parse_encoded_attachments
       if action == :create
-        params.permit(:type, :notes, :description, :stage, :alt, attachments_attributes: [:file, :_destroy])
+        params.permit(:type, :notes, :doc_type, :title, :position, :description, :stage, :alt, attachments_attributes: [:file, :_destroy])
       elsif action == :update
-        params.permit(:id, :type, :notes, :description, :stage, :alt, attachments_attributes: [:file, :_destroy, :id])
+        params.permit(:id, :type, :notes, :doc_type, :title, :position, :description, :stage, :alt, attachments_attributes: [:file, :_destroy, :id])
       end
     end
 
