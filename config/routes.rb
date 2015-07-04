@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         resources :images, only: [:index, :create, :update, :show]
         resource :contract, only: [:show, :create, :update]
         resource :project, only: [:show, :create, :update]
+        resources :billings, only: [:create, :update, :show]
       end
       resources :customers, only: [:index, :create, :update, :show]
       resources :appointments, only: [:index, :create, :update]
