@@ -51,12 +51,6 @@ class Api::V1::ImagesController < Api::V1::BaseController
       end
     end
 
-    def find_site
-      unless @site = Site.accessible_by(current_ability, :read).find_by(id: params[:site_id])
-        render_with_failure(msg: 'Site Not Found', status: 404)
-      end
-    end
-
     def find_image
       unless @image = @site.images.includes(:attachments).find_by(id: params[:id])
         render_with_failure(msg: 'Image Not Found', status: 404)

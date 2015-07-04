@@ -42,6 +42,12 @@ class Api::V1::BaseController < ActionController::Base
       @auth_token ||= request.headers["X-Auth-Token"]
     end
 
+    def find_site
+      unless @site = Site.accessible_by(current_ability, :read).find_by(id: params[:site_id])
+        render_with_failure(msg: 'Site Not Found', status: 404)
+      end
+    end
+
     def attachment_obj(encoded_attachment_data, attachment_format)
       if encoded_attachment_data.present?
         decoded_data = Base64.decode64(encoded_attachment_data.gsub(/\\n/, "\n").gsub(' ', '+'))

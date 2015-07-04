@@ -25,12 +25,6 @@ class Api::V1::ContractsController < Api::V1::BaseController
   end
 
   private
-    def find_site
-      unless @site = Site.accessible_by(current_ability, :read).find_by(id: params[:site_id])
-        render_with_failure(msg: 'Site Not Found', status: 404)
-      end
-    end
-
     def find_contract
       unless @contract = Contract.accessible_by(current_ability, :manage).find_by(site_id: @site.id)
         render_with_failure(msg: 'Contract Not Found', status: 404)

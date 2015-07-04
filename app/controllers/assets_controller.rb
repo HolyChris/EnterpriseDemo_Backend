@@ -70,12 +70,6 @@ private
     params.require(:asset).permit!
   end
 
-  def find_site
-    @site = Site.find_by(id: params[:site_id])
-    redirect_to root_path, notice: 'Unauthorized action!' unless can?(:manage, @site)
-    not_found unless @site
-  end
-
   def find_asset
     @asset = @site.assets.where(id: params[:id]).first
     not_found unless @asset
