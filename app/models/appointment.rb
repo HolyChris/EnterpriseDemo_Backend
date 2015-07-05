@@ -7,7 +7,7 @@ class Appointment < ActiveRecord::Base
 
   OUTCOMES = { 1 => 'Vendor Packet', 2 => 'Meet and Greet', 3 => 'Demo - No Sale', 4 => 'No Demo - No Need', 5 => 'No Demo - Future Need', 6 => 'No Show', 7 => 'No Entry', 8 => 'SOLD', 9 => 'Gaco Bid', 10 => 'Rescheduled', 11 => 'Wrong Address' }
 
-  has_many :follow_ups, dependent: :destroy
+  has_many :follow_ups, dependent: :destroy, inverse_of: :appointment
   belongs_to :site
   belongs_to :user
 

@@ -1,6 +1,6 @@
 collection :@appointments
 
-attributes :id, :scheduled_at, :notes
+attributes :id, :scheduled_at, :notes, :site_id
 node(:outcome) {|appointment| appointment.outcome_string}
 
 child(:assigned_to) do
