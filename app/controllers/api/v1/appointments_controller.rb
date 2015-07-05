@@ -1,5 +1,5 @@
 class Api::V1::AppointmentsController < Api::V1::BaseController
-  before_action :load_appointment, only: [:update]
+  before_action :load_appointment, only: [:update, :show]
 
   def index
     @appointments = Appointment.accessible_by(current_ability, :read).includes(:follow_ups)
@@ -13,6 +13,10 @@ class Api::V1::AppointmentsController < Api::V1::BaseController
 
   def update
     @appointment.update_attributes(appointment_params(:update))
+    respond_with(@appointment)
+  end
+
+  def show
     respond_with(@appointment)
   end
 
