@@ -1,5 +1,6 @@
 class Api::V1::AppointmentsController < Api::V1::BaseController
   before_action :load_appointment, only: [:update, :show]
+  before_action :load_destroyable_appointment, only: [:destroy]
 
   def index
     @appointments = Appointment.accessible_by(current_ability, :read).includes(:follow_ups)
@@ -20,6 +21,14 @@ class Api::V1::AppointmentsController < Api::V1::BaseController
     respond_with(@appointment)
   end
 
+  def destroy
+    if @appointment.destroy
+      render json: {success: true, status: 200}
+    else
+      render json: {success: false, status: 402}
+    end
+  end
+
   private
     def appointment_params(action=:create)
       if action == :create
@@ -31,6 +40,12 @@ class Api::V1::AppointmentsController < Api::V1::BaseController
 
     def load_appointment
       unless @appointment = Appointment.accessible_by(current_ability, :update).find_by(id: params[:id])
+        render_with_failure(msg: 'Appointment Not Found', status: 404)
+      end
+    end
+
+    def load_destroyable_appointment
+      unless @appointment = Appointment.accessible_by(current_ability, :manage).find_by(id: params[:id])
         render_with_failure(msg: 'Appointment Not Found', status: 404)
       end
     end

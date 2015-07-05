@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         resources :billings, only: [:create, :update, :show]
       end
       resources :customers, only: [:index, :create, :update, :show]
-      resources :appointments, only: [:index, :create, :update, :show]
+      resources :appointments, only: [:index, :create, :update, :show, :destroy]
     end
   end
 
