@@ -5,9 +5,9 @@ end
 
 ##Creating Admin
 user1 = User.create_with(
-  password: 'admin123',
-  password_confirmation: 'admin123'
-).find_or_create_by(email: 'priyankgupta1988@gmail.com')
+  password: 'double123',
+  password_confirmation: 'double123'
+).find_or_create_by(email: 'admin@doublebitconsulting.com')
 user1.add_role :admin
 
 user1 = User.create_with(
@@ -17,15 +17,15 @@ user1 = User.create_with(
 user1.add_role :admin
 
 user2 = User.create_with(
-  password: 'salesrep123',
-  password_confirmation: 'salesrep123'
-).find_or_create_by(email: 'priyank@test.com')
+  password: 'double123',
+  password_confirmation: 'double123'
+).find_or_create_by(email: 'sales@doublebitconsulting.com')
 user2.add_role :sales_rep
 
 user3 = User.create_with(
-  password: 'officestaff123',
-  password_confirmation: 'officestaff123'
-).find_or_create_by(email: 'office_staff@test.com')
+  password: 'double123',
+  password_confirmation: 'double123'
+).find_or_create_by(email: 'staff@doublebitconsulting.com')
 user3.add_role :office_staff
 
 
