@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby "2.1.5"
 
 gem 'rails', '4.1.8'
 gem 'mysql2', '0.3.17'
@@ -39,6 +40,7 @@ gem 'rack-cors'
 gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'jsonapi-resources'
+gem 'puma'
 
 gem 'daemons', group: :staging
 group :development do
@@ -63,9 +65,9 @@ group :test do
   gem 'faker'
 end
 
-group :production, :staging do
-  gem "unicorn"
-end
+
+gem 'rails_12factor', group: :production
+
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 # gem 'spring',        group: :development
