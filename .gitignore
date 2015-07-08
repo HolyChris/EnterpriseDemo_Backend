@@ -14,8 +14,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-/config/database.yml
-/config/secrets.yml
 /config/aws.yml
 /.ruby-version
 /db/schema.rb
