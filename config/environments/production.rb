@@ -87,6 +87,8 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
+  config.assets.initialize_on_precompile = false
+
   config.paperclip_defaults = {
     storage: :s3,
     url: 's3.amazonaws.com/www.ers.com',
