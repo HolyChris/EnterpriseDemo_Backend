@@ -210,6 +210,7 @@ GEM
       mime-types
     paranoia (2.0.4)
       activerecord (~> 4.0)
+    pg (0.18.2)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     posix-spawn (0.3.8)
@@ -371,6 +372,7 @@ DEPENDENCIES
   mysql2 (= 0.3.17)
   paperclip (= 4.2.0)
   paranoia (~> 2.0)
+  pg
   posix-spawn
   pry
   puma
