@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         resource :contract, only: [:show, :create, :update]
         resource :project, only: [:show, :create, :update]
         resources :billings, only: [:create, :update, :show]
-        resources :productions, only: [:create, :update, :show]
+        # resources :productions, only: [:create, :update, :show]
       end
       resources :customers, only: [:index, :create, :update, :show]
       resources :appointments, only: [:index, :create, :update, :show, :destroy]
