@@ -1,4 +1,4 @@
-class Api::V1::ProductionController < Api::V1::BaseController
+class Api::V1::ProductionsController < Api::V1::BaseController
   before_action :find_site
   before_action :find_production, only: [:update, :show, :index]
 
