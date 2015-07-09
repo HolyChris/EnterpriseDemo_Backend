@@ -13,7 +13,7 @@ class Api::V1::ProductionsController < Api::V1::BaseController
     rescue StateMachine::InvalidTransition => e
       @production.errors.add(:base, e.message)
     end
-    respond_with(@billing)
+    respond_with(@production)
   end
 
   def update
