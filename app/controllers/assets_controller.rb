@@ -70,6 +70,12 @@ private
     params.require(:asset).permit!
   end
 
+  def find_site
+    unless @site = Site.accessible_by(current_ability, :read).find_by(id: params[:site_id])
+      render_with_failure(msg: 'Site Not Found', status: 404)
+    end
+  end
+
   def find_asset
     @asset = @site.assets.where(id: params[:id]).first
     not_found unless @asset
