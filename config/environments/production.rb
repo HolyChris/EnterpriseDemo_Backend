@@ -72,7 +72,7 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.action_mailer.default_url_options = { host: '54.200.157.85' }
+  config.action_mailer.default_url_options = { host: PRODUCTION_HOST }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -80,7 +80,7 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => 'StartClosing',
     :password => 'St@rtCl0s!ng',
-    :domain => '54.200.157.85',
+    :domain => PRODUCTION_HOST,
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
@@ -89,16 +89,16 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     storage: :s3,
-    url: 's3.amazonaws.com/www.ers.com',
+    url: "s3.amazonaws.com/#{S3_BUCKET_NAME}",
     s3_credentials: {
-      bucket: 'www.ers.com'
+      bucket: "#{S3_BUCKET_NAME}"
     }
   }
 end
 
 Rails.application.config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "ERS: Exception on production ",
-    :sender_address => %{"notifier" <notifier@ecoroofs.com>},
+    :email_prefix => "#{COMPANY_NAME}: Exception on production ",
+    :sender_address => %{"notifier" <#{EXCEPTION_SENDER}>},
     :exception_recipients => %w{vipin.itm@gmail.com production@doublebitconsulting.com chris@doublebitconsulting.com}
   }
