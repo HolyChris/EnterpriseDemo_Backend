@@ -72,7 +72,7 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.action_mailer.default_url_options = { host: PRODUCTION_HOST }
+  config.action_mailer.default_url_options = { host: ENV["production_host"] }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -80,7 +80,7 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => 'StartClosingAPI',
     :password => 'St@rtCl0s!ng',
-    :domain => PRODUCTION_HOST,
+    :domain => ENV["production_host"],
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
