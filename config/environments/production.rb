@@ -91,16 +91,16 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     storage: :s3,
-    url: "s3.amazonaws.com/#{S3_BUCKET_NAME}",
+    url: "s3.amazonaws.com/#{ENV['s3_bucket_name']}",
     s3_credentials: {
-      bucket: "#{S3_BUCKET_NAME}"
+      bucket: "#{ENV['s3_bucket_name']}"
     }
   }
 end
 
 Rails.application.config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "#{COMPANY_NAME}: Exception on production ",
-    :sender_address => %{"notifier" <#{EXCEPTION_SENDER}>},
+    :email_prefix => "#{ENV['company_name']}: Exception on production ",
+    :sender_address => %{"notifier" <#{ENV['exception_sender']}>},
     :exception_recipients => %w{vipin.itm@gmail.com production@doublebitconsulting.com chris@doublebitconsulting.com}
   }
