@@ -12,9 +12,9 @@ private
 
   def host
     if Rails.env.production?
-      '54.200.157.85'
+      PRODUCTION_HOST
     elsif Rails.env.staging?
-      '54.68.73.69'
+      STAGING_HOST
     else
       'localhost:3000'
     end
