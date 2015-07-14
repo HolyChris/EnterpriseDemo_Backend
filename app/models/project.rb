@@ -11,7 +11,11 @@ class Project < ActiveRecord::Base
   validates :priority, :site, presence: true
   validate :verify_contract
 
-  after_create :transit_site_stage
+  before_validation(on: :create) do
+    self.priority = 2 unless attribute_present?("priority")
+  end
+
+  # after_create :transit_site_stage
 
   accepts_nested_attributes_for :job_submission, reject_if: lambda {|q| q.values.all?(&:blank?)}
   accepts_nested_attributes_for :insurance_and_mortgage_info, reject_if: lambda {|q| q.values.all?(&:blank?)}
