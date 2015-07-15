@@ -16,7 +16,11 @@ class Api::V1::ProjectsController < Api::V1::BaseController
 
   def update
     @project.update_attributes(project_params)
-    respond_with(@project)
+    if @project
+      respond_with(@project)
+    else
+      render_with_failure(msg: 'project Not Found', status: 404)
+    end
   end
 
   private
