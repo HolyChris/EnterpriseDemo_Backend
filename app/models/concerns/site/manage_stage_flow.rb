@@ -13,18 +13,27 @@ class Site < ActiveRecord::Base
 
         event :to_contract do
           transition lead: :contract
+          transition project: :contract
+          transition production: :contract
+          transition billing: :contract
         end
 
         event :to_project do
           transition contract: :project
+          transition production: :project
+          transition billing: :project
         end
 
         event :to_production do
           transition project: :production
+          transition contract: :production
+          transition billing: :production
         end
 
         event :to_billing do
           transition production: :billing
+          transition contract: :billing
+          transition project: :billing
         end
 
         before_transition contract: :project, do: :verify_contract
