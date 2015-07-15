@@ -10,6 +10,7 @@ class Site < ActiveRecord::Base
   include ManageStageFlow
 
   attr_accessor :bill_addr_same_as_addr
+  attr_accessor :current_stage
 
   has_one :contract, dependent: :destroy
   has_one :project, dependent: :destroy

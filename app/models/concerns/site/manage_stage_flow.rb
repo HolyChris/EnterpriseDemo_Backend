@@ -21,10 +21,13 @@ class Site < ActiveRecord::Base
 
         event :to_production do
           transition project: :production
+          transition contract: :production
         end
 
         event :to_billing do
           transition production: :billing
+          transition contract: :billing
+          transition project: :billing
         end
 
         before_transition contract: :project, do: :verify_contract

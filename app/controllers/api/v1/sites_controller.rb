@@ -19,13 +19,17 @@ class Api::V1::SitesController < Api::V1::BaseController
   end
 
   def update
-    @site.update_attributes(site_params)
+    if(site_params[:current_stage].present?)
+      @site.send("to_#{site_params[:current_stage]}")
+    else
+      @site.update_attributes(site_params)
+    end
     respond_with(@site)
   end
 
   private
     def site_params
-      params.permit(:id, :name, :contact_name, :contact_phone, :source, :source_info, :damage, :status, :bill_addr_same_as_addr, :customer_id, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id])
+      params.permit(:id, :name, :current_stage, :contact_name, :contact_phone, :source, :source_info, :damage, :status, :bill_addr_same_as_addr, :customer_id, manager_ids: [], bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode], address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id])
     end
 
     def search_params
