@@ -12,7 +12,7 @@ class Attachment < ActiveRecord::Base
 
   validates_attachment_presence :file
   validates_attachment_content_type :file, content_type: /\Aimage\/.*\Z/, if: :image?
-  validates_attachment_content_type :file, content_type: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'], if: :document?
+  validates_attachment_content_type :file, content_type: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/vnd.oasis.opendocument.spreadsheet', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'], if: :document?
 
   validates :asset, presence: true
   validate :no_attachment_errors
