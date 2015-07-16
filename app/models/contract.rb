@@ -9,6 +9,7 @@ class Contract < ActiveRecord::Base
   has_many :contract_work_types, dependent: :destroy
   has_many :work_types, through: :contract_work_types
   belongs_to :site
+  after_commit :create_helper_associations, on: :create
 
   has_attached_file :document,
                     default_url: '',
@@ -66,5 +67,13 @@ class Contract < ActiveRecord::Base
 
     def self.generate_po_number
       (maximum(:po_number) || 49999) + 1
+    end
+
+    def create_helper_associations
+      ActiveRecord::Base.transaction do
+        site.create_billing
+        site.create_production
+        site.create_project
+      end
     end
 end

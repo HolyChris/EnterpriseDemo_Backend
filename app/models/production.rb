@@ -4,10 +4,11 @@ class Production < ActiveRecord::Base
 
   belongs_to :site
 
-  validates :site, :delivery_date, :production_date, :ready_for_production_at, presence: true
+  # validates :delivery_date, :production_date, :ready_for_production_at, presence: true
+  validates :site, presence: true
   validates :paid_till_now, numericality: true, allow_blank: true
 
-  after_create :transit_site_stage
+  # after_create :transit_site_stage
 
   delegate :project, :contract, :billing, to: :site
 
