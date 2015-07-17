@@ -119,7 +119,7 @@
               <option selected=1 value="1">Billing Reference Document</option>
               <option value="2">Completion Payment Check</option>
               <option value="3">Customer Invoice</option>
-              <option value="4">Deductive Check</option>
+              <option value="4">Deductible Check</option>
               <option value="5">EagleView</option>
               <option value="6">HOA Approval Document</option>
               <option value="7">Initial Payment Check</option>
@@ -127,7 +127,7 @@
               <option value="9">Material List</option>
               <option value="10">Supplement Documentation</option>
               <option value="11">Trade work Bid</option>
-              <option value="12">Xactmate</option>
+              <option value="12">Xactimate</option>
               <option value="13">Other</option>
             </select>
           {% } %}
@@ -198,7 +198,7 @@
               <option {%= file.doc_type == 1 ? 'selected=1' : '' %} value="1">Billing Reference Document</option>
               <option {%= file.doc_type == 2 ? 'selected=1' : '' %} value="2">Completion Payment Check</option>
               <option {%= file.doc_type == 3 ? 'selected=1' : '' %} value="3">Customer Invoice</option>
-              <option {%= file.doc_type == 4 ? 'selected=1' : '' %} value="4">Deductive Check</option>
+              <option {%= file.doc_type == 4 ? 'selected=1' : '' %} value="4">Deductible Check</option>
               <option {%= file.doc_type == 5 ? 'selected=1' : '' %} value="5">EagleView</option>
               <option {%= file.doc_type == 6 ? 'selected=1' : '' %} value="6">HOA Approval Document</option>
               <option {%= file.doc_type == 7 ? 'selected=1' : '' %} value="7">Initial Payment Check</option>
@@ -206,16 +206,16 @@
               <option {%= file.doc_type == 9 ? 'selected=1' : '' %} value="9">Material List</option>
               <option {%= file.doc_type == 10 ? 'selected=1' : '' %} value="10">Supplement Documentation</option>
               <option {%= file.doc_type == 11 ? 'selected=1' : '' %} value="11">Trade work Bid</option>
-              <option {%= file.doc_type == 12 ? 'selected=1' : '' %} value="12">Xactmate</option>
+              <option {%= file.doc_type == 12 ? 'selected=1' : '' %} value="12">Xactimate</option>
               <option {%= file.doc_type == 13 ? 'selected=1' : '' %} value="13">Other</option>
             </select>
           {% } %}
         </td>
-        
+
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
-        
+
         <td>
           {% if (file.update_url) { %}
             <button class='btn btn-primary btn-sm update-link' data-method="PUT" data-remote='true' data-url="{%=file.update_url%}" >
@@ -248,7 +248,7 @@
     else{
       $("#loading-filter-background").hide();
     }
-  } 
+  }
 
   $(document).on('ajax:success', '.delete-link', function(){
     $(this).parents('tr').remove();
@@ -266,7 +266,7 @@
       type: 'PUT',
       dataType: 'json',
       data: $that.parents('tr').find('input, textarea, select').serializeArray(),
-      
+
     })
     .done(function() {
       console.log("success");
@@ -277,7 +277,7 @@
     .always(function() {
       console.log("complete");
     });
-    
+
     /* Act on the event */
   });
 
@@ -311,10 +311,10 @@
         }
         data.formData = inputs.serializeArray();
       });
-      // 
+      //
       //Load existing files:
       $.getJSON(document.location.href, function (files) {
-        var fu = $('#fileupload').data('blueimp-fileupload'), 
+        var fu = $('#fileupload').data('blueimp-fileupload'),
           template;
         template = fu._renderDownload(files)
           .appendTo($('#fileupload .files'));
