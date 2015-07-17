@@ -38,6 +38,10 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
     link_to 'Images', sales_rep_site_images_url(site)
   end
 
+  action_item 'Assets', only: [:show, :edit] do
+    link_to 'Assets', site_assets_url(site)
+  end
+
   action_item 'Cancel', only: [:edit, :new] do
     if site.persisted?
       link_to 'Cancel', admin_site_url(site)
@@ -103,6 +107,7 @@ ActiveAdmin.register Site, namespace: 'sales_rep' do
 
     actions do |site|
       link_to('Appointments', sales_rep_site_appointments_url(site))
+      link_to('Assets', site_assets_path(site))
     end
   end
 
