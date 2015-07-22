@@ -185,19 +185,9 @@
 
           {% if (!file.type.match('image')) { %}
             <select name="asset[doc_type]">
-              <option {%= file.doc_type == 1 ? 'selected=1' : '' %} value="1">Billing Reference Document</option>
-              <option {%= file.doc_type == 2 ? 'selected=1' : '' %} value="2">Completion Payment Check</option>
-              <option {%= file.doc_type == 3 ? 'selected=1' : '' %} value="3">Customer Invoice</option>
-              <option {%= file.doc_type == 4 ? 'selected=1' : '' %} value="4">Deductible Check</option>
-              <option {%= file.doc_type == 5 ? 'selected=1' : '' %} value="5">EagleView</option>
-              <option {%= file.doc_type == 6 ? 'selected=1' : '' %} value="6">HOA Approval Document</option>
-              <option {%= file.doc_type == 7 ? 'selected=1' : '' %} value="7">Initial Payment Check</option>
-              <option {%= file.doc_type == 8 ? 'selected=1' : '' %} value="8">Insurance scope document</option>
-              <option {%= file.doc_type == 9 ? 'selected=1' : '' %} value="9">Material List</option>
-              <option {%= file.doc_type == 10 ? 'selected=1' : '' %} value="10">Supplement Documentation</option>
-              <option {%= file.doc_type == 11 ? 'selected=1' : '' %} value="11">Trade work Bid</option>
-              <option {%= file.doc_type == 12 ? 'selected=1' : '' %} value="12">Xactimate</option>
-              <option {%= file.doc_type == 13 ? 'selected=1' : '' %} value="13">Other</option>
+              <% Asset::DOC_TYPE.each_pair do |id, name| %>
+                <option {%= file.doc_type == <%= id %> ? 'selected=1' : '' %} value="<%= id %>"><%= name %></option>
+              <% end %>
             </select>
           {% } %}
         </td>
