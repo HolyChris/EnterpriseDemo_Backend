@@ -116,19 +116,9 @@
 
           {% if (!file.type.match('image')) { %}
             <select name="asset[doc_type]">
-              <option selected=1 value="1">Billing Reference Document</option>
-              <option value="2">Completion Payment Check</option>
-              <option value="3">Customer Invoice</option>
-              <option value="4">Deductible Check</option>
-              <option value="5">EagleView</option>
-              <option value="6">HOA Approval Document</option>
-              <option value="7">Initial Payment Check</option>
-              <option value="8">Insurance scope document</option>
-              <option value="9">Material List</option>
-              <option value="10">Supplement Documentation</option>
-              <option value="11">Trade work Bid</option>
-              <option value="12">Xactimate</option>
-              <option value="13">Other</option>
+              <% Asset::DOC_TYPE.each_pair do |id, name| %>
+                <%= content_tag :option, name, value: id -%>
+              <% end %>
             </select>
           {% } %}
         </td>
