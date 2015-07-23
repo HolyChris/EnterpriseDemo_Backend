@@ -18,8 +18,8 @@ Rails.application.routes.draw do
         resources :productions, only: [:create, :update, :show]
       end
       resources :customers, only: [:index, :create, :update, :show]
-      resources :customer_sessions, only: [:new, :create, :destroy]
       resources :appointments, only: [:index, :create, :update, :show, :destroy]
+      resource :customer_session, only: [:new, :create, :destroy]
     end
   end
 

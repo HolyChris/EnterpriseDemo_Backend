@@ -6,6 +6,7 @@ class Customer < ActiveRecord::Base
   has_many :sites, dependent: :destroy
   has_one :primary_phone_number, -> { primary }, inverse_of: :customer, class_name: PhoneNumber
   has_many :phone_numbers, inverse_of: :customer, dependent: :destroy
+  has_many :customer_sessions, dependent: :destroy
 
   has_secure_token :page_token
 
