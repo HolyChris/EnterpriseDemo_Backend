@@ -3,8 +3,8 @@ class Api::V1::CustomerSessionsController < Api::V1::BaseController
   before_action :authenticate_customer_from_token!, only: [:destroy]
 
   before_filter :ensure_page_token_exist, only: [:create, :new]
-  before_filter :set_customer, only: [:create, :new]
-  before_filter :verify_po_number_and_set_site, only: :create
+  before_filter :load_customer, only: [:create, :new]
+  before_filter :verify_po_number_and_load_site, only: :create
 
   def new
     render json: { customer: {name: @customer.name} }
@@ -32,13 +32,13 @@ class Api::V1::CustomerSessionsController < Api::V1::BaseController
       end
     end
 
-    def set_customer
+    def load_customer
       unless @customer = Customer.find_by(page_token: params[:page_token])
         render json: { success: false, message: "Invalid token" }, status: 422
       end
     end
 
-    def verify_po_number_and_set_site
+    def verify_po_number_and_load_site
       if params[:po_number].blank?
         render json: { success: false, message: "Missing po_number" }, status: 422
       else

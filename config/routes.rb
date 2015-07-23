@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      namespace :customer_portal do
+        resource :customer, only: [:show]
+      end
+
       resources :home, only: :index
       resources :users, only: :index
       put :sign_in, to: 'sessions#create'
