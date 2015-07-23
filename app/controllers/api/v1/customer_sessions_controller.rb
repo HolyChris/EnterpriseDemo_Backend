@@ -1,5 +1,6 @@
-class Api::V1::CustomerSessionsController < ActionController::Base
-  respond_to :json
+class Api::V1::CustomerSessionsController < Api::V1::BaseController
+  skip_before_action :authenticate_user_from_token!
+  before_action :authenticate_customer_from_token!, only: [:destroy]
 
   before_filter :ensure_page_token_exist, only: [:create, :new]
   before_filter :set_customer, only: [:create, :new]
@@ -15,6 +16,14 @@ class Api::V1::CustomerSessionsController < ActionController::Base
     respond_with(@customer_session)
   end
 
+  def destroy
+    current_customer_session.touch_auth_token
+    render json: { success: true, message: 'Logged out' }
+  end
+
+  #  ===================
+  #  = Private methods =
+  #  ===================
   private
 
     def ensure_page_token_exist
