@@ -13,11 +13,11 @@ end
 child(:job_submission) do
   attributes :id, :roof_type_special_instructions, :redeck
 
-  node(:shingle_color) { |job_submission| JobSubmission::SHINGLE_COLOR[job_submission.shingle_color] }
-  node(:drip_color) { |job_submission| JobSubmission::DRIP_COLOR[job_submission.drip_color] }
-  node(:shingle_manufacturer) { |job_submission| JobSubmission::SHINGLE_MANUFACTURER[job_submission.shingle_manufacturer] }
-  node(:shingle_type) { |job_submission| JobSubmission::SHINGLE_TYPE[job_submission.shingle_type] }
-  node(:work_type) { |job_submission| JobSubmission::WORK_TYPE[job_submission.work_type] }
+  node(:shingle_color) { |job_submission| job_submission.shingle_color }
+  node(:drip_color) { |job_submission| job_submission.drip_color }
+  node(:shingle_manufacturer) { |job_submission| job_submission.shingle_manufacturer }
+  node(:shingle_type) { |job_submission| job_submission.shingle_type }
+  node(:work_type) { |job_submission| job_submission.work_type }
   node(:roof_work_rcv) { |job_submission| number_to_currency(job_submission.roof_work_rcv) }
   node(:roof_work_acv) { |job_submission| number_to_currency(job_submission.roof_work_acv) }
   node(:initial_cost_per_sq) { |job_submission| number_to_currency(job_submission.initial_cost_per_sq) }
