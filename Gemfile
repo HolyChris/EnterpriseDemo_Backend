@@ -45,6 +45,7 @@ group :development do
   gem 'capistrano-unicorn-nginx'
   gem 'quiet_assets'
   gem 'byebug'
+  gem 'letter_opener'
 end
 
 group :test do
