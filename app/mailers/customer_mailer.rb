@@ -1,4 +1,5 @@
 class CustomerMailer < ActionMailer::Base
+  DefaultUrlOptions
   default from: "support@startclosing.com"
 
   def contract_created(site, customer)
