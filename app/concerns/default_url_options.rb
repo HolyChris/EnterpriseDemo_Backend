@@ -12,9 +12,9 @@ private
 
   def host
     if Rails.env.production?
-      '54.200.157.85'
+      ENV["MAILER_HOST"] || '54.200.157.85'
     elsif Rails.env.staging?
-      '54.68.73.69'
+      'endeavor-exteriors.bitballoon.com'
     else
       'localhost:3000'
     end

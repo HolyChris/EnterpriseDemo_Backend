@@ -10,6 +10,7 @@ class Contract < ActiveRecord::Base
   has_many :work_types, through: :contract_work_types
   belongs_to :site
   after_commit :create_helper_associations, on: :create
+  after_commit :customer_notification, on: :create
 
   has_attached_file :document,
                     default_url: '',
@@ -75,5 +76,9 @@ class Contract < ActiveRecord::Base
         site.create_production
         site.create_project
       end
+    end
+
+    def customer_notification
+      CustomerMailer.contract_created(self.site, self.site.customer)
     end
 end
