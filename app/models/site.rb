@@ -39,6 +39,12 @@ class Site < ActiveRecord::Base
 
   scope :created_by_or_assigned_to, -> (user) { joins("LEFT JOIN audits ON audits.auditable_id = sites.id AND audits.auditable_type = 'Site'").joins("LEFT JOIN site_managers ON site_managers.site_id = sites.id").where("(audits.user_type = 'User' AND audits.user_id = #{user.id} AND audits.action = 'create') OR site_managers.user_id = #{user.id}").uniq }
 
+
+  def self.find_by_po_number(_po_number)
+    joins(:contract).where('contracts.po_number = ?', _po_number).first
+  end
+
+
   def bill_addr_same_as_addr
     address_id? && address_id == bill_address_id
   end

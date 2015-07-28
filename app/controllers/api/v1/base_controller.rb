@@ -2,12 +2,18 @@ class Api::V1::BaseController < ActionController::Base
   respond_to :json
 
   before_action :authenticate_user_from_token!
-   
+
   private
 
     def authenticate_user_from_token!
       unless current_user
         render json: { message: 'User not authorized to perform the operation' }, status: 404
+      end
+    end
+
+    def authenticate_customer_from_token!
+      unless current_customer_session
+        render json: { message: 'Customer not authorized to perform the operation' }, status: 404
       end
     end
 
@@ -22,6 +28,15 @@ class Api::V1::BaseController < ActionController::Base
         end
       end
       @current_user
+    end
+
+    def current_customer_session
+      if auth_token && !@current_customer_session
+        if @current_customer_session = CustomerSession.includes(:site, :customer).find_by_auth_token(auth_token)
+          @current_customer_session = nil if @current_customer_session.auth_token_expired?
+        end
+      end
+      @current_customer_session
     end
 
     def find_by_email
@@ -51,7 +66,7 @@ class Api::V1::BaseController < ActionController::Base
     def attachment_obj(encoded_attachment_data, attachment_format)
       if encoded_attachment_data.present?
         decoded_data = Base64.decode64(encoded_attachment_data.gsub(/\\n/, "\n").gsub(' ', '+'))
-        file = Tempfile.new(["temp#{DateTime.current.to_i}", ".#{attachment_format}"]) 
+        file = Tempfile.new(["temp#{DateTime.current.to_i}", ".#{attachment_format}"])
         file.binmode
         file.write decoded_data
         file

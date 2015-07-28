@@ -148,6 +148,8 @@ GEM
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
+    has_secure_token (1.0.0)
+      activerecord (>= 3.0)
     hike (1.2.3)
     i18n (0.7.0)
     inherited_resources (1.5.1)
@@ -341,6 +343,7 @@ DEPENDENCIES
   exception_notification
   factory_girl_rails
   faker
+  has_secure_token
   jbuilder (~> 2.0)
   jquery-datetimepicker-rails
   jquery-fileupload-rails
