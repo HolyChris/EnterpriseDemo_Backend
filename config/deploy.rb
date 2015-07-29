@@ -37,8 +37,6 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :assets_roles, [:web, :app]            # Defaults to [:web]
 
 
-
-
 #  ======================
 #  = Delayed job config =
 #  ======================
