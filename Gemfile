@@ -39,8 +39,8 @@ gem 'rack-cors'
 gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 
+gem 'daemons'
 group :development do
-  gem 'daemons'
   gem 'capistrano3-delayed-job', '~> 1.0'
   gem 'capistrano'
   gem 'capistrano-bundler'
