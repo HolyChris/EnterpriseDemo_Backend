@@ -79,6 +79,6 @@ class Contract < ActiveRecord::Base
     end
 
     def customer_notification
-      CustomerMailer.contract_created(self.site, self.site.customer)
+      CustomerMailer.contract_created(self.site, self.site.customer).deliver
     end
 end
