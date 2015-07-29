@@ -40,6 +40,8 @@ gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 
 group :development do
+  gem 'daemons'
+  gem 'capistrano3-delayed-job', '~> 1.0'
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
