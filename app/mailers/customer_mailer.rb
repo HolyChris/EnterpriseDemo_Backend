@@ -1,6 +1,6 @@
 class CustomerMailer < ActionMailer::Base
-  DefaultUrlOptions
   default from: "support@startclosing.com"
+  helper :mail
 
   def contract_created(site, customer)
     @customer = customer
