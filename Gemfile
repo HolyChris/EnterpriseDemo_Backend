@@ -19,6 +19,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails',                       '5.0.3'
 gem 'turbolinks'
+gem 'has_secure_token' # This will be included in Rails 5
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
@@ -40,13 +41,16 @@ gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'puma'
 
+gem 'daemons', group: :staging
 group :development do
+  gem 'capistrano3-delayed-job', '~> 1.0'
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-unicorn-nginx'
   gem 'quiet_assets'
   gem 'byebug'
+  gem 'letter_opener'
 end
 
 group :test do
