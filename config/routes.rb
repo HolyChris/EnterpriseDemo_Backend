@@ -45,7 +45,6 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'users/sign_out', to: 'sessions#destroy'
-    get 'resetpassword', to: 'devise/passwords#edit'
 
     authenticated :user do
       ActiveAdmin.routes(self) if !ARGV.grep(/assets:precompile/).any? && !ARGV.grep(/db:migrate/).any? && !ARGV.grep(/db:seed/).any?
