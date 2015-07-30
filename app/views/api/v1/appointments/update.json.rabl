@@ -1,6 +1,7 @@
 object :@appointment
 
-attributes :id, :scheduled_at, :notes
+attributes :id, :notes
+node(:scheduled_at) {|appointment| appointment.scheduled_at.try(:iso8601) }
 node(:outcome) {|appointment| appointment.outcome_string}
 
 child(:assigned_to) do
@@ -12,7 +13,8 @@ child(:created_by) do
 end
 
 child(:follow_ups) do
-  attributes :id, :scheduled_at, :notes
+  attributes :id, :notes
+  node(:scheduled_at) {|follow_up| follow_up.scheduled_at.try(:iso8601) }
 end
 
 node(:errors, :if => lambda { |appointment| appointment.errors.present? }) do |appointment|
