@@ -4,7 +4,9 @@ class User < ActiveRecord::Base
   acts_as_paranoid
   auto_strip_attributes :firstname, :lastname
 
+  include AuthTokenMethods
   # include Notifier
+
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :async
 
   has_many :site_managers, dependent: :destroy
@@ -30,23 +32,8 @@ class User < ActiveRecord::Base
     self.firstname, self.lastname = name.shift, name.join(' ')
   end
 
-  def auth_token_expired?
-    auth_token_created_at? && (auth_token_created_at + AUTH_TOKEN_EXPIRATION) < Time.current
-  end
-
-  def touch_auth_token
-    update_columns(auth_token: generate_auth_token, auth_token_created_at: Time.current)
-  end
-
   def password_required?
     password.present? || password_confirmation.present?
   end
 
-  private
-    def generate_auth_token
-      loop do
-        token = Devise.friendly_token
-        break token unless User.where(auth_token: token).first
-      end
-    end
 end

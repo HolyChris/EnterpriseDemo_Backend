@@ -6,6 +6,9 @@ class Customer < ActiveRecord::Base
   has_many :sites, dependent: :destroy
   has_one :primary_phone_number, -> { primary }, inverse_of: :customer, class_name: PhoneNumber
   has_many :phone_numbers, inverse_of: :customer, dependent: :destroy
+  has_many :customer_sessions, dependent: :destroy
+
+  has_secure_token :page_token
 
   validates :firstname, :lastname, presence: true
   validates :email, format: { with: EMAIL_REGEXP }, allow_blank: true
@@ -28,6 +31,7 @@ class Customer < ActiveRecord::Base
   alias_method :name, :fullname
 
   private
+
     def ensure_single_primary_phone_number
       errors.add(:base, 'Customer should have a primary phone number.') if phone_numbers.select(&:primary?).length != 1
     end

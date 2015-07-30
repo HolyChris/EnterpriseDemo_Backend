@@ -68,6 +68,8 @@ class Ability
       can :read, Project, id: Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Project').pluck(:auditable_id)
       can :manage, Project, site_id: user_site_ids
 
+      can :read, User
+
       # can :manage, Address, id: Address.joins(site: :site_managers).where(site_managers: { user_id: user.id }).pluck(:id)
     end
 
