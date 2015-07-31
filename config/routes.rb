@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         resources :billings, only: [:create, :update, :show]
         resources :productions, only: [:create, :update, :show]
         resource :contract, only: [:show, :create, :update] do
-          get :send_to_customer #send_to_customer
+          get :send_to_customer
         end
       end
       resources :customers, only: [:index, :create, :update, :show]
