@@ -27,7 +27,7 @@ class Api::V1::ContractsController < Api::V1::BaseController
   def send_to_customer
     if @site.customer.email.present?
       @contract.customer_notification
-      render json: { customer: {name: @customer.name} }
+      render json: { message: 'Email sent to customer successfully.' }
     else
       render_with_failure(msg: 'Customer email does not exists', status: 422)
     end
