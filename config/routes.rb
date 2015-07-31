@@ -16,10 +16,12 @@ Rails.application.routes.draw do
         resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
         resources :images, only: [:index, :create, :update, :show]
-        resource :contract, only: [:show, :create, :update]
         resource :project, only: [:show, :create, :update]
         resources :billings, only: [:create, :update, :show]
         resources :productions, only: [:create, :update, :show]
+        resource :contract, only: [:show, :create, :update] do
+          get :send_to_customer #send_to_customer
+        end
       end
       resources :customers, only: [:index, :create, :update, :show]
       resources :appointments, only: [:index, :create, :update, :show, :destroy]
