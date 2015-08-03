@@ -36,6 +36,22 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 set :assets_roles, [:web, :app]            # Defaults to [:web]
 
+
+#  ======================
+#  = Delayed job config =
+#  ======================
+
+# Set the roles where the delayed_job process should be started
+# default value: :app
+set :delayed_job_roles, [:app, :background]
+
+after 'deploy:published', 'restart' do
+    invoke 'delayed_job:restart'
+end
+
+
+
+
 namespace :deploy do
 
   after :restart, :clear_cache do
@@ -48,3 +64,6 @@ namespace :deploy do
   end
 
 end
+
+
+

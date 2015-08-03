@@ -16,10 +16,12 @@ Rails.application.routes.draw do
         resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
         resources :images, only: [:index, :create, :update, :show]
-        resource :contract, only: [:show, :create, :update]
         resource :project, only: [:show, :create, :update]
         resources :billings, only: [:create, :update, :show]
         resources :productions, only: [:create, :update, :show]
+        resource :contract, only: [:show, :create, :update] do
+          get :send_to_customer
+        end
       end
       resources :customers, only: [:index, :create, :update, :show]
       resources :appointments, only: [:index, :create, :update, :show, :destroy]
@@ -45,6 +47,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'users/sign_out', to: 'sessions#destroy'
+
     authenticated :user do
       ActiveAdmin.routes(self) if !ARGV.grep(/assets:precompile/).any? && !ARGV.grep(/db:migrate/).any? && !ARGV.grep(/db:seed/).any?
     end
