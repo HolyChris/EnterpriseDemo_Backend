@@ -11,7 +11,4 @@ module ApplicationHelper
     end
   end
 
-  def frontend_root_url
-    ENV["MAILER_HOST"] || 'eco-roof-and-solar.bitballoon.com'
-  end
 end
