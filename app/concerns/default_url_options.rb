@@ -12,7 +12,7 @@ private
 
   def host
     if Rails.env.production?
-      ENV["production_host"]
+      PRODUCTION_HOST
     elsif Rails.env.staging?
       STAGING_HOST
     else

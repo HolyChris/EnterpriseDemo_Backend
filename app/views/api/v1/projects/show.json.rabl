@@ -1,6 +1,7 @@
 object :@project
 
-attributes :id, :po_number, :po_legacy, :existing_roof_material, :code_coverage_confirmed, :hoa_approval_date, :last_roof_built_date
+attributes :id, :po_number, :po_legacy, :existing_roof_material, :code_coverage_confirmed,
+           :hoa_approval_date, :last_roof_built_date
 
 node(:priority) { |project| Project::PRIORITY[project.priority] }
 
@@ -58,4 +59,9 @@ child(:site) do
   node(:po_number) {|site| site.po_number}
   node(:source) {|site| site.source_string}
   node(:status) {|site| site.status_string}
+end
+
+child(@customer => :customer ) do
+  node(:page_token) { @customer.page_token }
+  node(:customer_portal_visited) { |customer| !@customer.customer_sessions.count.zero? }
 end

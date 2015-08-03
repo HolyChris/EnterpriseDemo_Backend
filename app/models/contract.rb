@@ -60,6 +60,10 @@ class Contract < ActiveRecord::Base
     TYPE[contract_type]
   end
 
+  def customer_notification
+    CustomerMailer.contract_created(site, site.customer).deliver
+  end
+
   private
     def transit_site_stage
       site.to_contract!

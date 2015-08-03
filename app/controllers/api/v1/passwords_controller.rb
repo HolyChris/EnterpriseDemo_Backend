@@ -14,7 +14,7 @@ class Api::V1::PasswordsController < Api::V1::BaseController
 
   def update
     user = User.reset_password_by_token(resource_params)
-    if user.new_record?
+    if user.new_record? or user.errors.present?
       respond_with(user)
     else
       render json: { message: "Password updated successfully." }
