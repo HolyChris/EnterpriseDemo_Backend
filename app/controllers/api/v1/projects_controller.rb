@@ -4,6 +4,7 @@ class Api::V1::ProjectsController < Api::V1::BaseController
 
   def show
     @project = @site.project
+    @customer = @site.customer
     respond_with(@project)
   end
 
