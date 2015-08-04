@@ -32,8 +32,8 @@ class Ability
       # can :manage, Customer, id: (user.sites.pluck(:customer_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Customer').pluck(:auditable_id))
       # cannot :manage, Site
       # can :manage, Site, id: (user.site_managers.pluck(:site_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Site').pluck(:auditable_id))
-      cannot :manage, User
       can :manage, User, id: user.id
+      can :read, User
     end
 
     def set_sales_rep_privileges(user)
