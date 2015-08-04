@@ -1,6 +1,6 @@
 class Api::V1::ContractsController < Api::V1::BaseController
   before_action :find_site
-  before_action :find_contract, only: [:update, :show]
+  before_action :find_contract, only: [:update, :show, :send_to_customer]
 
   def show
     respond_with(@contract)
@@ -22,6 +22,15 @@ class Api::V1::ContractsController < Api::V1::BaseController
     @contract.customer_sign_image = attachment_obj(params[:encoded_customer_sign_image_data], params[:customer_sign_image_format]) if params[:encoded_customer_sign_image_data]
     @contract.update_attributes(contract_params)
     respond_with(@contract)
+  end
+
+  def send_to_customer
+    if @site.customer.email.present?
+      @contract.customer_notification
+      render json: { message: 'Email sent to customer successfully.' }
+    else
+      render_with_failure(msg: 'Customer email does not exists', status: 422)
+    end
   end
 
   private

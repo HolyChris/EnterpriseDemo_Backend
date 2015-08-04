@@ -5,6 +5,7 @@ class Api::V1::ProjectsController < Api::V1::BaseController
   def show
     @project = @site.project
     if @project
+      @customer = @site.customer
       respond_with(@project)
     else
       render_with_failure(msg: 'project Not Found', status: 404)
