@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       end
 
       resources :home, only: :index
-      resources :users, only: :index
+      resources :users, only: :index do
+        get 'me' => 'users#show', on: :collection
+      end
       put :sign_in, to: 'sessions#create'
       put :users, to: 'registrations#update'
       delete :sign_out, to: 'sessions#destroy'
