@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       delete :sign_out, to: 'sessions#destroy'
       post 'users/password', to: 'passwords#create'
       put 'users/password', to: 'passwords#update'
-      resources :sites, only: [:index, :create, :update, :show] do
+      resources :sites, only: [:index, :create, :update, :show, :destroy] do
         resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
         resources :images, only: [:index, :create, :update, :show]
