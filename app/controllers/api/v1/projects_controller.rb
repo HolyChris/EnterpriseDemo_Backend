@@ -16,11 +16,14 @@ class Api::V1::ProjectsController < Api::V1::BaseController
     @project = Project.accessible_by(current_ability, :create).new(site_id: @site.id)
     @project.attributes = project_params
     @project.save
+    @customer = @site.customer
     respond_with(@project)
   end
 
   def update
     @project.update_attributes(project_params)
+    @customer = @site.customer
+    respond_with(@project)
   end
 
   private
