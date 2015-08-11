@@ -25,7 +25,7 @@ Rails.application.routes.draw do
           get :send_to_customer
         end
       end
-      resources :customers, only: [:index, :create, :update, :show]
+      resources :customers, only: [:index, :create, :update, :show, :destroy]
       resources :appointments, only: [:index, :create, :update, :show, :destroy]
       resource :customer_session, only: [:new, :create, :destroy]
     end
