@@ -1,6 +1,9 @@
 class Api::V1::SitesController < Api::V1::BaseController
   before_action :load_site, only: [:update, :show]
   before_filter :manage_params, only: [:create, :update]
+  before_action :load_destroyable_site, only: [:destroy]
+
+
 
   def create
     @site = Site.new(site_params)
@@ -25,6 +28,14 @@ class Api::V1::SitesController < Api::V1::BaseController
       @site.update_attributes(site_params)
     end
     respond_with(@site)
+  end
+
+  def destroy
+    if @site.destroy
+      render json: {success: true, status: 200}
+    else
+      render json: {success: false, status: 402}
+    end
   end
 
   private
@@ -57,6 +68,12 @@ class Api::V1::SitesController < Api::V1::BaseController
     def manage_params
       if params[:bill_addr_same_as_addr] == '1'
         params.delete(:bill_address_attributes)
+      end
+    end
+
+    def load_destroyable_site
+      unless @site = Site.accessible_by(current_ability, :destroy).find_by(id: params[:id])
+        render_with_failure(msg: 'Site Not Found', status: 404)
       end
     end
 end
