@@ -6,13 +6,15 @@ Rails.application.routes.draw do
       end
 
       resources :home, only: :index
-      resources :users, only: :index
+      resources :users, only: :index do
+        get 'me' => 'users#show', on: :collection
+      end
       put :sign_in, to: 'sessions#create'
       put :users, to: 'registrations#update'
       delete :sign_out, to: 'sessions#destroy'
       post 'users/password', to: 'passwords#create'
       put 'users/password', to: 'passwords#update'
-      resources :sites, only: [:index, :create, :update, :show] do
+      resources :sites, only: [:index, :create, :update, :show, :destroy] do
         resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
         resources :images, only: [:index, :create, :update, :show]
@@ -23,7 +25,7 @@ Rails.application.routes.draw do
           get :send_to_customer
         end
       end
-      resources :customers, only: [:index, :create, :update, :show]
+      resources :customers, only: [:index, :create, :update, :show, :destroy]
       resources :appointments, only: [:index, :create, :update, :show, :destroy]
       resource :customer_session, only: [:new, :create, :destroy]
     end

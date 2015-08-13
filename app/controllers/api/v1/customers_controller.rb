@@ -1,5 +1,6 @@
 class Api::V1::CustomersController < Api::V1::BaseController
   before_action :load_customer, only: [:update, :show]
+  before_action :load_destroyable_customer, only: [:destroy]
 
   def create
     @customer = Customer.new(customer_params)
@@ -22,6 +23,14 @@ class Api::V1::CustomersController < Api::V1::BaseController
     respond_with(@customer)
   end
 
+  def destroy
+    if @customer.destroy
+      render json: {success: true, status: 200}
+    else
+      render json: {success: false, status: 402}
+    end
+  end
+
   private
     def customer_params
       params.permit(:firstname, :lastname, :email, :spouse, :business_name, :other_business_info, phone_numbers_attributes: [:number, :num_type, :primary, :id, :_destroy])
@@ -36,6 +45,16 @@ class Api::V1::CustomersController < Api::V1::BaseController
     def load_customer
       unless @customer = Customer.accessible_by(current_ability, :update).find_by(id: params[:id])
         render_with_failure(msg: 'Customer Not Found', status: 404)
+      end
+    end
+
+    def load_destroyable_customer
+      unless @customer = Customer.accessible_by(current_ability, :destroy).find_by(id: params[:id])
+        render_with_failure(msg: 'Customer Not Found', status: 404)
+      else
+        unless @customer.sites.count.zero?
+          render_with_failure(msg: 'Cannot delete this cusotmer, associated sites exists!', status: 403)
+        end
       end
     end
 end

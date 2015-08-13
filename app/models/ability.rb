@@ -34,6 +34,8 @@ class Ability
       # can :manage, Site, id: (user.site_managers.pluck(:site_id) + Audited::Adapters::ActiveRecord::Audit.created.by_user(user).where(auditable_type: 'Site').pluck(:auditable_id))
       can :manage, User, id: user.id
       can :read, User
+      cannot :destroy, Site
+      cannot :destroy, Customer
     end
 
     def set_sales_rep_privileges(user)
@@ -69,7 +71,8 @@ class Ability
       can :manage, Project, site_id: user_site_ids
 
       can :read, User
-
+      cannot :destroy, Site
+      cannot :destroy, Customer
       # can :manage, Address, id: Address.joins(site: :site_managers).where(site_managers: { user_id: user.id }).pluck(:id)
     end
 
@@ -82,6 +85,8 @@ class Ability
       can :manage, Contract, site_id: user.site_managers.pluck(:site_id)
       can :manage, Project, site_id: user.site_managers.pluck(:site_id)
       can :manage, Production, site_id: user.site_managers.pluck(:site_id)
+      cannot :destroy, Site
+      cannot :destroy, Customer
     end
 
     def set_billing_rep_privileges(user)
@@ -93,5 +98,7 @@ class Ability
       can :manage, Contract, site_id: user.site_managers.pluck(:site_id)
       can :manage, Project, site_id: user.site_managers.pluck(:site_id)
       can :manage, Billing, site_id: user.site_managers.pluck(:site_id)
+      cannot :destroy, Site
+      cannot :destroy, Customer
     end
 end
