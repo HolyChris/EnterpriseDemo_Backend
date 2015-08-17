@@ -3,9 +3,12 @@ class Api::V1::ProjectsController < Api::V1::BaseController
   before_action :find_project, only: [:update]
 
   def show
-    @project = @site.project
-    @customer = @site.customer
-    respond_with(@project)
+    if @project = @site.project
+      @customer = @site.customer
+      respond_with(@project)
+    else
+      render_with_failure(msg: 'Project Not Found', status: 404)
+    end
   end
 
   def create
@@ -25,7 +28,7 @@ class Api::V1::ProjectsController < Api::V1::BaseController
   private
     def find_project
       unless @project = Project.accessible_by(current_ability, :update).find_by(id: params[:id], site_id: @site.id)
-        render_with_failure(msg: 'project Not Found', status: 404)
+        render_with_failure(msg: 'Project Not Found', status: 404)
       end
     end
 
