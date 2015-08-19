@@ -36,6 +36,13 @@ class Site < ActiveRecord::Base
           transition project: :billing
         end
 
+        event :to_closed do
+          transition contract: :closed
+          transition project: :closed
+          transition production: :closed
+          transition billing: :closed
+        end
+
         before_transition contract: :project, do: :verify_contract
         before_transition project: :production, do: :verify_project
         before_transition production: :billing, do: :verify_production
