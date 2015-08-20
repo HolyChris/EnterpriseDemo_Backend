@@ -20,7 +20,7 @@ end
 
 child :@site => :site do
   attribute :name, :contact_name
-  child :@managers => :managers do
+  child :managers do
     attributes :id, :email, :firstname, :lastname
   end
   child(:address) do
