@@ -4,7 +4,7 @@ class Api::V1::AssetsController < Api::V1::BaseController
 
   def index
     @search = @site.assets.ransack(search_params)
-    @assets = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE).includes(:attachments)
+    @assets = @search.result(distinct: true).includes(:attachments)
     respond_with(@assets)
   end
 
