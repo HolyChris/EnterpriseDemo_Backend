@@ -16,24 +16,28 @@ class Site < ActiveRecord::Base
           transition project: :contract
           transition production: :contract
           transition billing: :contract
+          transition closed: :contract
         end
 
         event :to_project do
           transition contract: :project
           transition production: :project
           transition billing: :project
+          transition closed: :project
         end
 
         event :to_production do
           transition project: :production
           transition contract: :production
           transition billing: :production
+          transition closed: :production
         end
 
         event :to_billing do
           transition production: :billing
           transition contract: :billing
           transition project: :billing
+          transition closed: :billing
         end
 
         event :to_closed do
