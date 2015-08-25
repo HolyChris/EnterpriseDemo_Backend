@@ -70,7 +70,7 @@ class Contract < ActiveRecord::Base
     end
 
     def self.generate_po_number
-      (maximum(:po_number) || 49999) + 1
+      (with_deleted.maximum(:po_number) || 49999) + 1
     end
 
     def create_helper_associations
