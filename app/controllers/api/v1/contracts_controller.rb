@@ -13,6 +13,9 @@ class Api::V1::ContractsController < Api::V1::BaseController
     @contract.ers_sign_image = attachment_obj(params[:encoded_ers_sign_image_data], params[:ers_sign_image_format]) if params[:encoded_ers_sign_image_data]
     @contract.customer_sign_image = attachment_obj(params[:encoded_customer_sign_image_data], params[:customer_sign_image_format]) if params[:encoded_customer_sign_image_data]
     @contract.save
+    puts '*' * 30
+    puts @contract.errors.full_messages.to_s
+    puts '*' * 30
     respond_with(@contract)
   end
 
