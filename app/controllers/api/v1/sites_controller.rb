@@ -41,7 +41,7 @@ class Api::V1::SitesController < Api::V1::BaseController
   private
     def site_params
       params.permit(:id, :name, :current_stage, :contact_name, :contact_phone, :source, :source_info, :damage, :status,
-                    :bill_addr_same_as_addr, :customer_id, :cover_photo, manager_ids: [], :primary_manager_id,
+                    :bill_addr_same_as_addr, :customer_id, :cover_photo, :primary_manager_id, manager_ids: [],
                     bill_address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode],
                     address_attributes: [:id, :address1, :address2, :city, :state_id, :zipcode, :customer_id])
     end
