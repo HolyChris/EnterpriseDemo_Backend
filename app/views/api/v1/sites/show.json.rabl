@@ -8,6 +8,7 @@ node(:stage) {|site| site.stage_string}
 node(:po_number) {|site| site.po_number}
 node(:source) {|site| site.source_string}
 node(:status) {|site| site.status_string}
+node(:cover_photo_url) {|site| site.cover_photo.url}
 
 child(:customer) do
   attributes :id, :email, :firstname, :lastname, :spouse, :business_name, :other_business_info
