@@ -5,7 +5,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :asset
 
   has_attached_file :file,
-                    styles: lambda { |a| a.instance.image? ? {thumb: '100x100>'} : {}},
+                    styles: lambda { |a| a.instance.file.content_type  =~ /\Aimage\/.*\Z/ ? {thumb: '100x100>'} : {} },
                     default_url: '',
                     url: "/attachments/:id/:style_:basename.:extension",
                     path: "/attachments/:id/:style_:basename.:extension",
