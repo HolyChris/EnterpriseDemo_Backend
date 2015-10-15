@@ -20,6 +20,7 @@ end
 
 child :@site => :site do
   attribute :name, :contact_name
+  node(:cover_photo_url) {|site| site.cover_photo.url}
   child :managers do
     attributes :id, :email, :firstname, :lastname
   end
