@@ -20,8 +20,10 @@ end
 
 child :@site => :site do
   attribute :name, :contact_name
+  node(:cover_photo_url) {|site| site.cover_photo.url}
   child :managers do
     attributes :id, :email, :firstname, :lastname
+    node(:primary) {|manager| manager.site_managers.find_by(site: @site).try(:primary)  }
   end
   child(:address) do
     attributes :address1, :address2, :city, :zipcode
