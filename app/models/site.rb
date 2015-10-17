@@ -78,6 +78,12 @@ class Site < ActiveRecord::Base
     STAGE_MAPPING[stage.to_s.to_sym]
   end
 
+  def primary_manager_id=(manager_id)
+    if site_manager = site_managers.find_by( user_id: manager_id)
+      site_manager.update_attribute :primary, true
+    end
+  end
+
   private
     def assign_customer
       self.customer_id ||= address.customer.try(:id)
