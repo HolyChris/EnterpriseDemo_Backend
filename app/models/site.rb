@@ -31,6 +31,13 @@ class Site < ActiveRecord::Base
 
   validates :stage, :address, :customer, presence: true
 
+  has_attached_file :cover_photo,
+                    default_url: '',
+                    url: "/site/:id/cover_photo/:basename.:extension",
+                    path: '/site/:id/cover_photo/:basename.:extension'
+  validates_attachment :cover_photo,
+                    content_type: { content_type: /^image\/(jpeg|jpg|png|gif|tiff)$/ }
+
   accepts_nested_attributes_for :bill_address, reject_if: :all_blank #proc { |attributes| attributes.values.all?(&:blank?) }
   accepts_nested_attributes_for :address
   accepts_nested_attributes_for :images
@@ -69,6 +76,12 @@ class Site < ActiveRecord::Base
 
   def stage_string
     STAGE_MAPPING[stage.to_s.to_sym]
+  end
+
+  def primary_manager_id=(manager_id)
+    if site_manager = site_managers.find_by( user_id: manager_id)
+      site_manager.update_attribute :primary, true
+    end
   end
 
   private
