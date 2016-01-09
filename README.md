@@ -1,8 +1,15 @@
 ERS_MVP_Backend
 ===
-**Backend code that iOS and web will interface with**
+**Backend code that iOS and web applications will interface with**
 
-**Test ERS repo**
+##Setup
+  - create secrets.yml from secrets.yml.example
+  - create database.yml from database.example.yml (update for your local mysql server as needed)
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
+
+###Test ERS repo
 ## Auth Token:
 Send auth token with each request in header for user.
 
