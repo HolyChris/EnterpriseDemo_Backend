@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
-    namespace :v1 do
+
+    namespace :v2 do
+      jsonapi_resources :sites, only: [:index, :show]
+    end
+
+    namespace :v2 do
       namespace :customer_portal do
         resource :customer, only: [:show]
       end
