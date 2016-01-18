@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       jsonapi_resources :sites, only: [:index, :show]
     end
 
-    namespace :v2 do
+    namespace :v1 do
       namespace :customer_portal do
         resource :customer, only: [:show]
       end
