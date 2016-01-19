@@ -6,6 +6,8 @@ class Api::V2::SiteResource < JSONAPI::Resource
 
   has_many :assets
 
+  has_one :customer
+
   filters :stage
 
   def self.apply_filter(records, filter, value, options)
