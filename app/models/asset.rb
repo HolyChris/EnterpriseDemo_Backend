@@ -9,7 +9,8 @@ class Asset < ActiveRecord::Base
   DOC_TYPE = { 1 => 'Billing Reference Document', 2 => 'Completion Payment Check', 3 => 'Customer Invoice',
               4 => 'Deductible Check', 5 => 'EagleView', 6 => 'HOA Approval Document', 7 => 'Initial Payment Check',
               8 => 'Insurance scope document', 9 => 'Material List', 10 => 'Supplement Documentation',
-              11 => 'Trade work Bid', 12 => 'Xactimate', 13 => 'Other' }
+              11 => 'Trade work Bid', 12 => 'Xactimate', 13 => 'Other', 14 => 'Supplier Invoice',
+              15 => 'Material Invoice'}
 
   validates :type, :viewable, :attachments, presence: true
 
