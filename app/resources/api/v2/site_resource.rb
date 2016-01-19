@@ -7,6 +7,7 @@ class Api::V2::SiteResource < JSONAPI::Resource
   has_many :assets
 
   has_one :customer
+  has_one :address
 
   filters :stage
 
