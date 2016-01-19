@@ -1,19 +1,21 @@
-<strong>Welcome to ECO Roof and Solar!</strong>
+
+
+<strong>Welcome to <%= company_name %>!</strong>
 
 <p>
-  ECO Roof and Solar is known for providing the highest level of customer support during every step of the roof construction process, whether it be a new roof endeavor or storm damage restoration. To provide the best experience, here is your access code to the ECO Customer Portal where you can view the status ofyour project and contact your Sales Representative:
+  <%= company_name %> is known for providing the highest level of customer support during every step of the roof construction process, whether it be a new roof endeavor or storm damage restoration. To provide the best experience, here is your access code to the ECO Customer Portal where you can view the status ofyour project and contact your Sales Representative:
 </p>
 
 <p>You personal site: <%= link_to 'Click here', "#{frontend_root_url}#/customerportal?token=#{@customer.page_token}" %></p>
 
 <p>Use the password: <%= @site.po_number %></p>
 
-<p>Please contact us with any questions or concerns you might have at: <i>303­-484-­9854</i></p>
+<p>Please contact us with any questions or concerns you might have at: <i><%= company_name %></i></p>
 
 <br>
 
 <p>Thank you for your business.</p>
-<p>Eco Roof and Solar</p>
+<p><%= company_name %></p>
 
 
 
