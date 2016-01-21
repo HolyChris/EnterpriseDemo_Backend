@@ -64,6 +64,10 @@ class Contract < ActiveRecord::Base
     CustomerMailer.contract_created(site, site.customer).deliver
   end
 
+  def adjustor_notification
+    InsuranceAdjustorMailer.contract_created(site, site.insurance_adjustor).deliver
+  end
+
   private
     def transit_site_stage
       site.to_contract!

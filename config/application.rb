@@ -24,9 +24,14 @@ module Ers
       allow do
         origins '*'
         resource '/api/v1/*',
-            headers: :any,
-            methods: [:get, :post, :delete, :put, :patch, :head, :options],
-            max_age: 1728000
+                 headers: :any,
+                 methods: [:get, :post, :delete, :put, :patch, :head, :options],
+                 max_age: 1728000
+
+        resource '/api/v2/*',
+                 headers: :any,
+                 methods: [:get, :post, :delete, :put, :patch, :head, :options],
+                 max_age: 1728000
       end
     end
   end
