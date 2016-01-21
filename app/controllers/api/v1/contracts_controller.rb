@@ -1,6 +1,6 @@
 class Api::V1::ContractsController < Api::V1::BaseController
   before_action :find_site
-  before_action :find_contract, only: [:update, :show, :send_to_customer]
+  before_action :find_contract, only: [:update, :show, :send_to_customer, :send_to_adjustor]
 
   def show
     respond_with(@contract)
@@ -27,6 +27,15 @@ class Api::V1::ContractsController < Api::V1::BaseController
   def send_to_customer
     if @site.customer.email.present?
       @contract.customer_notification
+      render json: { message: 'Email sent to customer successfully.' }
+    else
+      render_with_failure(msg: 'Customer email does not exists', status: 422)
+    end
+  end
+
+  def send_to_adjustor
+    if @site.insurance_adjustor.present? &&  @site.insurance_adjustor.email.present?
+      @contract.adjustor_notification
       render json: { message: 'Email sent to customer successfully.' }
     else
       render_with_failure(msg: 'Customer email does not exists', status: 422)
