@@ -10,6 +10,12 @@ user1 = User.create_with(
 ).find_or_create_by(email: 'priyankgupta1988@gmail.com')
 user1.add_role :admin
 
+user1 = User.create_with(
+  password: 'admin123',
+  password_confirmation: 'admin123'
+).find_or_create_by(email: 'marcin@toptal.com')
+user1.add_role :admin
+
 user2 = User.create_with(
   password: 'salesrep123',
   password_confirmation: 'salesrep123'

@@ -22,12 +22,14 @@ Rails.application.routes.draw do
       resources :sites, only: [:index, :create, :update, :show, :destroy] do
         resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
+        resources :insurance_adjustors, only: [:create, :update, :show, :destroy]
         resources :images, only: [:index, :create, :update, :show]
         resource :project, only: [:show, :create, :update]
         resources :billings, only: [:create, :update, :show]
         resources :productions, only: [:create, :update, :show]
         resource :contract, only: [:show, :create, :update] do
           get :send_to_customer
+          get :send_to_adjustor
         end
       end
       resources :customers, only: [:index, :create, :update, :show, :destroy]
