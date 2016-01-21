@@ -3,6 +3,6 @@ class InsuranceAdjustor < ActiveRecord::Base
   acts_as_paranoid
 
   has_secure_token :page_token
-  belongs_to :project
+  belongs_to :site
 
 end
