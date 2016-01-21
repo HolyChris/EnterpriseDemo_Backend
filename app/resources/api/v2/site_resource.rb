@@ -9,13 +9,13 @@ class Api::V2::SiteResource < JSONAPI::Resource
   has_one :customer
   has_one :address
 
-  filters :stage
+  filters :stage_name
 
   def self.apply_filter(records, filter, value, options)
     return records unless value.any?
     filter = filter.to_sym
 
-    if [:stage].include? filter
+    if [:stage_name].include? filter
       records = records.send(filter, value.first)
     end
 
