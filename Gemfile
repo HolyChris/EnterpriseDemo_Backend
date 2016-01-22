@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.5'
 gem 'mysql2', '0.3.17'
 gem 'rolify'
 gem 'cancancan', '~> 1.9'
 gem "paranoia", "~> 2.0"
 gem 'devise'
 gem 'devise-async',                          '0.9.0'
-gem 'delayed_job_active_record',             '4.0.2'
+gem 'delayed_job_active_record',             '4.1.0'
 gem 'therubyracer'
 gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'activeadmin', github: 'activeadmin'
@@ -39,6 +39,7 @@ gem 'rack-cors'
 gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'jsonapi-resources'
+gem 'apartment', '1.0.2'
 
 gem 'daemons', group: :staging
 group :development do
