@@ -10,6 +10,10 @@ node(:source) {|site| site.source_string}
 node(:status) {|site| site.status_string}
 node(:cover_photo_url) {|site| site.cover_photo.url}
 
+child(:insurance_adjustor) do
+  attributes :id, :email, :name, :telephone
+end
+
 child(:customer) do
   attributes :id, :email, :firstname, :lastname, :spouse, :business_name, :other_business_info
 

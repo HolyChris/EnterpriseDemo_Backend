@@ -33,7 +33,7 @@ class Api::V1::InsuranceAdjustorsController < Api::V1::BaseController
 
   private
     def adjustor_params
-      params.permit(:name, :email, :telephone, :site_id)
+      params[:insurance_adjustor].permit(:name, :email, :telephone)
     end
 
     def search_params
