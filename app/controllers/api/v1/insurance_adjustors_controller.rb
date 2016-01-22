@@ -1,60 +1,40 @@
 class Api::V1::InsuranceAdjustorsController < Api::V1::BaseController
-  before_action :load_insurance_adjustor, only: [:update, :show]
-  before_action :load_destroyable_insurance_adjustor, only: [:destroy]
 
-  def create
-    @insurance_adjustor = InsuranceAdjustor.new(adjustor_params)
-    @insurance_adjustor.save
-    respond_with(@insurance_adjustor)
-  end
+  before_action :find_site
+  before_action :find_insurance_adjustor, only: [:update]
 
   def show
-    respond_with(@insurance_adjustor)
+    if @insurance_adjustor = @site.insurance_adjustor
+      @customer = @site.customer
+      respond_with(@insurance_adjustor)
+    else
+      render_with_failure(msg: 'Adjustor Not Found', status: 404)
+    end
   end
 
-  def index
-    @search = InsuranceAdjustor.accessible_by(current_ability, :read).ransack(search_params)
-    @insurance_adjustors = @search.result(distinct: true).page(params[:page]).per(params[:per_page] || PER_PAGE)
-    respond_with(@insurance_adjustors)
+  def create
+    @insurance_adjustor = InsuranceAdjustor.accessible_by(current_ability, :create).new(site_id: @site.id)
+    @insurance_adjustor.attributes = adjustor_params
+    @insurance_adjustor.save
+    @customer = @site.customer
+    respond_with(@insurance_adjustor)
   end
 
   def update
     @insurance_adjustor.update_attributes(adjustor_params)
+    @customer = @site.customer
     respond_with(@insurance_adjustor)
   end
 
-  def destroy
-    if @insurance_adjustor.destroy
-      render json: {success: true, status: 200}
-    else
-      render json: {success: false, status: 402}
+  private
+  def find_insurance_adjustor
+    unless @insurance_adjustor = InsuranceAdjustor.accessible_by(current_ability, :update).find_by(id: params[:id], site_id: @site.id)
+      render_with_failure(msg: 'Adjustor Not Found', status: 404)
     end
   end
 
-  private
-    def adjustor_params
-      params[:insurance_adjustor].permit(:name, :email, :telephone)
-    end
+  def adjustor_params
+    params.permit(:name, :email, :telephone)
+  end
 
-    def search_params
-      params[:q] ||= {}
-      params[:q][:s] ||= 'updated_at desc'
-      params[:q]
-    end
-
-    def load_insurance_adjustor
-      unless @insurance_adjustor = InsuranceAdjustor.accessible_by(current_ability, :update).find_by(id: params[:id])
-        render_with_failure(msg: 'Adjustor Not Found', status: 404)
-      end
-    end
-
-    def load_destroyable_insurance_adjustor
-      unless @insurance_adjustor = InsuranceAdjustor.accessible_by(current_ability, :destroy).find_by(id: params[:id])
-        render_with_failure(msg: 'Adjustor Not Found', status: 404)
-      else
-        unless @insurance_adjustor.sites.count.zero?
-          render_with_failure(msg: 'Cannot delete this cusotmer, associated sites exists!', status: 403)
-        end
-      end
-    end
 end
