@@ -32,8 +32,8 @@ Rails.application.routes.draw do
         resources :billings, only: [:create, :update, :show]
         resources :productions, only: [:create, :update, :show]
         resource :contract, only: [:show, :create, :update] do
-          get :send_to_customer
-          get :send_to_adjustor
+          post :send_to_customer
+          post :send_to_insurance_adjustor
         end
       end
       resources :customers, only: [:index, :create, :update, :show, :destroy]

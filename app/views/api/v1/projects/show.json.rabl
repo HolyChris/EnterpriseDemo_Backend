@@ -1,7 +1,7 @@
 object :@project
 
 attributes :id, :po_number, :po_legacy, :existing_roof_material, :code_coverage_confirmed,
-           :hoa_approval_date, :last_roof_built_date
+           :hoa_approval_date, :last_roof_built_date, :adjustor_token
 
 node(:priority) { |project| Project::PRIORITY[project.priority] }
 
