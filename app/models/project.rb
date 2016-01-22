@@ -26,10 +26,6 @@ class Project < ActiveRecord::Base
     site.po_number
   end
 
-  def adjustor_token
-    site.insurance_adjustor ? site.insurance_adjustor.page_token : nil
-  end
-
   private
     def transit_site_stage
       site.to_project!

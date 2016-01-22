@@ -6,6 +6,7 @@ attributes :id, :name, :source_info, :damage, :contact_name, :contact_phone
 node(:bill_addr_same_as_addr) { |site| site.bill_addr_same_as_addr }
 node(:stage) {|site| site.stage_string}
 node(:po_number) {|site| site.po_number}
+node(:adjustor_token) {|site| site.adjustor_token}
 node(:source) {|site| site.source_string}
 node(:status) {|site| site.status_string}
 node(:cover_photo_url) {|site| site.cover_photo.url}

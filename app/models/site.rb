@@ -70,6 +70,10 @@ class Site < ActiveRecord::Base
     contract.try(:po_number)
   end
 
+  def adjustor_token
+    insurance_adjustor ? insurance_adjustor.page_token : nil
+  end
+
   def status_string
     STATUS[status]
   end
