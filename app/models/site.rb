@@ -74,6 +74,10 @@ class Site < ActiveRecord::Base
     insurance_adjustor ? insurance_adjustor.page_token : nil
   end
 
+  def customer_token
+    customer ? customer.page_token : nil
+  end
+
   def status_string
     STATUS[status]
   end
