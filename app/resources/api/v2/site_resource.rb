@@ -5,8 +5,6 @@ class Api::V2::SiteResource < JSONAPI::Resource
              :bill_address_id, :source_info, :cover_photo_file_name, :cover_photo_content_type,
              :cover_photo_file_size, :cover_photo_updated_at
 
-  attribute :contract
-
   has_many :assets
   has_one :customer
   has_one :address
@@ -24,8 +22,8 @@ class Api::V2::SiteResource < JSONAPI::Resource
     records
   end
 
-  def contract
-    @model.contract
+  def po_number
+    @model.contract ? @model.contract.po_number : ''
   end
 
 end
