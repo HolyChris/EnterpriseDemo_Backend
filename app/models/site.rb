@@ -26,6 +26,7 @@ class Site < ActiveRecord::Base
   has_many :site_managers, dependent: :destroy
   has_many :managers, through: :site_managers, source: :user
 
+
   belongs_to :bill_address, class_name: Address
   belongs_to :address
   belongs_to :customer
@@ -67,6 +68,14 @@ class Site < ActiveRecord::Base
 
   def po_number
     contract.try(:po_number)
+  end
+
+  def adjustor_token
+    insurance_adjustor ? insurance_adjustor.page_token : nil
+  end
+
+  def customer_token
+    customer ? customer.page_token : nil
   end
 
   def status_string

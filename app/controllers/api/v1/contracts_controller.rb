@@ -33,7 +33,7 @@ class Api::V1::ContractsController < Api::V1::BaseController
     end
   end
 
-  def send_to_adjustor
+  def send_to_insurance_adjustor
     if @site.insurance_adjustor.present? &&  @site.insurance_adjustor.email.present?
       @contract.adjustor_notification
       render json: { message: 'Email sent to customer successfully.' }
