@@ -9,6 +9,6 @@ module MailHelper
     end
 
   def company_telephone
-    ENV['company_telephone'] || '303­-484-­9854'
+    ENV['company_telephone'] || '720.515.5795'
   end
 end
