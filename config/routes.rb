@@ -9,10 +9,8 @@ Rails.application.routes.draw do
       namespace :customer_portal do
         resource :customer, only: [:show]
       end
-      namespace :adjustor_portal do
-        resource :adjustor, only: [:show]
-      end
 
+      get 'adjustor_portal', to: 'adjustor_portal/adjustors#show'
 
       resources :home, only: :index
       resources :users, only: :index do
@@ -26,14 +24,14 @@ Rails.application.routes.draw do
       resources :sites, only: [:index, :create, :update, :show, :destroy] do
         resources :assets, only: [:index, :create, :update, :show, :destroy]
         resources :documents, only: [:index, :create, :update, :show]
-        resources :insurance_adjustors, only: [:create, :update, :show, :destroy]
+        resources :insurance_adjustors, only: [:show, :create, :update]
         resources :images, only: [:index, :create, :update, :show]
         resource :project, only: [:show, :create, :update]
         resources :billings, only: [:create, :update, :show]
         resources :productions, only: [:create, :update, :show]
         resource :contract, only: [:show, :create, :update] do
-          get :send_to_customer
-          get :send_to_adjustor
+          post :send_to_customer
+          post :send_to_insurance_adjustor
         end
       end
       resources :customers, only: [:index, :create, :update, :show, :destroy]
