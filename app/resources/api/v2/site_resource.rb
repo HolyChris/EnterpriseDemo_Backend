@@ -11,6 +11,11 @@ class Api::V2::SiteResource < JSONAPI::Resource
 
   filters :stage_name
 
+  def self.records(options = {})
+    context = options[:context]
+    Site.accessible_by(context[:current_ability], :read)
+  end
+
   def self.apply_filter(records, filter, value, options)
     return records unless value.any?
     filter = filter.to_sym
