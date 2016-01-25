@@ -4,6 +4,7 @@ class Api::V1::AdjustorPortal::AdjustorsController < Api::V1::BaseController
   def show
     @adjustor = InsuranceAdjustor.find_by_page_token params[:token]
     @site = @adjustor.site
+    @customer = @site.customer
     @project = @site.project
     @managers = @site.managers.with_role(:sales_rep)
     @managers = @site.managers.with_role(:office_staff).limit(1) if @managers.blank?

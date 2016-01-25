@@ -11,6 +11,13 @@ child :@project => :project do
   node(:production_inspection_date) { @site.production.production_inspection_date }
 end
 
+child :@customer => :customer do
+  attribute :firstname, :lastname, :email, :spouse, :business_name, :other_business_info
+  child(:phone_numbers) do
+    attributes :number, :primary, :num_type
+  end
+end
+
 child :@site => :site do
   attribute :name, :contact_name
   node(:cover_photo_url) {|site| site.cover_photo.url}
