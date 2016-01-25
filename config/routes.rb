@@ -9,10 +9,8 @@ Rails.application.routes.draw do
       namespace :customer_portal do
         resource :customer, only: [:show]
       end
-      namespace :adjustor_portal do
-        resource :adjustor, only: [:show]
-      end
 
+      get 'adjustor_portal', to: 'adjustor_portal/adjustors#show'
 
       resources :home, only: :index
       resources :users, only: :index do
