@@ -39,6 +39,7 @@ child :assets do
     attributes :id
     node(:file_name) { |attachment| attachment.file_file_name }
     node(:url) { |attachment| attachment.file.url }
+    node(:thumbnail_url) { |attachment| attachment.file.url(:thumb) }
   end
 end
 
