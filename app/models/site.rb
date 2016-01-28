@@ -16,6 +16,7 @@ class Site < ActiveRecord::Base
   has_one :project, dependent: :destroy
   has_one :production, dependent: :destroy
   has_one :billing, dependent: :destroy
+  has_one :insurance_adjustor, dependent: :destroy
 
   has_many :assets, as: :viewable, dependent: :destroy, class_name: "Asset"
   has_many :images, -> { images }, as: :viewable, class_name: "Asset"
@@ -24,6 +25,7 @@ class Site < ActiveRecord::Base
   has_many :appointments, dependent: :destroy
   has_many :site_managers, dependent: :destroy
   has_many :managers, through: :site_managers, source: :user
+
 
   belongs_to :bill_address, class_name: Address
   belongs_to :address
@@ -41,6 +43,8 @@ class Site < ActiveRecord::Base
   accepts_nested_attributes_for :bill_address, reject_if: :all_blank #proc { |attributes| attributes.values.all?(&:blank?) }
   accepts_nested_attributes_for :address
   accepts_nested_attributes_for :images
+
+  scope :stage_name, lambda { |name| where(stage: name) }
 
   before_validation :assign_customer, if: 'address.present?'
 
@@ -64,6 +68,14 @@ class Site < ActiveRecord::Base
 
   def po_number
     contract.try(:po_number)
+  end
+
+  def adjustor_token
+    insurance_adjustor ? insurance_adjustor.page_token : nil
+  end
+
+  def customer_token
+    customer ? customer.page_token : nil
   end
 
   def status_string

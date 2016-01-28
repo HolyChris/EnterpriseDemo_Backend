@@ -78,7 +78,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   ActionMailer::Base.smtp_settings = {
-    :user_name => 'StartClosing',
+    :user_name => 'StartClosingAPI',
     :password => 'St@rtCl0s!ng',
     :domain => ENV["production_host"],
     :address => 'smtp.sendgrid.net',

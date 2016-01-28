@@ -1,8 +1,15 @@
 ERS_MVP_Backend
 ===
-**Backend code that iOS and web will interface with**
+**Backend code that iOS and web applications will interface with**
 
-**Test ERS repo**
+##Setup
+  - create secrets.yml from secrets.yml.example
+  - create database.yml from database.example.yml (update for your local mysql server as needed)
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
+
+###Test ERS repo
 ## Auth Token:
 Send auth token with each request in header for user.
 
@@ -22,7 +29,10 @@ Above scenarios will result in only one session per user at a time i.e. a user c
 
 If we are done with login/signin pages then this is not a problem as we can get this token in login/signin response.
 Else, we have created a default api user (having admin role) on staging with token, **D2EdWKgbs8cq9PHyLhrA**, and can be used untill we are done with login pages.
+<<<<<<< HEAD
 
 Multiple apps are deployed on Heroku for each client. Each app is given its own remote git origin locally to deploy separately. To get info about the app simply run
 
 `heroku info --app eco-roof`
+=======
+>>>>>>> development

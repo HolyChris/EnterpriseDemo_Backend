@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby "2.1.5"
 
 gem 'rails', '4.1.8'
-gem 'mysql2', '0.3.16'
+gem 'mysql2', '0.3.17'
 gem 'rolify'
 gem 'cancancan', '~> 1.9'
 gem "paranoia", "~> 2.0"
@@ -39,7 +39,11 @@ gem 'posix-spawn'
 gem 'rack-cors'
 gem 'exception_notification'
 gem 'jquery-fileupload-rails'
+<<<<<<< HEAD
 gem 'puma'
+=======
+gem 'jsonapi-resources'
+>>>>>>> development
 
 gem 'daemons', group: :staging
 group :development do
@@ -51,6 +55,7 @@ group :development do
   gem 'quiet_assets'
   gem 'byebug'
   gem 'letter_opener'
+  gem 'pry'
 end
 
 group :test do
