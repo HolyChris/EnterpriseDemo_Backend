@@ -161,6 +161,8 @@ GEM
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 4.2)
       responders (~> 1.0)
+    intercom-rails (0.2.29)
+      activesupport (> 3.0)
     jbuilder (2.2.5)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -360,6 +362,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   has_secure_token
+  intercom-rails
   jbuilder (~> 2.0)
   jquery-datetimepicker-rails
   jquery-fileupload-rails

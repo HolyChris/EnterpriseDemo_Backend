@@ -41,6 +41,7 @@ gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'puma'
 gem 'jsonapi-resources'
+gem 'intercom-rails'
 
 gem 'daemons', group: :staging
 group :development do
