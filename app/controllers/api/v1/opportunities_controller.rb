@@ -25,7 +25,7 @@ class Api::V1::OpportunitiesController < Api::V1::BaseController
                                      ],
                                      phone_numbers_attributes: [{number: opportunity[:primary_phone_number], num_type: 1, primary: true}]
 
-        @site = Site.create! stage: 'lead', address: @customer.addresses[0], customer: @customer
+        @site = Site.create! stage: 'lead', address: @customer.addresses[0], customer: @customer, damage: opportunity[:damage_description]
         render json: {stat: 'ok' }, status: 200
       end
     rescue => e
