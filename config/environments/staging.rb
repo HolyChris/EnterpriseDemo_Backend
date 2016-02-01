@@ -98,7 +98,9 @@ end
 
 Rails.application.config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "#{COMPANY_NAME}: Exception on staging ",
-    :sender_address => %{"notifier" <#{EXCEPTION_SENDER}>},
-    :exception_recipients => %w{vipin.itm@gmail.com production@doublebitconsulting.com chris@doublebitconsulting.com}
+    :email_prefix => "ERS: Exception on staging ",
+    :sender_address => %{"notifier" <notifier@ecoroofs.com>},
+    :exception_recipients => %w{dev@startclosing.com
+                                chris@startclosing.com
+                              }
   }
