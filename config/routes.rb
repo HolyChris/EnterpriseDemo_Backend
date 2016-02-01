@@ -10,6 +10,8 @@ Rails.application.routes.draw do
         resource :customer, only: [:show]
       end
 
+      post 'opportunities' => 'opportunities#create'
+
       get 'adjustor_portal', to: 'adjustor_portal/adjustors#show'
 
       resources :home, only: :index
