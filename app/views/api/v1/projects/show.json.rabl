@@ -61,7 +61,11 @@ child(:site) do
   node(:status) {|site| site.status_string}
 end
 
-child(@customer => :customer ) do
+child :@customer => :customer do
   node(:page_token) { @customer.page_token }
   node(:customer_portal_visited) { |customer| !@customer.customer_sessions.count.zero? }
+
+	child(:phone_numbers) do
+	  attributes :id, :number, :primary, :num_type
+	end
 end
