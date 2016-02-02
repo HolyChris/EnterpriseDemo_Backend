@@ -4,11 +4,10 @@ class Production < ActiveRecord::Base
 
   belongs_to :site
 
-  # validates :delivery_date, :production_date, :ready_for_production_at, presence: true
   validates :site, presence: true
   validates :paid_till_now, numericality: true, allow_blank: true
 
-  # after_create :transit_site_stage
+  before_update :notify_customer
 
   delegate :project, :contract, :billing, to: :site
 
@@ -21,4 +20,17 @@ class Production < ActiveRecord::Base
     def transit_site_stage
       site.to_production!
     end
+
+    def notify_customer
+      if self.delivery_date_changed?
+        client = Twilio::REST::Client.new
+        customer = self.site.customer
+        client.messages.create(
+            from: '+15005550006',
+            to: customer.primary_phone_number.number,
+            body: "Material delivery date set to #{self.delivery_date}."
+        )
+        end
+    end
+
 end

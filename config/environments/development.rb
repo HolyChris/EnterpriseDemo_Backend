@@ -47,6 +47,11 @@ Rails.application.configure do
   #   :authentication => :cram_md5
   # }
 
+  Twilio.configure do |config|
+    config.account_sid = 'ACe9302025a9af16dfafb0b7ab6093ee71'
+    config.auth_token = '78b6138edc0e4e55f3c355c0e4182b37'
+  end
+
   config.paperclip_defaults = {
     storage: :s3,
     access_key_id: 'AKIAJ5YV3HUJR4GDILYQ',

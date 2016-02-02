@@ -94,6 +94,12 @@ Rails.application.configure do
       bucket: 'www.ers.com'
     }
   }
+
+  Twilio.configure do |config|
+    config.account_sid = 'SK3df5274afa8216c152cd054c7b9d014b'
+    config.auth_token = 'Hu3SLxaSl1kzuf0XGZ3KMkH1xzFdiAqm'
+  end
+
 end
 
 Rails.application.config.middleware.use ExceptionNotification::Rack,

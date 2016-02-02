@@ -39,6 +39,7 @@ gem 'rack-cors'
 gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'jsonapi-resources'
+gem 'twilio-ruby', '~> 4.2.1'
 
 gem 'daemons', group: :staging
 group :development do
