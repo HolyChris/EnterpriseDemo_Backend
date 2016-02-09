@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.8'
 gem 'mysql2', '0.3.17'
+gem 'pg'
 gem 'rolify'
 gem 'cancancan', '~> 1.9'
 gem "paranoia", "~> 2.0"
