@@ -5,6 +5,7 @@ $(function() {
     var chatChannel;
     var username;
 
+
     function setupChannel() {
         chatChannel.join().then(function(channel) {
             printMessage(username + ' joined the chat.');
@@ -23,6 +24,8 @@ $(function() {
         }
      });
 
+
+
 $.post("/twilio_tokens", function(data) {
     username = data.username;
     var accessManager = new Twilio.AccessManager(data.token);
@@ -35,7 +38,7 @@ $.post("/twilio_tokens", function(data) {
 	} else {
 	    messagingClient.createChannel({
 		uniqueName: 'chat',
-		friendlyName: 'Chat Channel' })
+		friendlyName: 'startclosing-staging' })
 	    .then(function(channel) {
 		chatChannel = channel;
 		setupChannel();
