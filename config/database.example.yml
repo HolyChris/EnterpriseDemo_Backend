@@ -1,8 +1,0 @@
-development:
-  adapter: mysql2
-  encoding: utf8
-  database: ers_dev
-  pool: 5
-  username: root
-  password:
-  socket: /var/run/mysqld/mysqld.sock
