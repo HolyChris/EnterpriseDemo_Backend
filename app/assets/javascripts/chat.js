@@ -1,6 +1,32 @@
 function printMessage(message) {
-	$('#messages').append(message + "<br>");
+  // $('.message-text').append(message + "<br>");
+
+  // var $messageRow = $( "<div/>", { class: "message-row"}),
+  //       $receivedMessage = $( "<div/>", { class: "received message"}),
+  //         $messageRow = $( "<div/>", { class: "message-row"}),
+
+  var elem = $('.message-area');
+
+  elem.append(
+    $('<div/>', {'class': 'message-row'}).append(
+      $('<div/>', {'class': 'received message'}).append(
+          $('<div/>', {'class': 'message-text'}).append(
+              $('<span/>', {text: message.body})
+            )
+        .append(
+          $('<div/>', {'class': 'username'}).append(
+              $('<span/>', {text: message.author})
+          )
+        )
+      )
+    )
+  );
 }
+
+function printJoined(message) {
+  $('.joined').append(message + "<br>");
+}
+
 $(function() {
     var chatChannel;
     var username;
@@ -8,19 +34,20 @@ $(function() {
 
     function setupChannel() {
         chatChannel.join().then(function(channel) {
-            printMessage(username + ' joined the chat.');
+            printJoined(username + ' joined the chat.');
         });
 
         chatChannel.on('messageAdded', function(message) {
-            printMessage(message.author + ": " + message.body);
+            printMessage(message);
          });
     }
 
-    var $input = $('#chat-input');
+    var $input = $('.message-composer');
     $input.on('keydown', function(e) {
         if (e.keyCode == 13) {
           chatChannel.sendMessage($input.val());
           $input.val('');
+          console.log('key pressed')
         }
      });
 
