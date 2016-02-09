@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  
+  post "twilio_tokens" => "twilio_tokens#create"
+  get "chat" => "chat#show"
+
+
   namespace :api, defaults: { format: 'json' } do
 
     namespace :v2 do

@@ -1,0 +1,52 @@
+function printMessage(message) {
+	$('#messages').append(message + "<br>");
+}
+
+$(function() {
+    var chatChannel;
+    var username;
+
+    function setupChannel() {
+        chatChannel.join().then(function(channel) {
+            printMessage(username + ' joined the chat.');
+        });
+
+        chatChannel.on('messageAdded', function(message) {
+		debugger;
+            printMessage(message.author + ": " + message.body);
+         });
+    }
+
+    var $input = $('#chat-input'); 
+    $input.on('keydown', function(e) {
+        if (e.keyCode == 13) {
+		if ($input.val().body != '') {
+            chatChannel.sendMessage($input.val())
+            $input.val('');
+		}
+        }
+     });
+
+$.post("/twilio_tokens", function(data) {
+    username = data.username;
+    var accessManager = new Twilio.AccessManager(data.token);
+    var messagingClient = new Twilio.IPMessaging.Client(accessManager);
+
+    messagingClient.getChannelByUniqueName('chat').then(function(channel) {
+	if (channel) {
+	    chatChannel = channel;
+	    setupChannel();
+	} else {
+	    messagingClient.createChannel({
+		uniqueName: 'chat',
+		friendlyName: 'Chat Channel' })
+	    .then(function(channel) {
+		chatChannel = channel;
+		setupChannel();
+	    });
+	}
+    });
+});
+
+});
+

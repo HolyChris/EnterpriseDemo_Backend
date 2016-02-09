@@ -20,6 +20,7 @@ module Ers
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
