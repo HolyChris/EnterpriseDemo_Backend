@@ -15,4 +15,3 @@
 //= require turbolinks
 //= require jquery.datetimepicker
 //= require jquery-fileupload
-//= require chat
