@@ -1,3 +1,6 @@
+<div class="portalModals">
+  <%= render "chat/modals/site_photo_modal" %>
+</div>
 <div class="portalBody">
   <div class="card-rows">
     <%= render "chat/cards/layout/property_owner_info" %>
@@ -7,28 +10,8 @@
   <div class="card-columns">
     <%= render "chat/cards/message_card" %>
   </div>
-
-  <div class="cardWrapper claimInformation">
-    <header>
-      <h2 class="title">Claim Information</h2>
-    </header>
-    <hr class="divider">
-    <div class="body">
-      <div class="claimInformation">
-
-      </div>
-    </div>
-  </div>
-
-  <div class="cardWrapper sitePhotos">
-    <header>
-      <h2 class="title">Site Photos</h2>
-    </header>
-    <hr class="divider">
-    <div class="body">
-      <div class="sitePhotos">
-
-      </div>
-    </div>
-  </div>
+  <%= render "chat/cards/layout/claim_information" %>
+  <%= render "chat/cards/layout/site_photos" %>
+  <%= render "chat/cards/layout/documents" %>
+  <%= render "chat/cards/layout/milestones" %>
 </div>
