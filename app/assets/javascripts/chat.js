@@ -1,26 +1,33 @@
 function printMessage(message) {
-  // $('.message-text').append(message + "<br>");
-
-  // var $messageRow = $( "<div/>", { class: "message-row"}),
-  //       $receivedMessage = $( "<div/>", { class: "received message"}),
-  //         $messageRow = $( "<div/>", { class: "message-row"}),
 
   var elem = $('.message-area');
+  var html;
 
-  elem.append(
-    $('<div/>', {'class': 'message-row'}).append(
-      $('<div/>', {'class': 'received message'}).append(
-          $('<div/>', {'class': 'message-text'}).append(
-              $('<span/>', {text: message.body})
-            )
+  if (message.author === "Jesse Litton") {
+    html = elem.append(
+      $('<div/>', {'class': 'message-row'}).append(
+        $('<div/>', {'class': 'sent message'}).append(
+            $('<div/>', {'class': 'message-text', text: message.body})
+          )
         .append(
-          $('<div/>', {'class': 'username'}).append(
-              $('<span/>', {text: message.author})
+          $('<div/>', {'class': 'username', text: message.author})
+        )
+      )
+    );
+  } else {
+    html = elem.append(
+      $('<div/>', {'class': 'message-row'}).append(
+        $('<div/>', {'class': 'received message'}).append(
+            $('<div/>', {'class': 'message-text', text: message.body})
+          .append(
+            $('<div/>', {'class': 'username', text: message.author})
           )
         )
       )
-    )
-  );
+    );
+  }
+
+  return html;
 }
 
 function printJoined(message) {
