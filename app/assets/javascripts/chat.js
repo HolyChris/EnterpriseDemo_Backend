@@ -19,7 +19,7 @@ $(function() {
     $input.on('keydown', function(e) {
         if (e.keyCode == 13) {
           chatChannel.sendMessage($input.val());
-          $input.val();
+          $input.val('');
         }
      });
 
