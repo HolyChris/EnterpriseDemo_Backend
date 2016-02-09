@@ -27,7 +27,11 @@ function printMessage(message) {
     );
   }
 
+  elem.animate({
+   scrollTop: 100000000000
+  }, 300);
   return html;
+
 }
 
 function printJoined(message) {
