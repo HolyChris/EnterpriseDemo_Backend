@@ -1,0 +1,11 @@
+.portalHeader {
+  background: $white;
+  border-bottom: 1px solid $border-color;
+  padding: 23px 40px;
+
+  .title {
+    font-size: 21px;
+    font-weight: 200;
+    color: $dark-text;
+  }
+}

@@ -1,7 +1,6 @@
 function printMessage(message) {
 	$('#messages').append(message + "<br>");
 }
-
 $(function() {
     var chatChannel;
     var username;
@@ -12,18 +11,15 @@ $(function() {
         });
 
         chatChannel.on('messageAdded', function(message) {
-		debugger;
             printMessage(message.author + ": " + message.body);
          });
     }
 
-    var $input = $('#chat-input'); 
+    var $input = $('#chat-input');
     $input.on('keydown', function(e) {
         if (e.keyCode == 13) {
-		if ($input.val().body != '') {
-            chatChannel.sendMessage($input.val())
-            $input.val('');
-		}
+          chatChannel.sendMessage($input.val());
+          $input.val();
         }
      });
 

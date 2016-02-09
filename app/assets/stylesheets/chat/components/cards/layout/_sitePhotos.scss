@@ -1,0 +1,48 @@
+.body .sitePhotos {
+  margin: auto;
+
+  .thumbnail-container {
+    position: relative;
+    width: 85px;
+    height: 85px;
+    border-radius: 2px;
+    margin: 8px;
+    display: inline-block;
+
+    .overlay-container {
+      @include transition(all 0.3s ease-in-out);
+      background: rgba(0, 0, 0, 0.57);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      opacity: 0;
+
+      .btn.outline.white {
+        @include transition(all 0.3s ease-in-out);
+        color: $white;
+        font-size: 9px;
+        padding: 6px;
+        border-radius: 2px;
+        border: 1px solid $white;
+        text-align: center;
+        margin: 32px 8px;
+        opacity: 0;
+        margin-top: 28px;
+      }
+    }
+    &:hover {
+      .overlay-container {
+        @include transition(all 0.3s ease-in-out);
+        opacity: 1;
+        .btn.outline.white {
+          @include transition(all 0.3s ease-in-out);
+          opacity: 1;
+          margin: 32px 8px;
+        }
+      }
+    }
+    .thumbnail-photo {
+
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.formGroupDisplay {
+  margin-bottom: 20px;
+
+  label {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: bold;
+    color: $form-label;
+    margin-bottom: 2px;
+    display: block;
+  }
+  span {
+    font-size: 14px;
+    font-weight: normal;
+    color: $dark-text;
+  }
+}

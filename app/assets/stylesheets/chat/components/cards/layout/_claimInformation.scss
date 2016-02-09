@@ -1,0 +1,18 @@
+.claimInformation {
+  .left {
+    width: 33.333333333%;
+    display: inline-block;
+  }
+  .middle {
+    width: 33.333333333%;
+    display: inline-block;
+  }
+  .right {
+    width: 33.333333333%;
+    display: inline-block;
+    float: right;
+  }
+  .zero-margin-bottom {
+    margin-bottom: 0;
+  }
+}

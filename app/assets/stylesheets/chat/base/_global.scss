@@ -1,0 +1,29 @@
+html {
+  height: 100%;
+  background: $body-bg;
+}
+
+// CARD COLUMNS AND ROWS
+.card-columns {
+  width: 50%;
+  float: right;
+}
+
+.card-rows {
+  width: 50%;
+  display: inline-block;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 2px;
+  font-size: 11px;
+  cursor: pointer;
+
+  &.outline {
+    &.blue {
+      border: 1px solid $blue;
+      color: $blue;
+    }
+  }
+}

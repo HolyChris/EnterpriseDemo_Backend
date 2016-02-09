@@ -1,0 +1,30 @@
+.cardWrapper {
+  @include box-shadow(0px 1px 1px rgba(0, 0, 0, 0.04));
+  background: $white;
+  padding: 18px;
+  border-radius: 2px;
+
+  header {
+    width: 100%;
+
+    .title {
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 12px;
+      color: $blue;
+      width: 50%;
+      display: inline;
+      line-height: 1.5;
+    }
+    .toggle {
+      float: right;
+      margin-top: -8px;
+    }
+  }
+  hr {
+    background: transparent;
+    border-top: 1px solid $border-color;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}

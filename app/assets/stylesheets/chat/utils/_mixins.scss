@@ -1,0 +1,5 @@
+@mixin box-shadow($definition:1px 1px 5px rgba(0, 0, 0, .3)) {
+  -webkit-box-shadow: $definition;
+  -moz-box-shadow: $definition;
+  box-shadow: $definition;
+}
