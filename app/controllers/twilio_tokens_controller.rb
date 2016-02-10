@@ -20,7 +20,6 @@ class TwilioTokensController < ApplicationController
   end
 
   def create
-    binding.pry
 
     if params["send_message"] == "true"
       send_sms_message
