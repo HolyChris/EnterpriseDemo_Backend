@@ -39,6 +39,7 @@ gem 'rack-cors'
 gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'jsonapi-resources'
+gem 'google_calendar'
 
 gem 'daemons', group: :staging
 group :development do
