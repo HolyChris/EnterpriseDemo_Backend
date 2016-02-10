@@ -5,6 +5,7 @@ gem 'pg'
 gem 'rails', '4.1.8'
 #gem 'mysql2', '0.3.17'
 gem 'rolify'
+gem 'turbolinks'
 gem 'cancancan', '~> 1.9'
 gem "paranoia", "~> 2.0"
 gem 'devise'
@@ -69,6 +70,7 @@ end
 
 group :production, :staging do
   gem "unicorn"
+  gem "rails_12factor"
 end
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
