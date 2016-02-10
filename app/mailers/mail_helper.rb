@@ -11,4 +11,8 @@ module MailHelper
   def company_telephone
     ENV['company_telephone'] || '720.515.5795'
   end
+
+  def company_address
+    ENV['company_address']
+  end
 end
