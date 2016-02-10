@@ -12,18 +12,6 @@
     position: relative;
     margin-top: 44px;
 
-    .milestone-connector {
-      position: absolute;
-      height: 5px;
-      width: 111px;
-      background: #368CD3;
-      margin-left: -111px;
-      margin-top: 45px;
-
-      &.complete {
-        background: #30A96F;
-      }
-    }
     .milestone {
       height: 100px;
       width: 100px;

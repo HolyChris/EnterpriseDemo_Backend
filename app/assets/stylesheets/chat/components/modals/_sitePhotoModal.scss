@@ -1,0 +1,73 @@
+.bg-overlay {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.65);
+
+  .sitePhotoModal {
+    margin: auto;
+    margin-top: 100px;
+    background: #FFFFFF;
+    width: 880px;
+    height: 566px;
+    border-radius: 2px;
+
+    .close-modal {
+      display: block;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 24px;
+      font-weight: bold;
+      position: absolute;
+      right: 200px;
+      top: 70px;
+      cursor: pointer;
+    }
+    .left {
+      width: 566px;
+      height: 566px;
+      float: left;
+      display: inline-block;
+
+      img {
+        width: 100%;
+        height: 100%;
+        background: #fafafa;
+      }
+    }
+    .right {
+      padding: 25px;
+      display: inline-block;
+      width: 258px;
+
+      .header {
+        .title {
+          font-size: 24px;
+          color: #222222;
+          font-weight: 400;
+          margin-bottom: 10px;
+        }
+        .date {
+          font-size: 14px;
+          color: #B9B9B9;
+          font-weight: 400;
+        }
+      }
+      .notes-container {
+        margin-top: 40px;
+
+        label {
+          font-size: 16px;
+          color: #A4A4A4;
+        }
+        .note {
+          font-size: 13px;
+          color: #3E3E3E;
+          line-height: 1.6;
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}
