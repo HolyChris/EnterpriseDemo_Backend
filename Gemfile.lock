@@ -241,6 +241,11 @@ GEM
       activemodel (~> 4.0)
     rails4-autocomplete (1.1.1)
       rails (>= 3.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.4)
     railties (4.1.8)
       actionpack (= 4.1.8)
       activesupport (= 4.1.8)
@@ -376,6 +381,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.1.8)
   rails4-autocomplete
+  rails_12factor
   rb-readline
   rolify
   rspec
