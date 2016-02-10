@@ -70,6 +70,7 @@ end
 
 group :production, :staging do
   gem "unicorn"
+  gem "rails_12factor"
 end
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
