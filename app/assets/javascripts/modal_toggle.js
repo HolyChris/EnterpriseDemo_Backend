@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  $('.sms-link').click(function() {
+    return $.post('/twilio_tokens?send_message=true');
+  });
+
   $(".thumb-1").click(function(event) {
     event.preventDefault();
     var $modalContainer = $(this).closest('.portal-container');

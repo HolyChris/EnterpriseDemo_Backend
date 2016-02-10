@@ -3,7 +3,7 @@ function printMessage(message) {
   var elem = $('.message-area');
   var html;
 
-  if (message.author === "Jesse Litton") {
+  if (message.author === "Ryan Nichols") {
     html = elem.append(
       $('<div/>', {'class': 'message-row'}).append(
         $('<div/>', {'class': 'sent message'}).append(

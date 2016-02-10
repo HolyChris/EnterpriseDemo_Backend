@@ -16,9 +16,17 @@
       display: inline;
       line-height: 1.5;
     }
-    .toggle {
+    .toggle,
+    .sms-link {
       float: right;
       margin-top: -8px;
+    }
+    .sms-link {
+      font-size: 12px;
+      color: $blue;
+      text-decoration: underline;
+      margin-top: 3px;
+      cursor: pointer;
     }
   }
   hr {
