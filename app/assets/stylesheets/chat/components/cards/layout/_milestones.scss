@@ -1,0 +1,76 @@
+.body .milestones {
+  margin: auto;
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+  height: 197px;
+
+  .timeline-container {
+    @include flexbox();
+    @include justify-content(space-around);
+    margin: auto;
+    position: relative;
+    margin-top: 44px;
+
+    .milestone-connector {
+      position: absolute;
+      height: 5px;
+      width: 111px;
+      background: #368CD3;
+      margin-left: -111px;
+      margin-top: 45px;
+
+      &.complete {
+        background: #30A96F;
+      }
+    }
+    .milestone {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      background: #368CD3;
+
+      .date-container {
+        margin-top: 30px;
+
+        .mm-dd {
+          font-size: 18px;
+          font-weight: 200;
+          text-align: center;
+          color: #fff;
+          display: block;
+        }
+        .yyyy {
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          color: #fff;
+          display: block;
+        }
+        .tbd {
+          display: block;
+          margin-top: 40px;
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          color: #fff;
+        }
+      }
+      label {
+        font-size: 17px;
+        font-weight: normal;
+        text-align: center;
+        color: #5C5C5C;
+        width: 120px;
+        display: block;
+        margin-top: 60px;
+        line-height: 1.3;
+        margin-left: -10px;
+      }
+
+      &.complete {
+        background: #30A96F;
+      }
+    }
+  }
+}

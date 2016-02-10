@@ -1,6 +1,51 @@
-.body .milestones {
+.body .documents {
   margin: auto;
   text-align: center;
 
+  .download {
+    margin-top: 14px;
+    display: inline-block;
 
+    .btn.container {
+      border-radius: 5px;
+      background: #FAFAFA;
+      border: 1px solid #30A96F;
+      padding: 20px 40px;
+      margin-bottom: 14px;
+      display: block;
+      margin-left: 10px;
+      margin-right: 10px;
+
+      label {
+        color: #30A96F;
+        font-size: 12px;
+        display: block;
+        margin-top: 10px;
+      }
+    }
+    .text {
+       color: #686868;
+       font-size: 18px;
+       margin-bottom: 14px;
+    }
+    #paper {
+      fill: #30A96F;
+    }
+    &.disabled {
+      .btn.container {
+        background: #FDFDFD;
+        border: 1px solid #D9A34A;
+        opacity: 0.44;
+      }
+      #paper {
+        fill: #D9A34A;
+        opacity: 0.44;
+      }
+      label {
+        font-size: 12px;
+        color: #D9A34A !important;
+        opacity: 0.44;
+      }
+    }
+  }
 }
