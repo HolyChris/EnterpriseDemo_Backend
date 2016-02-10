@@ -5,6 +5,7 @@ gem 'pg'
 gem 'rails', '4.1.8'
 #gem 'mysql2', '0.3.17'
 gem 'rolify'
+gem 'turbolinks'
 gem 'cancancan', '~> 1.9'
 gem "paranoia", "~> 2.0"
 gem 'devise'
