@@ -3,8 +3,6 @@ class Api::V1::SitesController < Api::V1::BaseController
   before_filter :manage_params, only: [:create, :update]
   before_action :load_destroyable_site, only: [:destroy]
 
-
-
   def create
     @site = Site.new(site_params)
     @site.save

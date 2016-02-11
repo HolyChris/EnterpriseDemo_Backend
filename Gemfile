@@ -40,6 +40,11 @@ gem 'exception_notification'
 gem 'jquery-fileupload-rails'
 gem 'jsonapi-resources'
 gem 'google_calendar'
+gem 'omniauth-google-oauth2'
+
+gem 'google-api-client', :require => 'google/api_client'
+gem 'omniauth'
+
 
 gem 'daemons', group: :staging
 group :development do

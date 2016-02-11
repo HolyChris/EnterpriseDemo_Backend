@@ -5,8 +5,8 @@ class Calendar
 
   def initialize
 
-    CLIENT_ID = ''
-    SECRET = ''
+    CLIENT_ID = '376005332334-ck4pbmipl876nlu5sd6358coub5m634a.apps.googleusercontent.com'
+    SECRET = 'AcqZXnwX2Us1zxSRX65R0tfL'
     CALENDAR_ID = ''
     AUTH_CODE = ''
 
