@@ -56,7 +56,10 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: { sessions: 'sessions', registrations: "registrations" }
+  devise_for :users, controllers: { sessions: 'sessions', registrations: "registrations" ,
+                                    :omniauth_callbacks => "omniauth_callbacks" }
+
+  match "users/auth/google_oauth2/callback" => "omniauth_callbacks#google_oauth2", via: [:get, :post]
 
   devise_scope :user do
     get 'users/sign_out', to: 'sessions#destroy'
@@ -70,3 +73,4 @@ Rails.application.routes.draw do
 
   get '*unmatched_route', to: redirect('/')
 end
+
