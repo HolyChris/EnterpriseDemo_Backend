@@ -48,12 +48,6 @@ Rails.application.configure do
   # }
 
   config.paperclip_defaults = {
-    storage: :s3,
-    access_key_id: 'AKIAJ5YV3HUJR4GDILYQ',
-    secret_access_key: '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',
-    url: 's3.amazonaws.com/priyank.ers.com',
-    s3_credentials: {
-      bucket: 'priyank.ers.com'
-    }
+    path: ':rails_root/public/'
   }
 end
